@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from Bullet import Bullet
 
 class Policier(pygame.sprite.Sprite):
 
@@ -11,6 +12,7 @@ class Policier(pygame.sprite.Sprite):
         self.attack = 1
         self.image = pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160))
         self.rect = self.image.get_rect()
+        self.all_bullets = pygame.sprite.Group()
         self.rect.x = 800
         self.rect.y = 380
         self.velocity = 4
@@ -28,10 +30,6 @@ class Policier(pygame.sprite.Sprite):
             self.newpos -= self.newpos % self.velocity
 
 
+    def fire(self):
+        self.all_bullets.add(Bullet(self))
 
-
-    def move_right(self):
-        self.rect.x += self.velocity
-
-    def move_left(self):
-        self.rect.x -= self.velocity

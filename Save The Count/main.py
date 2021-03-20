@@ -43,8 +43,13 @@ while running:
 
     # Policiers
     game.all_policiers.draw(screen)
-    for police in game.all_policiers :
+    for police in game.all_policiers:
         police.move()
+        police.all_bullets.draw(screen)
+        if random.random() < 0.005:
+            police.fire()
+        for bullet in police.all_bullets :
+            bullet.move()
 
     # Mouvements de Jack
     if not(game.player.death):
@@ -55,15 +60,15 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT):
             game.player.right()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
+            #if channelMove.get_busy() == False :
+                #channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
         if game.pressed.get(pygame.K_LEFT):
             game.player.left()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
+            #if channelMove.get_busy() == False :
+                #channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
 
