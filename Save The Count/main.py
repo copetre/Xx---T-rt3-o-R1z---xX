@@ -67,20 +67,29 @@ while running:
             for police in game.all_policiers:
                 police.delete_policier()
     elif game.level[3]:
-        background = pygame.transform.scale(pygame.image.load('asset/chamber.png'), (1024, 576))
-
-    # Jack
-    game.player.refresh(screen)
+        background = pygame.image.load('asset/hall.png')
+        if game.player.rect.x > 900:
+            game.level[3] = False
+            game.level[4] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[4]:
+        background = pygame.image.load('asset/exterior.png')
+        game.player.rect.x = 0
 
     # HUD
     hud.refresh(screen)
 
     # Policiers pan pan
     for police in game.all_policiers:
+        # draw policier
         police.refresh(screen)
-        police.move()
         police.all_bullets.draw(screen)
-        police.randomFire()
+        # do actions
+        if not(police.dead):
+            police.move()
+            police.randomFire()
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
@@ -88,9 +97,11 @@ while running:
     for police in game.all_matraque:
         police.refresh(screen)
         police.move()
+    # Jack
+    game.player.refresh(screen)
 
     # Mouvements de Jack
-    if not (game.player.death):
+    if not(game.player.dead):
         # JUMP
         if game.pressed.get(pygame.K_UP):
             game.player.jump()
@@ -105,6 +116,9 @@ while running:
             game.player.left()
         else:
             game.player.walkAnimationLeft = False
+        # ATTACK
+        if game.pressed.get(pygame.K_SPACE):
+            game.player.launchAttack()
 
     pygame.display.flip()
 
@@ -112,14 +126,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-        elif event.type == pygame.KEYDOWN:  # On appuie sur une touche
-            game.pressed[event.key] = True  # On reste appuyé sur une touche
-        elif event.type == pygame.KEYUP:
-            game.pressed[event.key] = False  # On lache la touche
 
-        elif not (game.player.death) and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
-            rand = random.random()  # nombre entre 0 et 1
-            if (rand < 0.5):  # 50% d'augmenter les bleus
+        elif event.type == pygame.KEYDOWN : #On appuie sur une touche
+            game.pressed[event.key] = True #On reste appuyé sur une touche
+        elif event.type == pygame.KEYUP :
+            game.pressed[event.key] = False #On lache la touche
+
+        elif not(game.player.dead) and event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
+            rand = random.random() # nombre entre 0 et 1
+            if(rand<0.5): # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
             elif (rand < 0.7):  # 20% d'augmenter les rouges
                 hud.votebar.redInc()

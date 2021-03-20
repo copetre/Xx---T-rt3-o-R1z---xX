@@ -5,16 +5,22 @@ from Bullet import Bullet
 
 class Policier(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        # pygame
+        self.game = game
+
+        # attributes
         self.health = 2
         self.max_health = 2
-        self.attack = 1
+        self.velocity = 4
+        self.dead = False
+
+        # policier box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 800
         self.rect.y = 380
-        self.velocity = 4
         self.sound = pygame.mixer.Channel(2)
 
         # bullets
@@ -69,6 +75,16 @@ class Policier(pygame.sprite.Sprite):
     def left(self):
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
+        
+    def damage(self):
+        if(self.health>0):
+            self.health -= 1
+            self.damaged = True
+        if(self.health==0):
+            self.dead = True
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
+            self.currentSprite = self.spriteDeath
 
     # visual refresh of policier with animations
     def refresh(self, screen):
@@ -88,10 +104,12 @@ class Policier(pygame.sprite.Sprite):
             if(self.damaged and self.damagedFrame==37): # stop animation
                 self.damaged = False
                 self.damagedFrame = 0
+                if(self.health==0):
+                    self.delete_policier()
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame%8 < 4):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_policier(self):
-        self.remove()
+        self.game.all_policiers.remove(self)
