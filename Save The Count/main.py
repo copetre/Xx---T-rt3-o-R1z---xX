@@ -51,7 +51,7 @@ while running:
                 police.delete_policier()
     elif game.level[1]:
         background = pygame.transform.scale(pygame.image.load('asset/exterior.png'), (1024, 576))
-
+        game.player.velocity = 8
         if game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
@@ -75,7 +75,7 @@ while running:
     # HUD
     hud.refresh(screen)
 
-    # Policiers
+    # Policiers pan pan
     for police in game.all_policiers:
         police.refresh(screen)
         police.move()
@@ -83,6 +83,11 @@ while running:
         police.randomFire()
         for bullet in police.all_bullets :
             bullet.move(game.player)
+
+    # Policiers bim bam boum
+    for police in game.all_matraque:
+        police.refresh(screen)
+        police.move()
 
     # Mouvements de Jack
     if not (game.player.death):
