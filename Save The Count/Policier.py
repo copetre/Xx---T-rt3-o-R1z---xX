@@ -15,6 +15,7 @@ class Policier(pygame.sprite.Sprite):
         self.rect.x = 800
         self.rect.y = 380
         self.velocity = 4
+        self.sound = pygame.mixer.Channel(2)
 
         # bullets
         self.bulletCooldown = 0
@@ -53,6 +54,7 @@ class Policier(pygame.sprite.Sprite):
         if(self.bulletCooldown <= 0):
             if(random.random()<0.005):
                 self.bulletCooldown = 120 # 2 seconds
+                self.sound.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),0)
                 self.fire()
         else:
             self.bulletCooldown -= 1

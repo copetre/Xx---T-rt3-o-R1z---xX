@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
 
     def damage(self):
         if(self.health>0):
-            self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 1)
+            self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 0)
             self.health -= 1
             self.hud.loseHeart()
             self.damaged = True
