@@ -105,15 +105,11 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT):
             game.player.right()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
         if game.pressed.get(pygame.K_LEFT):
             game.player.left()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
 
