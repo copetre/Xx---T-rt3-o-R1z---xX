@@ -15,10 +15,10 @@ running = True  # Jeu en cours
 
 background = pygame.image.load('asset/background.png')
 
-hud = HUD(screen)
+hud = HUD()
 
 # Création des personnages
-game = Game(screen, hud)
+game = Game(hud)
 
 # toutes les 1 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
@@ -36,10 +36,10 @@ while running:
     screen.blit(background, (0, 0))
 
     # Jack
-    game.player.refresh()
+    game.player.refresh(screen)
 
     # HUD
-    hud.refresh()
+    hud.refresh(screen)
 
     # Policiers
     game.all_policiers.draw(screen)

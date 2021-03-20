@@ -3,10 +3,9 @@ import math
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, screen, hud):
+    def __init__(self, hud):
         super().__init__()
         # pygame
-        self.screen = screen
         self.hud = hud
 
         # attributes
@@ -98,7 +97,7 @@ class Player(pygame.sprite.Sprite):
             self.currentSprite = self.spriteDeath
     
     # visual refresh of Jack with animations
-    def refresh(self):
+    def refresh(self, screen):
         # if walking in any direction, increase frame
         if(self.walkAnimationLeft or self.walkAnimationRight):
             self.walkFrame = (self.walkFrame+1) % 12 # %12 because we have 2 frames * 6 ticks each
@@ -118,4 +117,4 @@ class Player(pygame.sprite.Sprite):
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame%8 < 4):
-            self.screen.blit(self.currentSprite, self.rect) 
+            screen.blit(self.currentSprite, self.rect) 

@@ -3,9 +3,9 @@ from Jack import Player
 from Policier import Policier
 class Game:
 
-    def __init__(self, screen, hud):
+    def __init__(self, hud):
         # Jack
-        self.player = Player(screen, hud)
+        self.player = Player(hud)
         # Policiers
         self.all_policiers = pygame.sprite.Group()
         self.spawn_policier()
