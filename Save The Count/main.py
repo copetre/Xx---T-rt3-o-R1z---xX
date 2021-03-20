@@ -43,37 +43,38 @@ while running:
 
         background = pygame.transform.scale(pygame.image.load('asset/background.png'), (1024, 576))
 
-        if game.player.rect.x > 900:
+        if game.player.rect.x > 900 and game.count_policiers == 0 :
             game.level[0] = False
             game.level[1] = True
             game.player.rect.x = 0
-            for police in game.all_policiers:
-                police.delete_policier()
+            game.spawn_policier()
+            game.count_policiers = 1
+
+
     elif game.level[1]:
-        background = pygame.transform.scale(pygame.image.load('asset/exterior.png'), (1024, 576))
+
         game.player.velocity = 8
         if game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
             game.player.rect.x = 20
-            for police in game.all_policiers:
-                police.delete_policier()
+            game.spawn_policier()
+            game.spawn_matraque()
+            game.count_policiers = 2
     elif game.level[2]:
         background = pygame.transform.scale(pygame.image.load('asset/hall.png'), (1024, 576))
         if game.player.rect.x > 900:
             game.level[2] = False
             game.level[3] = True
             game.player.rect.x = 20
-            for police in game.all_policiers:
-                police.delete_policier()
+
     elif game.level[3]:
         background = pygame.image.load('asset/hall.png')
         if game.player.rect.x > 900:
             game.level[3] = False
             game.level[4] = True
             game.player.rect.x = 0
-            for police in game.all_policiers:
-                police.delete_policier()
+
     elif game.level[4]:
         background = pygame.image.load('asset/exterior.png')
         game.player.rect.x = 0

@@ -113,3 +113,4 @@ class Policier(pygame.sprite.Sprite):
 
     def delete_policier(self):
         self.game.all_policiers.remove(self)
+        self.game.count_policiers-=1

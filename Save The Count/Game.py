@@ -10,10 +10,10 @@ class Game:
         # Policiers
         self.all_policiers = pygame.sprite.Group()
         self.all_matraque = pygame.sprite.Group()
-        self.spawn_policier()
         self.spawn_matraque()
         self.pressed = {}
         self.level = [True, False, False, False, False]
+        self.count_policiers = 1
 
     def spawn_policier(self):
         policier = Policier(self)

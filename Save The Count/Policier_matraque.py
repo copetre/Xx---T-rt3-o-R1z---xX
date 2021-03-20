@@ -60,6 +60,17 @@ class Matraque(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
+
+    def damage(self):
+        if (self.health > 0):
+            self.health -= 1
+            self.damaged = True
+        if (self.health == 0):
+            self.dead = True
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
+            self.currentSprite = self.spriteDeath
+
     # visual refresh of policier with animations
     def refresh(self, screen):
         # if walking in any direction, increase frame
@@ -78,10 +89,14 @@ class Matraque(pygame.sprite.Sprite):
             if (self.damaged and self.damagedFrame == 37):  # stop animation
                 self.damaged = False
                 self.damagedFrame = 0
+                if (self.health == 0):
+                    self.delete_policier()
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame % 8 < 4):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_policier(self):
-        self.remove()
+        self.game.all_policiers.remove(self)
+        self.game.count_policiers -= 1
+
