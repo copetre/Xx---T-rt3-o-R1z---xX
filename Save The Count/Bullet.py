@@ -11,7 +11,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load('asset/Bullet.png'), (20, 10))
         self.rect = self.image.get_rect()
         self.rect.x = policier.rect.x-25
-        self.rect.y = 460
+        self.rect.y = 461
         self.velocity = 6
 
     def move(self):
