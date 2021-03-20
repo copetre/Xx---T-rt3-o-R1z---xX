@@ -14,6 +14,9 @@ class HUD:
         for i in range(3):
             self.hearts.append(Heart(screen, i))
 
+        # Votebar
+        self.votebar = VoteBar(screen)
+
 class Heart:
     # screen = the pygame screen to draw on
     # index = indicates which heart it is (0, 1, 2)
@@ -25,4 +28,16 @@ class Heart:
         self.surface = pygame.Surface((32, 32))
         self.surface.fill((255, 128, 128))
         self.background = self.surface.get_rect(center = (48 * (self.index+1) - 16, 32))
+        screen.blit(self.surface, self.background)
+
+class VoteBar:
+    # screen = the pygame screen to draw on
+    def __init__(self, screen):
+        # attributes
+        self.
+
+        # votebar surface
+        self.surface = pygame.Surface((800, 32))
+        self.surface.fill((255, 255, 255))
+        self.background = self.surface.get_rect(center = (608, 32))
         screen.blit(self.surface, self.background)

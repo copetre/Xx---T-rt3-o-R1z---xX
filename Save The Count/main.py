@@ -13,8 +13,8 @@ background = pygame.image.load('asset/background.png')
 
 while running:
 
-    screen.blit(background, (0, 0))
-    pygame.display.flip()
+    # screen.blit(background, (0, 0))
+    # pygame.display.flip()
 
     hud = HUD(screen)
     pygame.display.flip()
