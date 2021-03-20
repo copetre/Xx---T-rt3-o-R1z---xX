@@ -24,6 +24,10 @@ game = Game(screen, hud)
 randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 1000)
 
+# Sound Bank
+
+channelMove = pygame.mixer.Channel(0)
+
 while running:
     clock.tick(60)
 
@@ -50,13 +54,15 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT):
             game.player.right()
-            pygame.mixer.music.load('SoundMusic/MarcheJack.mp3')
-            pygame.mixer.music.play(0)
+            if channelMove.get_busy() == False :
+                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
         if game.pressed.get(pygame.K_LEFT):
             game.player.left()
+            if channelMove.get_busy() == False :
+                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
 
