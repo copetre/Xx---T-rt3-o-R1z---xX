@@ -4,7 +4,6 @@ from Policier import Policier
 class Game:
 
     def __init__(self, screen):
-
         # Jack
         self.player = Player(screen)
         # Policiers

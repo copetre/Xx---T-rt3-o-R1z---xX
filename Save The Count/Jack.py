@@ -13,13 +13,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 50
         self.rect.y = 380
-        self.jump = 0
-        self.jump_high = 0
-        self.jump_low = 0
-        self.number_jump = 0
-        self.has_jumped = False
 
-        # animation
+        # animation déplacement
         self.screen = screen
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
@@ -29,6 +24,11 @@ class Player(pygame.sprite.Sprite):
                                 pygame.transform.flip(self.spritesWalkRight[1], True, False)]
         self.walkFrame = 0
 
+        # animation jump
+        self.jumping = False
+        self.jumpingVelocity = 0.5
+        self.jumpFrame = 0
+
     def right(self):
         self.walkAnimationRight = True
         self.rect.x += self.velocity
@@ -37,31 +37,35 @@ class Player(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
-    def jumping(self):
-        if self.has_jumped:
-            if self.jump_high >= 1.5:
-                while self.rect.y < 390:
+    def jump(self):
+        # only jumps if on ground
+        if(self.rect.y == 380):
+            self.jumping = True
 
-                    self.jump_low += 0.00001
-                    self.jump = self.jump_low
-                    self.rect.y += 9.81 * (self.jump / 2)
-                    print("descend")
-            else:
-                self.jump_high += 0.01
-                if self.jump_high < 0.1:
-                    self.jump = self.jump_high
-                    self.rect.y -= 9.81 * (self.jump / 2)
-                    print("monte début")
-                else :
-                    self.jump = 0.1
-                    self.rect.y -= 9.81 * (self.jump / 2)
-                    print("monte fin")
+    def gravity(self):
+        # if we are jumping, continue going upwards
+        if(self.jumping):
+            # move upwards
+            self.rect.y = self.rect.y - self.jumpingVelocity
 
-        if self.jump_low > 0 and self.rect.y >= 390:
-            self.jump_high = 0
-            self.jump_low = 0
-            self.has_jumped = False
-            print("sol")
+            # increase y-velocity
+            self.jumpingVelocity = self.jumpingVelocity + 0.5
+            
+            # if velocity too high, disable jump
+            if(self.jumpingVelocity>10):
+                self.jumping = False
+                self.jumpingVelocity = 1
+        # else and if necessary, apply gravity
+        elif(self.rect.y < 380):
+            # move downwards (but cap at ground y-level=380)
+            self.rect.y = min(self.rect.y + self.jumpingVelocity, 380)
+
+            # increase y-velocity
+            self.jumpingVelocity = self.jumpingVelocity + 0.5
+        # reset jumping velocity if done
+        else:
+            self.jumpingVelocity = 1
+    
     # visual refresh of Jack with animations
     def refresh(self):
         # if walking in any direction, increase frame
