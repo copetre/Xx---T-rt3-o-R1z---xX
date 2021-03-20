@@ -49,7 +49,7 @@ while running:
         if random.random() < 0.005:
             police.fire()
         for bullet in police.all_bullets :
-            bullet.move()
+            bullet.move(game.player)
 
     # Mouvements de Jack
     if not(game.player.death):
@@ -89,5 +89,3 @@ while running:
                 hud.votebar.blueInc()
             elif(rand<0.7): # 20% d'augmenter les rouges
                 hud.votebar.redInc()
-            else: # TEMPORARY
-                game.player.damage()
