@@ -3,16 +3,22 @@ import random
 
 class SenatorBlue(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        # pygame
+        self.game = game
+
+        # attributes
         self.health = 1
         self.max_health = 1
-        self.attack = 1
+        self.velocity = 2
+        self.dead = False
+
+        # policier box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 800
         self.rect.y = 380
-        self.velocity = 2
         self.sound = pygame.mixer.Channel(3)
 
         # IA
@@ -52,7 +58,17 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
-    # visual refresh of policier with animations
+    def damage(self):
+        if (self.health > 0):
+            self.health -= 1
+            self.damaged = True
+        if (self.health == 0):
+            self.dead = True
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
+            self.currentSprite = self.spriteDeath
+
+    # visual refresh of blue senator with animations
     def refresh(self, screen):
         # if walking in any direction, increase frame
         if (self.walkAnimationLeft or self.walkAnimationRight):
@@ -70,26 +86,34 @@ class SenatorBlue(pygame.sprite.Sprite):
             if (self.damaged and self.damagedFrame == 37):  # stop animation
                 self.damaged = False
                 self.damagedFrame = 0
+                if (self.health == 0):
+                    self.delete_senator()
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame % 8 < 4):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_senator(self):
-        del self
+        self.game.all_policiers.remove(self)
 
 class SenatorRed(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        # pygame
+        self.game = game
+
+        # attributes
         self.health = 1
         self.max_health = 1
-        self.attack = 1
+        self.velocity = 2
+        self.dead = False
+
+        # policier box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 800
         self.rect.y = 380
-        self.velocity = 2
         self.sound = pygame.mixer.Channel(3)
 
         # IA
@@ -129,7 +153,17 @@ class SenatorRed(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
-    # visual refresh of policier with animations
+    def damage(self):
+        if (self.health > 0):
+            self.health -= 1
+            self.damaged = True
+        if (self.health == 0):
+            self.dead = True
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
+            self.currentSprite = self.spriteDeath
+
+    # visual refresh of blue senator with animations
     def refresh(self, screen):
         # if walking in any direction, increase frame
         if (self.walkAnimationLeft or self.walkAnimationRight):
@@ -147,10 +181,12 @@ class SenatorRed(pygame.sprite.Sprite):
             if (self.damaged and self.damagedFrame == 37):  # stop animation
                 self.damaged = False
                 self.damagedFrame = 0
+                if (self.health == 0):
+                    self.delete_senator()
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame % 8 < 4):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_senator(self):
-        del self
+        self.game.all_policiers.remove(self)
