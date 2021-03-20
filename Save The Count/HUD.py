@@ -7,7 +7,7 @@ class HUD:
         self.surface = pygame.Surface((1024, 64))
         self.surface.fill((128, 128, 128))
         self.background = self.surface.get_rect()
-        screen.blit(self.surface, self.background)
+
 
         # Hearts
         self.hearts = []
