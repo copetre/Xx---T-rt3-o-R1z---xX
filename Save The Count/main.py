@@ -36,10 +36,16 @@ while running:
     # HUD
     hud.refresh()
 
+    # Policiers
+    game.all_policiers.draw(screen)
+    for police in game.all_policiers :
+        police.move()
+
     # Mouvements de Jack
 
     if game.pressed.get(pygame.K_UP):
         game.player.has_jumped = True
+
     if game.pressed.get(pygame.K_RIGHT):
         game.player.right()
 

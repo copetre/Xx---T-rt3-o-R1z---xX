@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/jake_def.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 50
-        self.rect.y = 390
+        self.rect.y = 380
         self.jump = 0
         self.jump_high = 0
         self.jump_low = 0
