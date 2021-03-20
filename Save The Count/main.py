@@ -2,19 +2,21 @@ import pygame
 import random
 from Game import Game
 from HUD import HUD
+from Jack import Player
 pygame.init()
 
 # Fenêtre de base
 
 pygame.display.set_caption("Save the count")  # TODO A changer
 screen = pygame.display.set_mode((1024, 576))
+clock = pygame.time.Clock()
 
 running = True  # Jeu en cours
 
 background = pygame.image.load('asset/background.png')
 
 # Création des personnages
-game = Game()
+game = Game(screen)
 
 hud = HUD(screen)
 
@@ -23,12 +25,13 @@ randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 1000)
 
 while running:
+    clock.tick(60)
 
     # Background
     screen.blit(background, (0, 0))
 
     # Jack
-    screen.blit(game.player.image, game.player.rect)
+    game.player.refresh()
 
     # HUD
     hud.refresh()
@@ -36,8 +39,13 @@ while running:
     # Mouvements de Jack
     if game.pressed.get(pygame.K_RIGHT):
         game.player.right()
+    else:
+        game.player.walkAnimationRight = False
+
     if game.pressed.get(pygame.K_LEFT):
         game.player.left()
+    else:
+        game.player.walkAnimationLeft = False
 
     pygame.display.flip()
 
