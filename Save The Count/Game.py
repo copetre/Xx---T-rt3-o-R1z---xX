@@ -9,8 +9,8 @@ class Game:
         # Policiers
         self.all_policiers = pygame.sprite.Group()
         self.spawn_policier()
-
         self.pressed = {}
+        self.level = [True, False, False, False, False]
 
     def spawn_policier(self):
         policier = Policier()

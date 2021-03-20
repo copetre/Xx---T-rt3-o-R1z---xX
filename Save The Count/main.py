@@ -28,6 +28,7 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 
 channelMove = pygame.mixer.Channel(0)
 channelFond = pygame.mixer.Channel(1)
+channelPolAtck = pygame.mixer.Channel(2)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
@@ -35,11 +36,49 @@ channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1
 while running:
     clock.tick(60)
 
-    # Music
-
-
     # Background
     screen.blit(background, (0, 0))
+
+    # On regarde dans quel niveau on se situe
+
+    if game.level[0] :
+        print("yo")
+        background = pygame.image.load('asset/background.png')
+        if game.player.rect.x > 900:
+            game.level[0] = False
+            game.level[1] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[1]:
+        background = pygame.image.load('asset/exterior.png')
+        if game.player.rect.x > 900:
+            game.level[1] = False
+            game.level[2] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[2]:
+        background = pygame.image.load('asset/exterior.png')
+        if game.player.rect.x > 900:
+            game.level[2] = False
+            game.level[3] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[3]:
+        background = pygame.image.load('asset/hall.png')
+        if game.player.rect.x > 900:
+            game.level[3] = False
+            game.level[4] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[4]:
+        background = pygame.image.load('asset/exterior.png')
+        game.player.rect.x = 0
+
+
 
     # Jack
     game.player.refresh(screen)
@@ -53,6 +92,7 @@ while running:
         police.move()
         police.all_bullets.draw(screen)
         police.randomFire()
+        channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
