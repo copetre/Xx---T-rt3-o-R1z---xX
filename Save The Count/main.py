@@ -27,7 +27,11 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 # Sound Bank
 
 channelMove = pygame.mixer.Channel(0)
+channelFond = pygame.mixer.Channel(1)
+channelPolAtck = pygame.mixer.Channel(2)
 
+# Sound at first
+channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
 
 while running:
     clock.tick(60)
@@ -89,8 +93,9 @@ while running:
         police.all_bullets.draw(screen)
         if random.random() < 0.00000000005:
             police.fire()
+            channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
         for bullet in police.all_bullets :
-            bullet.move()
+            bullet.move(game.player)
 
     # Mouvements de Jack
     if not(game.player.death):
@@ -101,15 +106,15 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT):
             game.player.right()
-            #if channelMove.get_busy() == False :
-                #channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
+            if channelMove.get_busy() == False :
+                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
         if game.pressed.get(pygame.K_LEFT):
             game.player.left()
-            #if channelMove.get_busy() == False :
-                #channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
+            if channelMove.get_busy() == False :
+                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
 
@@ -130,5 +135,3 @@ while running:
                 hud.votebar.blueInc()
             elif(rand<0.7): # 20% d'augmenter les rouges
                 hud.votebar.redInc()
-            else: # TEMPORARY
-                game.player.damage()

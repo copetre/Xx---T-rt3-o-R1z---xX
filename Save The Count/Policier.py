@@ -45,7 +45,7 @@ class Policier(pygame.sprite.Sprite):
             self.walkAnimationLeft = False
 
     def fire(self):
-        self.all_bullets.add(Bullet(self))
+        self.all_bullets.add(Bullet(self, self.walkAnimationLeft))
 
     def right(self):
         self.walkAnimationRight = True

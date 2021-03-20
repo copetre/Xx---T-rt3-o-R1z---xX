@@ -64,7 +64,7 @@ class Player(pygame.sprite.Sprite):
             self.jumpingVelocity = self.jumpingVelocity + 0.5
             
             # if velocity too high, disable jump
-            if(self.jumpingVelocity>10):
+            if(self.jumpingVelocity>12):
                 self.jumping = False
                 self.floating = True
                 self.jumpingVelocity = 1
