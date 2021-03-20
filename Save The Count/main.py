@@ -52,8 +52,7 @@ while running:
         police.refresh(screen)
         police.move()
         police.all_bullets.draw(screen)
-        if random.random() < 0.005:
-            police.fire()
+        police.randomFire()
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
