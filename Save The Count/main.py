@@ -28,6 +28,7 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 
 channelMove = pygame.mixer.Channel(0)
 
+
 while running:
     clock.tick(60)
 
