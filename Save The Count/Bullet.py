@@ -5,6 +5,7 @@ class Bullet(pygame.sprite.Sprite):
 
     def __init__(self, policier, movingLeft):
         super().__init__()
+        self.policier = policier
         self.velocity = 5
         self.health = 1
         self.max_health = 1
@@ -13,7 +14,7 @@ class Bullet(pygame.sprite.Sprite):
         if movingLeft:
             self.rect.x = policier.rect.x-25
         else:
-            self.rect.x = policier.rect.x+105
+            self.rect.x = policier.rect.x+110
         self.rect.y = 461
         self.velocity = 6
         self.movingLeft = movingLeft # true=left, false=right
@@ -27,4 +28,4 @@ class Bullet(pygame.sprite.Sprite):
         if(player.rect.x < self.rect.x < player.rect.x+140  # horizontal hitbox
             and self.rect.y<player.rect.y+160): # vertical hitbox
             player.damage()
-            del self
+            self.policier.all_bullets.remove(self) # delete bullet

@@ -82,10 +82,9 @@ while running:
         police.refresh(screen)
         police.move()
         police.all_bullets.draw(screen)
-        if random.random() < 0.00000000005:
-            police.fire()
-            channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'), 1)
-        for bullet in police.all_bullets:
+        police.randomFire()
+        channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
+        for bullet in police.all_bullets :
             bullet.move(game.player)
 
     # Mouvements de Jack
@@ -97,15 +96,11 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x < 970 :
             game.player.right()
-            if channelMove.get_busy() == False:
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
         if game.pressed.get(pygame.K_LEFT) and game.player.rect.x > -10:
             game.player.left()
-            if channelMove.get_busy() == False:
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
         else:
             game.player.walkAnimationLeft = False
 

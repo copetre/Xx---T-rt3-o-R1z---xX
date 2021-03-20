@@ -21,6 +21,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 50
         self.rect.y = 380
 
+        # Sound
+        self.sound = pygame.mixer.Channel(0)
+
         # jump
         self.jumping = False
         self.floating = False
@@ -42,10 +45,14 @@ class Player(pygame.sprite.Sprite):
         self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
 
     def right(self):
+        if self.sound.get_busy() == False:
+            self.sound.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
         self.walkAnimationRight = True
         self.rect.x += self.velocity
 
     def left(self):
+        if self.sound.get_busy() == False:
+            self.sound.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
         self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
@@ -53,6 +60,7 @@ class Player(pygame.sprite.Sprite):
         # only jumps if on ground
         if(self.rect.y == 380):
             self.jumping = True
+            self.sound.play(pygame.mixer.Sound('SoundMusic/JackSaut.ogg'), 0)
 
     def gravity(self):
         # if we are jumping, continue going upwards
@@ -87,6 +95,7 @@ class Player(pygame.sprite.Sprite):
 
     def damage(self):
         if(self.health>0):
+            self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 1)
             self.health -= 1
             self.hud.loseHeart()
             self.damaged = True
