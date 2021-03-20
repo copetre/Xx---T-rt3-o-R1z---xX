@@ -27,8 +27,12 @@ while running:
 
     # HUD
     hud.refresh()
-    hud.votebar.redInc()
-    hud.votebar.blueInc()
+    # hud.votebar.redInc()
+    # hud.votebar.blueInc()
+    # if(hud.health>0):
+    #     hud.loseHeart()
+    # else:
+    #     hud.healHeart()
 
     # Mouvements de Jack
     if game.pressed.get(pygame.K_RIGHT):

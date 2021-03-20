@@ -5,15 +5,17 @@ class HUD:
     def __init__(self, screen):
         # attributes
         self.screen = screen
+        self.maxHealth = 3
+        self.health = self.maxHealth
 
         # HUD surface
-        self.surface = pygame.Surface((1024, 64))
-        self.surface.fill((128, 128, 128))
-        self.background = self.surface.get_rect()
+        # self.surface = pygame.Surface((1024, 64))
+        # self.surface.fill((128, 128, 128))
+        # self.background = self.surface.get_rect()
 
         # Hearts
         self.hearts = []
-        for i in range(3):
+        for i in range(self.maxHealth):
             self.hearts.append(Heart(screen, i))
 
         # Votebar
@@ -22,40 +24,61 @@ class HUD:
     # function to call to refresh the hud constantly
     def refresh(self):
         # update HUD background
-        self.screen.blit(self.surface, self.background)
+        # self.screen.blit(self.surface, self.background)
 
         # update hearts
         for i in range(len(self.hearts)):
-            self.screen.blit(self.hearts[i].surface, self.hearts[i].background)
+            self.hearts[i].refresh()
 
         # update bar
         self.votebar.refresh()
+
+    def loseHeart(self):
+        if(self.health>0):
+            self.hearts[self.health-1].active=False
+            self.health = self.health-1
+
+    def healHeart(self):
+        if(self.health<self.maxHealth):
+            self.hearts[self.health].active=True
+            self.health = self.health+1
 
 class Heart:
     # screen = the pygame screen to draw on
     # index = indicates which heart it is (0, 1, 2)
     def __init__(self, screen, index):
         # attributes
+        self.screen = screen
         self.index = index
+        self.active = True
 
         # heart surface
-        self.surface = pygame.Surface((32, 32))
-        self.surface.fill((255, 128, 128))
-        self.background = self.surface.get_rect(center = (48 * (self.index+1) - 16, 32))
-        screen.blit(self.surface, self.background)
+        self.image = pygame.image.load('asset/HEART.png')
+        self.background = self.image.get_rect(center = (48 * (self.index+1) - 16, 32))
+        screen.blit(self.image, self.background)
+
+    # function to call to refresh the heart constantly
+    def refresh(self):
+        if(self.active): # only refresh if active (=not lost)
+            self.screen.blit(self.image, self.background)
 
 class VoteBar:
     # screen = the pygame screen to draw on
     def __init__(self, screen):
         # attributes
         self.screen = screen
-        self.redPercent = 0
-        self.bluePercent = 0
+        self.redPercent = 25
+        self.bluePercent = 25
 
         # background surface
         self.surface = pygame.Surface((800, 32))
-        self.surface.fill((255, 255, 255))
+        self.surface.fill((128, 128, 128))
         self.background = self.surface.get_rect(left = 208, top = 16) # alternative = (center = (608, 32))
+
+        # separation bar
+        self.surfaceSeparation = pygame.Surface((2, 48))
+        self.surfaceSeparation.fill((0, 0, 0))
+        self.backgroundSeparation = self.surfaceSeparation.get_rect(center = (608, 32)) # alternative = (center = (608, 32))
         
         self.refresh()
     
@@ -73,6 +96,9 @@ class VoteBar:
     def refresh(self):
         # background surface
         self.screen.blit(self.surface, self.background)
+
+        # separation surface
+        self.screen.blit(self.surfaceSeparation, self.backgroundSeparation)
 
         # red surface
         self.surfaceRed = pygame.Surface((self.redPercent * 8, 32))
