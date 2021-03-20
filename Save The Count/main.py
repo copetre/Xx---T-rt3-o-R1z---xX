@@ -1,6 +1,7 @@
 import pygame
 from Game import Game
 from HUD import HUD
+
 pygame.init()
 
 # Fenêtre de base
@@ -25,26 +26,31 @@ while running:
     # Jack
     screen.blit(game.player.image, game.player.rect)
 
-    #HUD
+    # HUD
 
     screen.blit(hud.surface, hud.background)
 
     # Mouvements de Jack
+
     if game.pressed.get(pygame.K_RIGHT):
         game.player.right()
-    if game.pressed.get(pygame.K_LEFT):
+    elif game.pressed.get(pygame.K_LEFT):
         game.player.left()
+    if game.pressed.get(pygame.K_UP):
+        game.player.has_jumped = True
+    game.player.jumping()
 
     pygame.display.flip()
 
     for event in pygame.event.get():  # event est une liste
 
+
+
+
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-
-        elif event.type == pygame.KEYDOWN : #On appuie sur une touche
-            game.pressed[event.key] = True #On reste appuyé sur une touche
-        elif event.type == pygame.KEYUP :
-            game.pressed[event.key] = False #On lache la touche
-
+        elif event.type == pygame.KEYDOWN:  # On appuie sur une touche
+            game.pressed[event.key] = True  # On reste appuyé sur une touche
+        elif event.type == pygame.KEYUP:
+            game.pressed[event.key] = False  # On lache la touche
