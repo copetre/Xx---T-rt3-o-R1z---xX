@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from Bullet import Bullet
 
 class Policier(pygame.sprite.Sprite):
 
@@ -11,6 +12,7 @@ class Policier(pygame.sprite.Sprite):
         self.attack = 1
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
+        self.all_bullets = pygame.sprite.Group()
         self.rect.x = 800
         self.rect.y = 380
         self.velocity = 4
@@ -20,10 +22,10 @@ class Policier(pygame.sprite.Sprite):
         # animation déplacement
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
-        self.spritesWalkRight = [pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160)),
-                                 pygame.transform.scale(pygame.image.load('asset/police_walk.png'), (160, 160))]
-        self.spritesWalkLeft = [pygame.transform.flip(self.spritesWalkRight[0], True, False),
-                                pygame.transform.flip(self.spritesWalkRight[1], True, False)]
+        self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160)),
+                                pygame.transform.scale(pygame.image.load('asset/police_walk.png'), (160, 160))]
+        self.spritesWalkRight = [pygame.transform.flip(self.spritesWalkLeft[0], True, False),
+                                pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
         # animation dommage/mort
@@ -32,22 +34,25 @@ class Policier(pygame.sprite.Sprite):
         self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/police_death.png'), (160, 160))
 
     def move(self):
-
         if self.newpos > self.rect.x:
-            self.rect.x += self.velocity
+            self.right()
         elif self.newpos < self.rect.x:
-            self.rect.x -= self.velocity
+            self.left()
         else :
             self.newpos = random.randint(5, 924)
             self.newpos -= self.newpos % self.velocity
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
 
+    def fire(self):
+        self.all_bullets.add(Bullet(self))
 
-
-
-    def move_right(self):
+    def right(self):
+        self.walkAnimationRight = True
         self.rect.x += self.velocity
 
-    def move_left(self):
+    def left(self):
+        self.walkAnimationLeft = True
         self.rect.x -= self.velocity
 
     # visual refresh of policier with animations
