@@ -3,7 +3,7 @@ from Jack import Player
 
 class Game:
 
-    def __init__(self, screen):
+    def __init__(self, screen, hud):
         # Jack
-        self.player = Player(screen)
+        self.player = Player(screen, hud)
         self.pressed = {}

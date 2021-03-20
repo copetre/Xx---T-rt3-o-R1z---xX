@@ -15,10 +15,10 @@ running = True  # Jeu en cours
 
 background = pygame.image.load('asset/background.png')
 
-# Création des personnages
-game = Game(screen)
-
 hud = HUD(screen)
+
+# Création des personnages
+game = Game(screen, hud)
 
 # toutes les 1 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
@@ -37,37 +37,38 @@ while running:
     hud.refresh()
 
     # Mouvements de Jack
-    # JUMP
-    if game.pressed.get(pygame.K_UP):
-        game.player.jump()
-    game.player.gravity()
-    # RIGHT
-    if game.pressed.get(pygame.K_RIGHT):
-        game.player.right()
-    else:
-        game.player.walkAnimationRight = False
-    # LEFT
-    if game.pressed.get(pygame.K_LEFT):
-        game.player.left()
-    else:
-        game.player.walkAnimationLeft = False
+    if not(game.player.death):
+        # JUMP
+        if game.pressed.get(pygame.K_UP):
+            game.player.jump()
+        game.player.gravity()
+        # RIGHT
+        if game.pressed.get(pygame.K_RIGHT):
+            game.player.right()
+        else:
+            game.player.walkAnimationRight = False
+        # LEFT
+        if game.pressed.get(pygame.K_LEFT):
+            game.player.left()
+        else:
+            game.player.walkAnimationLeft = False
 
     pygame.display.flip()
 
     for event in pygame.event.get():  # event est une liste
-
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-
         elif event.type == pygame.KEYDOWN : #On appuie sur une touche
             game.pressed[event.key] = True #On reste appuyé sur une touche
         elif event.type == pygame.KEYUP :
             game.pressed[event.key] = False #On lache la touche
 
-        elif event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
+        elif not(game.player.death) and event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
             rand = random.random() # nombre entre 0 et 1
             if(rand<0.5): # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
             elif(rand<0.7): # 20% d'augmenter les rouges
                 hud.votebar.redInc()
+            else: # TEMPORARY
+                game.player.damage()

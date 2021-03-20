@@ -97,9 +97,6 @@ class VoteBar:
         # background surface
         self.screen.blit(self.surface, self.background)
 
-        # separation surface
-        self.screen.blit(self.surfaceSeparation, self.backgroundSeparation)
-
         # red surface
         self.surfaceRed = pygame.Surface((self.redPercent * 8, 32))
         self.surfaceRed.fill((255, 0, 0))
@@ -111,3 +108,6 @@ class VoteBar:
         self.surfaceBlue.fill((0, 0, 255))
         self.backgroundBlue = self.surfaceBlue.get_rect(right = 1008, top = 16)
         self.screen.blit(self.surfaceBlue, self.backgroundBlue)
+
+        # separation surface
+        self.screen.blit(self.surfaceSeparation, self.backgroundSeparation)

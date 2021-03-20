@@ -3,19 +3,32 @@ import math
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, screen):
+    def __init__(self, screen, hud):
         super().__init__()
+        # pygame
+        self.screen = screen
+        self.hud = hud
+
+        # attributes
         self.health = 3
         self.max_health = 3
         self.attack = 1
         self.velocity = 2
+        self.death = False
+
+        # player box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/jake_def.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 50
         self.rect.y = 380
 
+        # jump
+        self.jumping = False
+        self.floating = False
+        self.jumpingVelocity = 0.5
+        self.jumpFrame = 0
+
         # animation déplacement
-        self.screen = screen
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
         self.spritesWalkRight = [pygame.transform.scale(pygame.image.load('asset/jake_def.png'), (160, 160)),
@@ -24,10 +37,10 @@ class Player(pygame.sprite.Sprite):
                                 pygame.transform.flip(self.spritesWalkRight[1], True, False)]
         self.walkFrame = 0
 
-        # animation jump
-        self.jumping = False
-        self.jumpingVelocity = 0.5
-        self.jumpFrame = 0
+        # animation dommage/mort
+        self.damaged = False
+        self.damagedFrame = 0
+        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
 
     def right(self):
         self.walkAnimationRight = True
@@ -54,7 +67,14 @@ class Player(pygame.sprite.Sprite):
             # if velocity too high, disable jump
             if(self.jumpingVelocity>10):
                 self.jumping = False
+                self.floating = True
                 self.jumpingVelocity = 1
+        # else if we are right after a jump, float for a couple frames
+        elif(self.floating):
+            self.jumpingVelocity += 1
+            if(self.jumpingVelocity>4):
+                self.floating = False
+                self.jumpingVelocity = 0.5
         # else and if necessary, apply gravity
         elif(self.rect.y < 380):
             # move downwards (but cap at ground y-level=380)
@@ -65,6 +85,17 @@ class Player(pygame.sprite.Sprite):
         # reset jumping velocity if done
         else:
             self.jumpingVelocity = 1
+
+    def damage(self):
+        if(self.health>0):
+            self.health -= 1
+            self.hud.loseHeart()
+            self.damaged = True
+        if(self.health==0):
+            self.death = True
+            self.walkAnimationRight = False
+            self.walkAnimationLeft = False
+            self.currentSprite = self.spriteDeath
     
     # visual refresh of Jack with animations
     def refresh(self):
@@ -78,5 +109,13 @@ class Player(pygame.sprite.Sprite):
         elif(self.walkAnimationRight):
             self.currentSprite = self.spritesWalkRight[self.walkFrame//6] # //6 because update every 6 ticks
         
-        # do the actual update
-        self.screen.blit(self.currentSprite, self.rect) 
+        # if we've been damaged, increase damaged frame (same if we are dead)
+        if(self.damaged or self.death):
+            self.damagedFrame += 1
+            if(self.damaged and self.damagedFrame==37): # stop animation
+                self.damaged = False
+                self.damagedFrame = 0
+
+        # do the actual update (if we have been hit, skip 1 in 2 frames)
+        if (self.damagedFrame%8 < 4):
+            self.screen.blit(self.currentSprite, self.rect) 
