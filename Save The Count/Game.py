@@ -5,7 +5,7 @@ class Game:
 
     def __init__(self, hud):
         # Jack
-        self.player = Player(hud)
+        self.player = Player(hud, self)
         # Policiers
         self.all_policiers = pygame.sprite.Group()
         self.spawn_policier()
@@ -13,5 +13,5 @@ class Game:
         self.level = [True, False, False, False, False]
 
     def spawn_policier(self):
-        policier = Policier()
+        policier = Policier(self)
         self.all_policiers.add(policier)

@@ -78,26 +78,27 @@ while running:
         background = pygame.image.load('asset/exterior.png')
         game.player.rect.x = 0
 
-
-
-    # Jack
-    game.player.refresh(screen)
-
     # HUD
     hud.refresh(screen)
 
     # Policiers
     for police in game.all_policiers:
+        # draw policier
         police.refresh(screen)
-        police.move()
         police.all_bullets.draw(screen)
-        police.randomFire()
+        # do actions
+        if not(police.dead):
+            police.move()
+            police.randomFire()
         channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
+    # Jack
+    game.player.refresh(screen)
+
     # Mouvements de Jack
-    if not(game.player.death):
+    if not(game.player.dead):
         # JUMP
         if game.pressed.get(pygame.K_UP):
             game.player.jump()
@@ -116,6 +117,9 @@ while running:
                 channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
+        # ATTACK
+        if game.pressed.get(pygame.K_SPACE):
+            game.player.launchAttack()
 
     pygame.display.flip()
 
@@ -123,12 +127,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+
         elif event.type == pygame.KEYDOWN : #On appuie sur une touche
             game.pressed[event.key] = True #On reste appuyé sur une touche
         elif event.type == pygame.KEYUP :
             game.pressed[event.key] = False #On lache la touche
 
-        elif not(game.player.death) and event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
+        elif not(game.player.dead) and event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
             rand = random.random() # nombre entre 0 et 1
             if(rand<0.5): # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
