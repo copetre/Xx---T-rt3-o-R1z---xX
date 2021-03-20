@@ -36,6 +36,11 @@ while running:
     # HUD
     hud.refresh()
 
+    # Policiers
+    game.all_policiers.draw(screen)
+    for police in game.all_policiers :
+        police.move()
+
     # Mouvements de Jack
     if not(game.player.death):
         # JUMP
@@ -45,6 +50,8 @@ while running:
         # RIGHT
         if game.pressed.get(pygame.K_RIGHT):
             game.player.right()
+            pygame.mixer.music.load('SoundMusic/MarcheJack.mp3')
+            pygame.mixer.music.play(0)
         else:
             game.player.walkAnimationRight = False
         # LEFT
