@@ -67,8 +67,8 @@ class VoteBar:
     def __init__(self, screen):
         # attributes
         self.screen = screen
-        self.redPercent = 25
-        self.bluePercent = 25
+        self.redPercent = 0
+        self.bluePercent = 0
 
         # background surface
         self.surface = pygame.Surface((800, 32))

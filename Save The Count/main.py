@@ -1,4 +1,5 @@
 import pygame
+import random
 from Game import Game
 from HUD import HUD
 pygame.init()
@@ -17,6 +18,10 @@ game = Game()
 
 hud = HUD(screen)
 
+# toutes les 1 seconde, on augmente aléatoirement la barre
+randomVotebarIncrease = pygame.USEREVENT + 1
+pygame.time.set_timer(randomVotebarIncrease, 1000)
+
 while running:
 
     # Background
@@ -27,12 +32,6 @@ while running:
 
     # HUD
     hud.refresh()
-    # hud.votebar.redInc()
-    # hud.votebar.blueInc()
-    # if(hud.health>0):
-    #     hud.loseHeart()
-    # else:
-    #     hud.healHeart()
 
     # Mouvements de Jack
     if game.pressed.get(pygame.K_RIGHT):
@@ -53,3 +52,9 @@ while running:
         elif event.type == pygame.KEYUP :
             game.pressed[event.key] = False #On lache la touche
 
+        elif event.type == randomVotebarIncrease: # on augmente la barre aléatoirement
+            rand = random.random() # nombre entre 0 et 1
+            if(rand<0.5): # 50% d'augmenter les bleus
+                hud.votebar.blueInc()
+            elif(rand<0.7): # 20% d'augmenter les rouges
+                hud.votebar.redInc()
