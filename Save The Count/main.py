@@ -37,27 +37,24 @@ while running:
     hud.refresh()
 
     # Mouvements de Jack
-
+    # JUMP
     if game.pressed.get(pygame.K_UP):
-        game.player.has_jumped = True
+        game.player.jump()
+    game.player.gravity()
+    # RIGHT
     if game.pressed.get(pygame.K_RIGHT):
         game.player.right()
-
     else:
         game.player.walkAnimationRight = False
-
+    # LEFT
     if game.pressed.get(pygame.K_LEFT):
         game.player.left()
     else:
         game.player.walkAnimationLeft = False
 
-    game.player.jumping()
     pygame.display.flip()
 
     for event in pygame.event.get():  # event est une liste
-
-
-
 
         if event.type == pygame.QUIT:
             running = False
