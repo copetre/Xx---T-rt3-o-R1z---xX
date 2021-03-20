@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 3
         self.max_health = 3
         self.attack = 1
-        self.velocity = 2
+        self.velocity = 4
         self.death = False
 
         # player box

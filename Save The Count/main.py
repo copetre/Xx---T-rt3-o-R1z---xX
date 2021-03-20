@@ -35,6 +35,47 @@ while running:
     # Background
     screen.blit(background, (0, 0))
 
+    # On regarde dans quel niveau on se situe
+
+    if game.level[0] :
+        print("yo")
+        background = pygame.image.load('asset/background.png')
+        if game.player.rect.x > 900:
+            game.level[0] = False
+            game.level[1] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[1]:
+        background = pygame.image.load('asset/exterior.png')
+        if game.player.rect.x > 900:
+            game.level[1] = False
+            game.level[2] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[2]:
+        background = pygame.image.load('asset/exterior.png')
+        if game.player.rect.x > 900:
+            game.level[2] = False
+            game.level[3] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[3]:
+        background = pygame.image.load('asset/hall.png')
+        if game.player.rect.x > 900:
+            game.level[3] = False
+            game.level[4] = True
+            game.player.rect.x = 0
+            for police in game.all_policiers:
+                police.delete_policier()
+    elif game.level[4]:
+        background = pygame.image.load('asset/exterior.png')
+        game.player.rect.x = 0
+
+
+
     # Jack
     game.player.refresh(screen)
 
@@ -46,7 +87,7 @@ while running:
         police.refresh(screen)
         police.move()
         police.all_bullets.draw(screen)
-        if random.random() < 0.005:
+        if random.random() < 0.00000000005:
             police.fire()
         for bullet in police.all_bullets :
             bullet.move()

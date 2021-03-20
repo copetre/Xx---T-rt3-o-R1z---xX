@@ -76,4 +76,7 @@ class Policier(pygame.sprite.Sprite):
 
         # do the actual update (if we have been hit, skip 1 in 2 frames)
         if (self.damagedFrame%8 < 4):
-            screen.blit(self.currentSprite, self.rect) 
+            screen.blit(self.currentSprite, self.rect)
+
+    def delete_policier(self):
+        del self
