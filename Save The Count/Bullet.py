@@ -11,7 +11,7 @@ class Bullet(pygame.sprite.Sprite):
         self.max_health = 1
         self.image = pygame.transform.scale(pygame.image.load('asset/Bullet.png'), (20, 10))
         self.rect = self.image.get_rect()
-        if(movingLeft):
+        if movingLeft:
             self.rect.x = policier.rect.x-25
         else:
             self.rect.x = policier.rect.x+110
@@ -20,12 +20,12 @@ class Bullet(pygame.sprite.Sprite):
         self.movingLeft = movingLeft # true=left, false=right
 
     def move(self, player):
-        if(self.movingLeft):
+        if self.movingLeft:
             self.rect.x -= self.velocity
         else:
             self.rect.x += self.velocity
 
-        if(self.rect.x>player.rect.x and self.rect.x<player.rect.x+140 # horizontal hitbox
+        if(player.rect.x < self.rect.x < player.rect.x+140  # horizontal hitbox
             and self.rect.y<player.rect.y+160): # vertical hitbox
             player.damage()
             self.policier.all_bullets.remove(self) # delete bullet

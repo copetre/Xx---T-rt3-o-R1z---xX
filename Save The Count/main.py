@@ -3,8 +3,9 @@ import random
 from Game import Game
 from HUD import HUD
 from Jack import Player
-pygame.init()
 
+pygame.init()
+pygame.mixer.init(44100, -16, 2, 2048)
 # Fenêtre de base
 
 pygame.display.set_caption("Save the count")  # TODO A changer
@@ -26,9 +27,7 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 
 # Sound Bank
 
-channelMove = pygame.mixer.Channel(0)
 channelFond = pygame.mixer.Channel(1)
-channelPolAtck = pygame.mixer.Channel(2)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
@@ -36,14 +35,14 @@ channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1
 while running:
     clock.tick(60)
 
-    # Background
-    screen.blit(background, (0, 0))
-
     # On regarde dans quel niveau on se situe
 
-    if game.level[0] :
-        print("yo")
-        background = pygame.image.load('asset/background.png')
+    screen.blit(background, (0, 0))
+
+    if game.level[0]:
+
+        background = pygame.transform.scale(pygame.image.load('asset/background.png'), (1024, 576))
+
         if game.player.rect.x > 900:
             game.level[0] = False
             game.level[1] = True
@@ -51,19 +50,20 @@ while running:
             for police in game.all_policiers:
                 police.delete_policier()
     elif game.level[1]:
-        background = pygame.image.load('asset/exterior.png')
+        background = pygame.transform.scale(pygame.image.load('asset/exterior.png'), (1024, 576))
+
         if game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
-            game.player.rect.x = 0
+            game.player.rect.x = 20
             for police in game.all_policiers:
                 police.delete_policier()
     elif game.level[2]:
-        background = pygame.image.load('asset/exterior.png')
+        background = pygame.transform.scale(pygame.image.load('asset/hall.png'), (1024, 576))
         if game.player.rect.x > 900:
             game.level[2] = False
             game.level[3] = True
-            game.player.rect.x = 0
+            game.player.rect.x = 20
             for police in game.all_policiers:
                 police.delete_policier()
     elif game.level[3]:
@@ -90,7 +90,6 @@ while running:
         if not(police.dead):
             police.move()
             police.randomFire()
-        channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
@@ -104,17 +103,13 @@ while running:
             game.player.jump()
         game.player.gravity()
         # RIGHT
-        if game.pressed.get(pygame.K_RIGHT):
+        if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x < 970 :
             game.player.right()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationRight = False
         # LEFT
-        if game.pressed.get(pygame.K_LEFT):
+        if game.pressed.get(pygame.K_LEFT) and game.player.rect.x > -10:
             game.player.left()
-            if channelMove.get_busy() == False :
-                channelMove.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'),1)
         else:
             game.player.walkAnimationLeft = False
         # ATTACK
@@ -137,5 +132,5 @@ while running:
             rand = random.random() # nombre entre 0 et 1
             if(rand<0.5): # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
-            elif(rand<0.7): # 20% d'augmenter les rouges
+            elif (rand < 0.7):  # 20% d'augmenter les rouges
                 hud.votebar.redInc()
