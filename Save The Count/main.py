@@ -28,15 +28,13 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 
 channelMove = pygame.mixer.Channel(0)
 channelFond = pygame.mixer.Channel(1)
+channelPolAtck = pygame.mixer.Channel(2)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
 
 while running:
     clock.tick(60)
-
-    # Music
-
 
     # Background
     screen.blit(background, (0, 0))
@@ -54,6 +52,7 @@ while running:
         police.all_bullets.draw(screen)
         if random.random() < 0.005:
             police.fire()
+            channelPolAtck.play(pygame.mixer.Sound('SoundMusic/AttaquePoliciers.ogg'),1)
         for bullet in police.all_bullets :
             bullet.move(game.player)
 
