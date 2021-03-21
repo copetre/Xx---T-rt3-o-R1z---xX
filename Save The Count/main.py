@@ -9,7 +9,7 @@ pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 # Fenêtre de base
 
-pygame.display.set_caption("Save the count")  # TODO A changer
+pygame.display.set_caption("CAPITOL CONQUEST")  # TODO A changer
 screen = pygame.display.set_mode((1024, 576))
 clock = pygame.time.Clock()
 
@@ -115,7 +115,7 @@ while running:
 
             background = pygame.image.load('asset/chamber.jpg')
 
-        if game.count_policiers == 0:
+        if (game.count_policiers == 0 & game.level[-1] == False):
             screen.blit(arrow, (800, 200))
 
         # HUD
@@ -181,7 +181,7 @@ while running:
 
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
-        background = pygame.image.load('asset/background.png')
+        background = pygame.image.load('asset/voting.png')
 
         game.spawn_senator_blue(1)
         game.spawn_senator_red(1)
