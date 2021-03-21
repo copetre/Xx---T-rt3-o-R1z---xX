@@ -63,8 +63,8 @@ class VoteBar:
     # screen = the pygame screen to draw on
     def __init__(self):
         # attributes
-        self.redPercent = 0
-        self.bluePercent = 0
+        self.redPercent = 25
+        self.bluePercent = 25
 
         # background surface
         self.surface = pygame.Surface((800, 32))
@@ -88,13 +88,13 @@ class VoteBar:
 
     # decrease red percentage by 4 (senators)
     def redDes(self):
-        if (self.redPercent>0-self.redPercent):
-            self.redPercent = self.redPercent-4
+        if (self.redPercent>0):
+            self.redPercent = max(self.redPercent-4, 0)
 
     # decrease blue percentage by 4 (senators)
     def blueDes(self):
-        if (self.bluePercent>0-self.bluePercent):
-            self.bluePercent = self.bluePercent-4
+        if (self.bluePercent>0):
+            self.bluePercent = max(self.bluePercent-4, 0)
 
     # function to call to refresh the votebar constantly
     def refresh(self, screen):

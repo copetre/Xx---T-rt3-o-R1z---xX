@@ -122,6 +122,14 @@ class Player(pygame.sprite.Sprite):
                 if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+            for senator in self.game.all_senblue:
+                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                    senator.damage()
+            for senator in self.game.all_senred:
+                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                    senator.damage()
         else:
             for police in self.game.all_policiers:
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
@@ -131,6 +139,14 @@ class Player(pygame.sprite.Sprite):
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+            for senator in self.game.all_senblue:
+                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                    senator.damage()
+            for senator in self.game.all_senred:
+                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                    senator.damage()
 
     # visual refresh of Jack with animations
     def refresh(self, screen):

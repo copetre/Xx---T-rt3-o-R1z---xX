@@ -9,6 +9,7 @@ class Game:
     def __init__(self, hud):
         # Jack
         self.player = Player(hud, self)
+        self.hud = hud
         self.pressed = {}
         self.level = [True, False, False, False, False]
 

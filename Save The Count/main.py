@@ -107,15 +107,13 @@ while running:
     # Senators
     for senablue in game.all_senblue:
         senablue.refresh(screen)
-        senablue.move()
-        if senablue.dead :
-            hud.votebar.blueDes()
+        if not(senablue.dead):
+            senablue.move()
 
     for senared in game.all_senred:
         senared.refresh(screen)
-        senared.move()
-        if senared.dead :
-            hud.votebar.redDes()
+        if not(senared.dead):
+            senared.move()
 
     # Jack
     game.player.refresh(screen)
