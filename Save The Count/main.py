@@ -138,7 +138,7 @@ while running:
             if game.player.rect.x > 900 and game.count_policiers == 0:
                 game.level[0] = False
                 game.level[1] = True
-                background = niveau(levels[1], 1, 1, 0, 2)
+                background = niveau(levels[1], 2, 0, 0, 0)
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
                 for j in game.all_senred:
@@ -153,7 +153,7 @@ while running:
                 game.level[1] = False
                 game.level[2] = True
                 game.count_senator_blue = 0
-                background = niveau(levels[2], 1, 1, 0, 2)
+                background = niveau(levels[2], 1, 1, 1, 1)
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
                 for j in game.all_senred:
@@ -177,7 +177,7 @@ while running:
                 channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
-                background = niveau(levels[3], 2, 3, 3, 3)
+                background = niveau(levels[3], 2, 1, 2, 2)
 
         elif game.level[3] and game.count_policiers == 0: # Hall
             if game.count_manifestants == 0:
@@ -195,7 +195,7 @@ while running:
                 channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
-                background = niveau(levels[4], 2, 3, 3, 3)
+                background = niveau(levels[4], 1, 1, 5, 3)
         elif game.level[4]: # Chamber
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
@@ -309,7 +309,7 @@ while running:
         hud.votebar.redPercent = 5
         hud.votebar.bluePercent = 5
         channelFond.play(soundNiveauBureauVotes2, -1)
-        background = niveau(levels[0],0,1,1,1)
+        background = niveau(levels[0],0,1,1,0)
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -344,4 +344,4 @@ while running:
                 hud.votebar.bluePercent = 5
                 channelDoor.play(soundPorte, 0)
 
-                background = niveau(levels[0], 0, 1, 1, 1)
+                background = niveau(levels[0], 0, 1, 1, 0)
