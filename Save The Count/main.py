@@ -105,7 +105,7 @@ while running:
             game.level[0] = False
             
             background = pygame.image.load('asset/GAME OVER.jpg')
-            channelFond.play(soundPartiePerdue.ogg, 0)
+            channelFond.play(soundPartiePerdue, 0)
             for i in game.all_senblue:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
@@ -227,6 +227,11 @@ while running:
                 senablue.move()
                 senablue.gravity()
 
+        # Manifestants
+        for man in game.all_manifestants:
+            man.refresh(screen)
+            man.move()
+
         for senared in game.all_senred:
             senared.refresh(screen)
             if not (senared.dead):
@@ -253,10 +258,7 @@ while running:
                 police.move()
                 police.randomAttack()
 
-        # Policiers bim bam boum
-        for man in game.all_manifestants:
-            man.refresh(screen)
-            man.move()
+
 
         # Jack
         game.player.refresh(screen)
