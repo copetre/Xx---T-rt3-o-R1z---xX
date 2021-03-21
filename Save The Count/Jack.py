@@ -27,9 +27,7 @@ class Player(pygame.sprite.Sprite):
 
         # jump
         self.jumping = False
-        self.floating = False
         self.jumpingVelocity = 0
-        self.jumpFrame = 0
 
         # animation déplacement
         self.walkAnimationRight = False
@@ -92,8 +90,6 @@ class Player(pygame.sprite.Sprite):
                 #if on the ground, stop
                 self.jumping = False
                 self.jumpingVelocity = 0
-        
-    
 
     def damage(self):
         if (self.health > 0):
@@ -120,35 +116,51 @@ class Player(pygame.sprite.Sprite):
                 if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+                    self.scareSenators()
             for police in self.game.all_matraque:
                 if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+                    self.scareSenators()
             for senator in self.game.all_senblue:
                 if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
+                    self.scareSenators()
             for senator in self.game.all_senred:
                 if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
+                    self.scareSenators()
         else:
             for police in self.game.all_policiers:
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+                    self.scareSenators()
             for police in self.game.all_matraque:
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+                    self.scareSenators()
             for senator in self.game.all_senblue:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
+                    self.scareSenators()
             for senator in self.game.all_senred:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
+                    self.scareSenators()
+    
+    def scareSenators(self):
+        for senator in self.game.all_senblue:
+            senator.scared = True
+            senator.velocity = 3
+        for senator in self.game.all_senred:
+            senator.scared = True
+            senator.velocity = 3
 
     # visual refresh of Jack with animations
     def refresh(self, screen):
