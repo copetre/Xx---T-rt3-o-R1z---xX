@@ -99,6 +99,7 @@ class Matraque(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
+            self.attacking = False
             self.currentSprite = self.spriteDeath
 
     # visual refresh of policier with animations
