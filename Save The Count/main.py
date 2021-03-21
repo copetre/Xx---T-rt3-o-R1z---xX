@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 
 running = True  # Jeu en cours
 
-background = pygame.image.load('asset/background.png')
+background = pygame.image.load('asset/hall.jpg')
 
 hud = HUD()
 
@@ -41,7 +41,7 @@ while running:
 
     if game.level[0]:
 
-        background = pygame.transform.scale(pygame.image.load('asset/background.png'), (1024, 576))
+        background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         if game.player.rect.x > 900 and game.count_policiers == 0 :
             game.level[0] = False
@@ -64,14 +64,14 @@ while running:
             game.spawn_matraque()
             game.count_policiers = 2
     elif game.level[2]:
-        background = pygame.transform.scale(pygame.image.load('asset/hall.png'), (1024, 576))
+        background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
         if game.player.rect.x > 900:
             game.level[2] = False
             game.level[3] = True
             game.player.rect.x = 20
 
     elif game.level[3]:
-        background = pygame.image.load('asset/hall.png')
+        background = pygame.image.load('asset/hall.jpg')
         if game.player.rect.x > 900:
             game.level[3] = False
             game.level[4] = True
