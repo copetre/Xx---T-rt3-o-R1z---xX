@@ -26,13 +26,13 @@ hud = HUD()
 
 # Création des personnages
 game = Game(hud)
-arrow = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
+arrowLeft = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
+arrowRight = pygame.transform.flip(arrowLeft, True, False)
 # toutes les 0.5 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 500)
 
 # Sound Bank
-
 channelFond = pygame.mixer.Channel(1)
 channelDoor = pygame.mixer.Channel(7)
 
@@ -146,8 +146,7 @@ while running:
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_red(30)
                 game.spawn_senator_blue(7)
-
-            elif game.playing and hud.votebar.redPercent >= 50 and game.player.rect.x < 20 and game.count_policiers == 0:
+            elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
                 game.win = True
                 game.level[4] = False
                 game.level[6] = True
@@ -156,12 +155,20 @@ while running:
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_blue(20)
 
+        # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
+        if(game.level[3] and game.count_policiers == 0 and not(game.increaseRedOdds)):
+            game.increaseRedOdds = True
+            pygame.time.set_timer(randomVotebarIncrease, 0)
+            pygame.time.set_timer(randomVotebarIncrease, 250)
+
+        # Flèche si tout le monde est mort
         if (game.count_policiers == 0 and game.level[4] == False
             and game.win == False and game.lose == False):
-            screen.blit(arrow, (800, 200))
+            screen.blit(arrowLeft, (800, 200))
         # ou si on est dans la dernière salle et qu'on a gagné
         elif (game.level[3] and hud.votebar.redPercent > 50):
-            screen.blit(arrow, (800, 200))
+            screen.blit(arrowLeft, (800, 200))
+            screen.blit(arrowRight, (25, 200))
 
         if game.count_senator_blue == 0:
             game.player.heal_Jack()
@@ -247,10 +254,16 @@ while running:
         elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:
             rand = random.random()  # nombre entre 0 et 1
 
-            if rand < 0.7:  # 70% d'augmenter les bleus
-                hud.votebar.blueInc()
-            else:  # 30% d'augmenter les rouges
-                hud.votebar.redInc()
+            if not(game.increaseRedOdds):
+                if rand < 0.7:  # 70% d'augmenter les bleus
+                    hud.votebar.blueInc()
+                else:  # 30% d'augmenter les rouges
+                    hud.votebar.redInc()
+            else:
+                if rand < 0.5:  # 50% d'augmenter les bleus
+                    hud.votebar.blueInc()
+                else:  # 50% d'augmenter les rouges
+                    hud.votebar.redInc()
 
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos):
