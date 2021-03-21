@@ -38,7 +38,8 @@ class Matraque(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/police_death_stick.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/police_death_stick.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
         # animation attaque
         self.attacking = False
@@ -97,7 +98,11 @@ class Matraque(pygame.sprite.Sprite):
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
             self.attacking = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
 
     # visual refresh of policier with animations
     def refresh(self, screen):
