@@ -18,7 +18,7 @@ running = True  # Jeu en cours
 background = pygame.image.load('asset/FIRST_SCREEN_1.png')
 firstsreen = [pygame.image.load('asset/FIRST_SCREEN_1.png'), pygame.image.load('asset/FIRST_SCREEN_2.png'),
               pygame.image.load('asset/FIRST_SCREEN_3.png'), pygame.image.load('asset/FIRST_SCREEN_2.png'), ]
-levels = [pygame.image.load('asset/voting.jpg'), pygame.image.load('asset/exterior.jpg'),
+levels = [pygame.image.load('asset/voting.jpg'), pygame.image.load('asset/street.jpg'),pygame.image.load('asset/exterior.jpg'),
           pygame.image.load('asset/hall.jpg'), pygame.image.load('asset/chamber.jpg'), ]
 frame = 0
 
@@ -121,29 +121,27 @@ while running:
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
-            game.count_senator_blue = 0
-            background = niveau(levels[2], 1, 1, 0, 2)
+            background = niveau(levels[2], 1, 1, 1, 1)
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
-            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
             game.level[2] = False
             game.level[3] = True
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+            background = niveau(levels[3], 2, 1, 2, 2)
 
-            game.player.rect.x = 20
-            background = niveau(levels[3], 2, 3, 3, 3)
-        elif game.level[3]:
+        elif game.level[3] and game.player.rect.x > 900 and game.count_policiers == 0:
+            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
+            game.level[3] = False
+            game.level[4] = True
+            background = niveau(levels[4], 1, 1, 5, 3)
+
+        elif game.level[4]:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
             if (game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
                 game.win = True
-                game.level[3] = False
-                game.level[4] = True
+                game.level[4] = False
+                game.level[5] = True
                 background = pygame.image.load('asset/WIN.jpg')
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_red(30)
@@ -151,14 +149,14 @@ while running:
 
             elif game.playing and hud.votebar.redPercent >= 50 and game.player.rect.x < 20 and game.count_policiers == 0:
                 game.win = True
-                game.level[3] = False
-                game.level[5] = True
+                game.level[4] = False
+                game.level[6] = True
                 background = pygame.image.load('asset/hall.jpg')
                 senders = pygame.transform.scale(pygame.image.load('asset/bernie_sitting_mitten.png'), (350, 350))
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_blue(20)
 
-        if (game.count_policiers == 0 and game.level[3] == False
+        if (game.count_policiers == 0 and game.level[4] == False
             and game.win == False and game.lose == False):
             screen.blit(arrow, (800, 200))
         # ou si on est dans la dernière salle et qu'on a gagné
