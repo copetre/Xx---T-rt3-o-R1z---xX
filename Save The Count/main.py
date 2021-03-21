@@ -45,7 +45,7 @@ rectangle = surface.get_rect(left=100, top=420)  # alternative = (center = (608,
 frame = 0
 
 
-def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red):  # background, nbre policier, nbre matraque, nbre bleure, nbre rouge
+def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red):  # background, nbre policier, nbre matraque, nbre bleus, nbre rouges
     game.count_senator_blue = 0
     for i in game.all_senblue:
         game.delete_senator_blue(i)
@@ -116,7 +116,7 @@ while running:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[0] = False
             game.level[1] = True
-            background = niveau(levels[1], 1, 1, 0, 2)
+            background = niveau(levels[1], 2, 0, 0, 0)
 
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
@@ -158,8 +158,6 @@ while running:
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_blue(20)
 
-        if (game.count_policiers == 0 and game.level[3] == False & game.win == False & game.lose == True):
-        # Flèche si tout le monde est mort
         if (game.count_policiers == 0 and game.level[3] == False
             and game.win == False and game.lose == False):
             screen.blit(arrow, (800, 200))
@@ -235,7 +233,7 @@ while running:
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
         channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
-        background = niveau(levels[0],0,1,1,1)
+        background = niveau(levels[0],0,1,1,0)
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -262,4 +260,4 @@ while running:
                 game.playing = True
                 channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
-                background = niveau(levels[0],0,1,1,1)
+                background = niveau(levels[0],0,1,1,0)
