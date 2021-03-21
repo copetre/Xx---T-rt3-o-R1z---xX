@@ -16,12 +16,13 @@ class Game:
         self.gameOverFrame = 0
         self.win = False
         self.lose = False
+        self.increaseRedOdds = False
 
         # Jack
         self.player = Player(hud, self)
         self.hud = hud
         self.pressed = {}
-        self.level = [True, False, False, False, False, False]
+        self.level = [True, False, False, False, False, False, False]
 
         # Policiers
         self.all_policiers = pygame.sprite.Group()
