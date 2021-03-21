@@ -1,10 +1,12 @@
 import pygame
 import pygame.freetype  # for fonts
+import random
 from Jack import Player
 from Policier import Policier
 from Policier_matraque import Matraque
 from Senator import SenatorBlue
 from Senator import SenatorRed
+from Manifestants import Manifestant
 
 
 class Game:
@@ -32,13 +34,16 @@ class Game:
         self.count_senator_blue = 0
         self.count_senator_red = 0
 
+        # Manifestants
+        self.all_manifestants = pygame.sprite.Group()
+        self.count_manifestants = 0
+
     def spawn_policier(self, x):
         self.count_policiers += x
         while x > 0:
             policier = Policier(self)
             self.all_policiers.add(policier)
             x -= 1
-
 
     def spawn_matraque(self, x):
         self.count_policiers += x
@@ -54,7 +59,6 @@ class Game:
             self.all_senblue.add(senblue)
             x -= 1
 
-
     def spawn_senator_red(self, x):
         self.count_senator_red += x
         while x > 0:
@@ -62,7 +66,14 @@ class Game:
             self.all_senred.add(senred)
             x -= 1
 
-    def delete_senator_blue(self,senblue):
+    def spawn_manifestants(self, x):
+        self.count_manifestants += x
+        while x > 0:
+            mani = Manifestant(self, random.randint(1, 3))
+            self.all_manifestants.add(mani)
+            x -= 1
+
+    def delete_senator_blue(self, senblue):
         senblue.delete_senator()
 
     def delete_senator_red(self, senred):
@@ -73,3 +84,6 @@ class Game:
 
     def delete_policier(self, policier):
         policier.delete_policier()
+
+    def delete_manifestant(self, manifestant):
+        manifestant.delete_manifestant()

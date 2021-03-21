@@ -51,6 +51,8 @@ def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red):  # background, nbre policier,
         game.delete_senator_blue(i)
     for j in game.all_senred:
         game.delete_senator_red(j)
+    for k in game.all_manifestants:
+        game.delete_manifestant(k)
     channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
     game.player.rect.x = 0
     game.spawn_senator_red(nb_red)
@@ -66,7 +68,7 @@ while running:
 
     screen.blit(background, (0, 0))
 
-    if game.level[5] == True :
+    if game.level[5] == True:
         screen.blit(senders, (335))
 
     # Regarde si vivant
@@ -88,20 +90,25 @@ while running:
 
     elif (game.playing and hud.votebar.bluePercent > 50):
         if game.gameOverFrame == 0:
-            if game.gameOverFrame == 0:
-                game.lose = True
-                game.level[3] = False
-                background = pygame.image.load('asset/GAME OVER.jpg')
-                channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
-                for i in game.all_senblue:
-                    game.delete_senator_blue(i)
-                for j in game.all_senred:
-                    game.delete_senator_red(j)
-                for k in game.all_matraque:
-                    game.delete_matraque(k)
-                for l in game.all_matraque:
-                    game.delete_policier(l)
-                game.player.dead = True
+
+            game.lose = True
+            game.level[3] = False
+            game.level[2] = False
+            game.level[1] = False
+            game.level[0] = False
+            background = pygame.image.load('asset/GAME OVER.jpg')
+            channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            for j in game.all_senred:
+                game.delete_senator_red(j)
+            for k in game.all_matraque:
+                game.delete_matraque(k)
+            for l in game.all_matraque:
+                game.delete_policier(l)
+            for k in game.all_manifestants:
+                game.delete_manifestant(k)
+            game.player.dead = True
         game.gameOverFrame += 1
         if (game.gameOverFrame == 540):  # après 9 secondes de mort, retour au menu
             game.playing = False
@@ -113,40 +120,67 @@ while running:
         frame = (frame + 1) % 24  # %12 because we have 2 frames * 6 ticks each
         background = firstsreen[frame // 6]
     else:
-        if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
-            game.level[0] = False
-            game.level[1] = True
-            background = niveau(levels[1], 1, 1, 0, 2)
+        if game.level[0] and game.count_policiers == 0:
 
-        elif game.level[1] and game.player.rect.x > 900:
-            game.level[1] = False
-            game.level[2] = True
-            game.count_senator_blue = 0
-            background = niveau(levels[2], 1, 1, 0, 2)
+            if game.count_manifestants == 0:
+                game.spawn_manifestants(7)
 
-        elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
-            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
-            game.level[2] = False
-            game.level[3] = True
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+            if game.player.rect.x > 900 and game.count_policiers == 0:
+                game.level[0] = False
+                game.level[1] = True
+                background = niveau(levels[1], 1, 1, 0, 2)
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_manifestants:
+                    game.delete_manifestant(k)
+                game.spawn_manifestants(3)
 
-            game.player.rect.x = 20
-            background = niveau(levels[3], 2, 3, 3, 3)
+
+        elif game.level[1] and game.count_policiers == 0:
+            if game.player.rect.x > 900:
+                game.level[1] = False
+                game.level[2] = True
+                game.count_senator_blue = 0
+                background = niveau(levels[2], 1, 1, 0, 2)
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_manifestants:
+                    game.delete_manifestant(k)
+
+        elif game.level[2] and game.count_policiers == 0:
+            if game.count_manifestants == 0:
+                game.spawn_manifestants(7)
+            if game.player.rect.x > 900:
+                channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
+                game.level[2] = False
+                game.level[3] = True
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_manifestants:
+                    game.delete_manifestant(k)
+                channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+
+                game.player.rect.x = 20
+                background = niveau(levels[3], 2, 3, 3, 3)
         elif game.level[3]:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
-            if (game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
+            if (
+                    game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
                 game.win = True
                 game.level[3] = False
                 game.level[4] = True
                 background = pygame.image.load('asset/WIN.jpg')
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
-                game.spawn_senator_red(30)
+                game.spawn_senator_red(15)
+                game.spawn_manifestants(15)
                 game.spawn_senator_blue(7)
 
             elif game.playing and hud.votebar.redPercent >= 50 and game.player.rect.x < 20 and game.count_policiers == 0:
@@ -158,10 +192,9 @@ while running:
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_blue(20)
 
-        if (game.count_policiers == 0 and game.level[3] == False & game.win == False & game.lose == True):
         # Flèche si tout le monde est mort
         if (game.count_policiers == 0 and game.level[3] == False
-            and game.win == False and game.lose == False):
+                and game.win == False and game.lose == False):
             screen.blit(arrow, (800, 200))
         # ou si on est dans la dernière salle et qu'on a gagné
         elif (game.level[3] and hud.votebar.redPercent > 50):
@@ -207,6 +240,11 @@ while running:
                 police.move()
                 police.randomAttack()
 
+        # Policiers bim bam boum
+        for man in game.all_manifestants:
+            man.refresh(screen)
+            man.move()
+
         # Jack
         game.player.refresh(screen)
 
@@ -235,7 +273,7 @@ while running:
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
         channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
-        background = niveau(levels[0],0,1,1,1)
+        background = niveau(levels[0], 0, 1, 1, 1)
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -262,4 +300,4 @@ while running:
                 game.playing = True
                 channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
-                background = niveau(levels[0],0,1,1,1)
+                background = niveau(levels[0], 0, 1, 1, 1)
