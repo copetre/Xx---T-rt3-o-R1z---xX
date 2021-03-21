@@ -110,10 +110,10 @@ while running:
             game.spawn_senator_blue(2)
             game.spawn_policier(4)
             game.spawn_matraque(3)
-
-
-
             background = pygame.image.load('asset/chamber.jpg')
+        elif game.level[3] :
+            if random.random()<0.005:
+                game.spawn_senator_blue(1)
 
         if game.count_policiers == 0:
             screen.blit(arrow, (800, 200))
