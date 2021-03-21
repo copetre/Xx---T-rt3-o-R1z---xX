@@ -244,9 +244,10 @@ while running:
 
         elif not game.player.dead and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
             rand = random.random()  # nombre entre 0 et 1
-            if rand < 0.5:  # 50% d'augmenter les bleus
+
+            if rand < 0.7:  # 70% d'augmenter les bleus
                 hud.votebar.blueInc()
-            elif rand < 0.2:  # 20% d'augmenter les rouges
+            else:  # 30% d'augmenter les rouges
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
