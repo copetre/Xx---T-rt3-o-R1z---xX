@@ -17,6 +17,7 @@ running = True  # Jeu en cours
 
 background = pygame.image.load('asset/FIRST_SCREEN_1.png')
 firstsreen = [pygame.image.load('asset/FIRST_SCREEN_1.png'), pygame.image.load('asset/FIRST_SCREEN_2.png'),pygame.image.load('asset/FIRST_SCREEN_3.png'),pygame.image.load('asset/FIRST_SCREEN_2.png'),]
+levels = [pygame.image.load('asset/voting.jpg'), pygame.image.load('asset/exterior.jpg'),pygame.image.load('asset/hall.jpg'),pygame.image.load('asset/chamber.jpg'),]
 frame = 0
 
 hud = HUD()
@@ -92,7 +93,7 @@ while running:
             #game.spawn_senator_red(1)
             game.spawn_senator_blue(2)
 
-            background = pygame.transform.scale(pygame.image.load('asset/exterior.jpg'), (1024, 576))
+            background = pygame.transform.scale(levels[1], (1024, 576))
 
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
@@ -105,14 +106,14 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(1)
             game.spawn_senator_blue(2)
-            game.spawn_senator_red(1)
+            game.spawn_senator_red(2)
             game.spawn_policier(2)
             game.spawn_matraque(2)
-            background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
+            background = pygame.transform.scale(levels[2], (1024, 576))
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
+            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
             game.level[2] = False
             game.level[3] = True
             game.count_senator_blue = 0
@@ -123,18 +124,16 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(2)
-            game.spawn_senator_blue(2)
-            game.spawn_senator_red(3)
-            game.spawn_senator_blue(2)
+            game.spawn_senator_red(7)
+            game.spawn_senator_blue(4)
             game.spawn_policier(4)
             game.spawn_matraque(3)
-            background = pygame.image.load('asset/chamber.jpg')
+            background = pygame.transform.scale(levels[3], (1024, 576))
         elif game.level[3] :
             if random.random()<0.005:
                 game.spawn_senator_blue(1)
 
-        if (game.count_policiers == 0 & game.level[-1] == False):
+        if (game.count_policiers == 0 & game.level[3] == False):
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
@@ -155,7 +154,7 @@ while running:
             senared.refresh(screen)
             if not (senared.dead):
                 senared.move()
-                senablue.gravity()
+                senared.gravity()
 
         # Policiers pan pan
         for police in game.all_policiers:
@@ -204,11 +203,10 @@ while running:
 
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
-        background = pygame.image.load('asset/voting.png')
+        background = pygame.transform.scale(levels[0], (1024, 576))
 
-        game.spawn_senator_blue(1)
+        game.spawn_senator_blue(2)
         game.spawn_senator_red(1)
-        game.spawn_senator_blue(1)
         game.spawn_matraque(2)
 
 
@@ -226,7 +224,7 @@ while running:
             rand = random.random()  # nombre entre 0 et 1
             if rand < 0.7:  # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
-            else : #Augmente les rouges
+            elif rand < 0.2:  # 20% d'augmenter les rouges
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
