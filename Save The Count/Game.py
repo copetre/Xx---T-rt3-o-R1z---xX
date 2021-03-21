@@ -20,5 +20,5 @@ class Game:
         self.all_policiers.add(policier)
 
     def spawn_matraque(self):
-        matraque = Matraque()
+        matraque = Matraque(self)
         self.all_matraque.add(matraque)

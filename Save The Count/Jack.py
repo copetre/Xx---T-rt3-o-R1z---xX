@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
 
         # animation attaque
         self.attacking = False
-        self.attackFrame = 1
+        self.attackFrame = 0
         self.spritesAttackRight = [pygame.transform.scale(pygame.image.load('asset/jake_attack1.png'), (160, 160)),
                                    pygame.transform.scale(pygame.image.load('asset/jake_attack2.png'), (160, 160)),
                                    pygame.transform.scale(pygame.image.load('asset/jake_attack1.png'), (160, 160)),
@@ -129,8 +129,16 @@ class Player(pygame.sprite.Sprite):
                 if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
+            for police in self.game.all_matraque:
+                if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
+                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                    police.damage()
         else:
             for police in self.game.all_policiers:
+                if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
+                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                    police.damage()
+            for police in self.game.all_matraque:
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
@@ -143,7 +151,7 @@ class Player(pygame.sprite.Sprite):
         # if attacking, increase frame
         if (self.attacking):
             self.attackFrame = (self.attackFrame + 1)
-            if (self.attackFrame == 7):  # call the attack function on 2nd frame of animation
+            if (self.attackFrame == 6):  # call the attack function on 2nd frame of animation
                 self.attack()
             if (self.attackFrame >= 24):  # %24 because we have 4 frames * 6 ticks each
                 self.attacking = False

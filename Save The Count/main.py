@@ -97,7 +97,10 @@ while running:
     # Policiers bim bam boum
     for police in game.all_matraque:
         police.refresh(screen)
-        police.move()
+        # do actions
+        if not(police.dead):
+            police.move()
+            police.randomAttack()
     # Jack
     game.player.refresh(screen)
 
