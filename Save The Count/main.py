@@ -223,7 +223,7 @@ while running:
                 game.spawn_senator_blue(20)
 
         # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
-        if(game.level[3] and game.count_policiers == 0 and not(game.increaseRedOdds)):
+        if(game.level[4] and game.count_policiers == 0 and not(game.increaseRedOdds)):
             game.increaseRedOdds = True
             pygame.time.set_timer(randomVotebarIncrease, 0)
             pygame.time.set_timer(randomVotebarIncrease, 250)
