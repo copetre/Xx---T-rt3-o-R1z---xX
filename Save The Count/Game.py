@@ -1,4 +1,5 @@
 import pygame
+import pygame.freetype  # for fonts
 from Jack import Player
 from Policier import Policier
 from Policier_matraque import Matraque

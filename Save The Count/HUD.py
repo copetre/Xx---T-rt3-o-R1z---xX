@@ -85,8 +85,11 @@ class VoteBar:
     # screen = the pygame screen to draw on
     def __init__(self):
         # attributes
+        self.font = pygame.freetype.Font("asset/unispace bd.ttf", 24)
         self.redPercent = 5
         self.bluePercent = 5
+
+        # animation
         self.redDecreaseAnimation = False
         self.blueDecreaseAnimation = False
         self.redDecreaseFrame = 0
@@ -157,3 +160,13 @@ class VoteBar:
 
         # separation surface
         screen.blit(self.surfaceSeparation, self.backgroundSeparation)
+
+        # grands electeurs
+        textSurfaceRed, textRectRed = self.font.render(str(int(self.redPercent*5.38)), (0, 0, 0))
+        textRectRed.left=216
+        textRectRed.top=24
+        textSurfaceBlue, textRectBlue = self.font.render(str(int(self.bluePercent*5.38)), (0, 0, 0))
+        textRectBlue.right = 1000
+        textRectBlue.top=24
+        screen.blit(textSurfaceRed, textRectRed)
+        screen.blit(textSurfaceBlue, textRectBlue)
