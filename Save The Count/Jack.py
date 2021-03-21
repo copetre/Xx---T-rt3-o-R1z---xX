@@ -91,10 +91,7 @@ class Player(pygame.sprite.Sprite):
                 #if on the ground, stop
                 self.jumping = False
                 self.jumpingVelocity = 0
-            
-
-        print(self.jumpingVelocity)
-        print(self.jumping)
+        
     
 
     def damage(self):
