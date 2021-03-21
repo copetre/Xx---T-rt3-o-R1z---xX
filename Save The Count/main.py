@@ -197,6 +197,7 @@ while running:
                 game.spawn_senator_red(15)
                 game.spawn_manifestants(15)
                 game.spawn_senator_blue(7)
+                game.player.rect.x = 20
             # Sanders screen
             elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
                 game.win = True
