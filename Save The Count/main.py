@@ -114,6 +114,19 @@ while running:
         # HUD
         hud.refresh(screen)
 
+        # Senators
+        for senablue in game.all_senblue:
+            senablue.refresh(screen)
+            if not (senablue.dead):
+                senablue.move()
+                senablue.gravity()
+
+        for senared in game.all_senred:
+            senared.refresh(screen)
+            if not (senared.dead):
+                senared.move()
+                senablue.gravity()
+
         # Policiers pan pan
         for police in game.all_policiers:
             # draw policier
@@ -133,19 +146,6 @@ while running:
             if not (police.dead):
                 police.move()
                 police.randomAttack()
-
-        # Senators
-        for senablue in game.all_senblue:
-            senablue.refresh(screen)
-            if not (senablue.dead):
-                senablue.move()
-                senablue.gravity()
-
-        for senared in game.all_senred:
-            senared.refresh(screen)
-            if not (senared.dead):
-                senared.move()
-                senablue.gravity()
 
         # Jack
         game.player.refresh(screen)
