@@ -146,6 +146,7 @@ while running:
             senared.refresh(screen)
             if not (senared.dead):
                 senared.move()
+                senablue.gravity()
 
         # Jack
         game.player.refresh(screen)
