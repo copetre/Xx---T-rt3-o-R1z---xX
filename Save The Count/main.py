@@ -31,6 +31,7 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 # Sound Bank
 
 channelFond = pygame.mixer.Channel(1)
+channelDoor = pygame.mixer.Channel(7)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
@@ -66,6 +67,7 @@ while running:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
                 game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"),0)
 
             game.player.rect.x = 0
             game.spawn_policier()
@@ -81,6 +83,7 @@ while running:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
                 game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
             game.spawn_policier()
@@ -99,6 +102,7 @@ while running:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
                 game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
             background = pygame.image.load('asset/chamber.jpg')
