@@ -136,6 +136,7 @@ while running:
             if game.player.rect.x > 900 and game.count_policiers == 0:
                 game.level[0] = False
                 game.level[1] = True
+                game.gotRoomHealAlready = False
                 background = niveau(levels[1], 1, 1, 0, 2)
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
@@ -150,6 +151,7 @@ while running:
             if game.player.rect.x > 900:
                 game.level[1] = False
                 game.level[2] = True
+                game.gotRoomHealAlready = False
                 game.count_senator_blue = 0
                 background = niveau(levels[2], 1, 1, 0, 2)
                 for i in game.all_senblue:
@@ -166,6 +168,7 @@ while running:
                 channelFond.play(soundNiveauCapitol, -1)
                 game.level[2] = False
                 game.level[3] = True
+                game.gotRoomHealAlready = False
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
                 for j in game.all_senred:
@@ -180,8 +183,7 @@ while running:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
-            if (
-                    game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
+            if (game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
                 game.win = True
                 game.level[4] = False
                 game.level[5] = True
@@ -213,9 +215,9 @@ while running:
             screen.blit(arrowLeft, (800, 200))
             screen.blit(arrowRight, (25, 200))
 
-        if game.count_senator_blue == 0:
+        if not(game.gotRoomHealAlready) and game.count_senator_blue == 0:
+            game.gotRoomHealAlready = True
             game.player.heal_Jack()
-            game.count_senator_blue = -1
 
         # HUD
         hud.refresh(screen)

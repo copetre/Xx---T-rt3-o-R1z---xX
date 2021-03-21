@@ -17,6 +17,7 @@ class Game:
         self.win = False
         self.lose = False
         self.increaseRedOdds = False
+        self.gotRoomHealAlready = False
 
         # Jack
         self.player = Player(hud, self)
