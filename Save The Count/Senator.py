@@ -20,6 +20,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380 + random.randint(-10, 10)
+        self.groundY = self.rect.y
         self.sound = pygame.mixer.Channel(3)
         self.facingRight = False
 
@@ -81,7 +82,7 @@ class SenatorBlue(pygame.sprite.Sprite):
 
     def jump(self):
         # only jumps if on ground
-        if (self.rect.y == 380):
+        if (self.rect.y == self.groundY):
             self.jumping = True
             self.jumpingVelocity = 12
 
@@ -89,7 +90,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         # if we are jumping, continue going upwards
         if (self.jumping):
             # move upwards
-            self.rect.y = min(self.rect.y - self.jumpingVelocity, 380)
+            self.rect.y = min(self.rect.y - self.jumpingVelocity, self.groundY)
 
             # decrease y-velocity
             self.jumpingVelocity = self.jumpingVelocity - 0.5 
@@ -170,6 +171,7 @@ class SenatorRed(pygame.sprite.Sprite):
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380 + random.randint(-10, 10)
+        self.groundY = self.rect.y
         self.sound = pygame.mixer.Channel(4)
         self.facingRight = False
 
@@ -231,7 +233,7 @@ class SenatorRed(pygame.sprite.Sprite):
 
     def jump(self):
         # only jumps if on ground
-        if (self.rect.y == 380):
+        if (self.rect.y == self.groundY):
             self.jumping = True
             self.jumpingVelocity = 12
 
@@ -239,7 +241,7 @@ class SenatorRed(pygame.sprite.Sprite):
         # if we are jumping, continue going upwards
         if (self.jumping):
             # move upwards
-            self.rect.y = min(self.rect.y - self.jumpingVelocity, 380)
+            self.rect.y = min(self.rect.y - self.jumpingVelocity, self.groundY)
 
             # decrease y-velocity
             self.jumpingVelocity = self.jumpingVelocity - 0.5 
