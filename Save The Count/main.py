@@ -49,6 +49,8 @@ while running:
             game.player.rect.x = 0
             game.spawn_policier()
             game.count_policiers = 1
+            game.spawn_senator_blue()
+            game.count_senator_blue = 1
 
 
     elif game.level[1]:
@@ -98,6 +100,20 @@ while running:
     for police in game.all_matraque:
         police.refresh(screen)
         police.move()
+
+    # Senators
+    for senablue in game.all_senblue:
+        senablue.refresh(screen)
+        senablue.move()
+        if senablue.dead :
+            hud.votebar.blueDes()
+
+    for senared in game.all_senred:
+        senared.refresh(screen)
+        senared.move()
+        if senared.dead :
+            hud.votebar.redDes()
+
     # Jack
     game.player.refresh(screen)
 

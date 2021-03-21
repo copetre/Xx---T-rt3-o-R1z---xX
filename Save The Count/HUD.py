@@ -86,6 +86,16 @@ class VoteBar:
         if(self.bluePercent<100-self.redPercent):
             self.bluePercent = self.bluePercent+1
 
+    # decrease red percentage by 4 (senators)
+    def redDes(self):
+        if (self.redPercent>0-self.redPercent):
+            self.redPercent = self.redPercent-4
+
+    # decrease blue percentage by 4 (senators)
+    def blueDes(self):
+        if (self.bluePercent>0-self.bluePercent):
+            self.bluePercent = self.bluePercent-4
+
     # function to call to refresh the votebar constantly
     def refresh(self, screen):
         # background surface

@@ -14,7 +14,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.velocity = 2
         self.dead = False
 
-        # policier box
+        # senator box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 800
@@ -109,7 +109,7 @@ class SenatorRed(pygame.sprite.Sprite):
         self.velocity = 2
         self.dead = False
 
-        # policier box
+        # senator box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 800
