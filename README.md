@@ -4,7 +4,7 @@
 
 1. Click **Code** > **Download ZIP** to download the game
 2. Unzip the downloaded file somewhere on your computer
-3. Run `main.exe`
+3. Run `CAPITOL CONQUEST.exe`
 
 ### Tutorial
 ![Tutorial](assets/tutorial.png)
