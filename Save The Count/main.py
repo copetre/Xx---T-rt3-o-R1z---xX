@@ -83,7 +83,7 @@ while running:
                     game.delete_policier(l)
                 game.player.dead = True
         game.gameOverFrame += 1
-        if (game.gameOverFrame == 960):  # après 16 secondes de mort, retour au menu
+        if (game.gameOverFrame == 540):  # après 9 secondes de mort, retour au menu
             game.playing = False
             hud = HUD()
             game = Game(hud)
