@@ -70,10 +70,11 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"),0)
 
             game.player.rect.x = 0
-            game.spawn_policier()
-            game.count_policiers = 1
-            game.spawn_senator_red()
-            game.count_senator_red = 1
+            game.spawn_policier(1)
+            game.spawn_matraque(2)
+            game.spawn_senator_red(1)
+            game.spawn_senator_blue(2)
+
             background = pygame.transform.scale(pygame.image.load('asset/exterior.jpg'), (1024, 576))
 
         elif game.level[1] and game.player.rect.x > 900:
@@ -86,13 +87,10 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_policier()
-            game.spawn_matraque()
-            game.count_policiers = 2
-            game.spawn_senator_blue()
-            game.count_senator_blue = 1
-            game.spawn_senator_red()
-            game.count_senator_red = 1
+            game.spawn_policier(2)
+            game.spawn_matraque(2)
+            game.spawn_senator_red(3)
+            game.spawn_senator_blue(2)
             background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
@@ -105,6 +103,10 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
+            game.spawn_policier(4)
+            game.spawn_matraque(3)
+            game.spawn_senator_red(5)
+            game.spawn_senator_blue(4)
             background = pygame.image.load('asset/chamber.jpg')
 
         if game.count_policiers == 0:
@@ -170,6 +172,13 @@ while running:
 
     pygame.display.flip()
 
+    if game.pressed.get(pygame.K_SPACE) and game.playing == False:
+        game.playing = True
+        background = pygame.image.load('asset/background.png')
+        game.spawn_matraque(2)
+        game.spawn_senator_blue(1)
+        game.spawn_senator_red(1)
+
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
             running = False
@@ -180,13 +189,16 @@ while running:
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False  # On lache la touche
 
-        elif not (game.player.dead) and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
+        elif not game.player.dead and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
             rand = random.random()  # nombre entre 0 et 1
-            if (rand < 0.5):  # 50% d'augmenter les bleus
+            if rand < 0.5:  # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
-            elif (rand < 0.7):  # 20% d'augmenter les rouges
+            elif rand < 0.7:  # 20% d'augmenter les rouges
                 hud.votebar.redInc()
-        elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False :
+        elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
                 game.playing = True
                 background = pygame.image.load('asset/background.png')
+                game.spawn_matraque(2)
+                game.spawn_senator_blue(1)
+                game.spawn_senator_red(1)

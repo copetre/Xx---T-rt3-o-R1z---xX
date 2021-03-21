@@ -17,7 +17,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         # senator box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
-        self.rect.x = 800
+        self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(3)
         self.facingRight = False
@@ -165,7 +165,7 @@ class SenatorRed(pygame.sprite.Sprite):
         # senator box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
-        self.rect.x = 800
+        self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(4)
         self.facingRight = False
