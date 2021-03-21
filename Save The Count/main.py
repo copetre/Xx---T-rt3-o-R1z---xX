@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from Game import Game
 from HUD import HUD
 from Jack import Player
@@ -42,9 +43,17 @@ frame = 0
 while running:
     clock.tick(60)
 
+    screen.blit(background, (0, 0))
+
+    # Regarde si vivant
+    if game.playing and game.player.health == 0 :
+        game.playing = False
+        time.sleep(1.5)
+        hud = HUD()
+        game = Game(hud)
     # On regarde dans quel niveau on se situe
 
-    screen.blit(background, (0, 0))
+
 
     if not game.playing:
         frame = (frame + 1) % 12  # %12 because we have 2 frames * 6 ticks each
