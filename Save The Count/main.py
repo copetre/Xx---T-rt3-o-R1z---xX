@@ -44,6 +44,21 @@ surface.fill((128, 128, 128))
 rectangle = surface.get_rect(left=100, top=420)  # alternative = (center = (608, 32))
 frame = 0
 
+def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red) :
+    game.count_senator_blue = 0
+    for i in game.all_senblue:
+        game.delete_senator_blue(i)
+    for j in game.all_senred:
+        game.delete_senator_red(j)
+    channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+    game.player.rect.x = 0
+    game.spawn_senator_red(nb_red)
+    game.spawn_senator_blue(nb_blue)
+    game.spawn_policier(nb_pol)
+    game.spawn_matraque(nb_mat)
+    background = pygame.transform.scale(fond, (1024, 576))
+    return background
+
 while running:
     clock.tick(60)
 
@@ -96,40 +111,13 @@ while running:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[0] = False
             game.level[1] = True
-            game.count_senator_blue = 0
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
-
-            game.player.rect.x = 0
-
-            game.spawn_senator_red(1)
-            game.spawn_senator_blue(2)
-            game.spawn_policier(1)
-            # game.spawn_matraque(2)
-            # game.spawn_senator_red(1)
-            game.spawn_senator_blue(2)
-
-            background = pygame.transform.scale(levels[1], (1024, 576))
+            niveau(levels[1], 1, 1, 0, 2)
 
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
             game.count_senator_blue = 0
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
-
-            game.player.rect.x = 20
-            game.spawn_senator_blue(2)
-            game.spawn_senator_red(2)
-            game.spawn_policier(2)
-            game.spawn_matraque(2)
-            background = pygame.transform.scale(levels[2], (1024, 576))
+            niveau(levels[2], 1, 1, 0, 2)
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
             channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
