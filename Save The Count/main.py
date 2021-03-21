@@ -69,10 +69,11 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"),0)
 
             game.player.rect.x = 0
+
+            game.spawn_senator_red(1)
+            game.spawn_senator_blue(2)
             game.spawn_policier(1)
-            #game.spawn_matraque(2)
-            #game.spawn_senator_red(1)
-            #game.spawn_senator_blue(2)
+            game.spawn_matraque(2)
 
             background = pygame.transform.scale(pygame.image.load('asset/exterior.jpg'), (1024, 576))
 
@@ -86,10 +87,11 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
+            game.spawn_senator_red(1)
+            game.spawn_senator_blue(2)
+            game.spawn_senator_red(1)
             game.spawn_policier(2)
             game.spawn_matraque(2)
-            game.spawn_senator_red(3)
-            game.spawn_senator_blue(2)
             background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
@@ -102,10 +104,15 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
+            game.spawn_senator_red(2)
+            game.spawn_senator_blue(2)
+            game.spawn_senator_red(3)
+            game.spawn_senator_blue(2)
             game.spawn_policier(4)
             game.spawn_matraque(3)
-            game.spawn_senator_red(5)
-            game.spawn_senator_blue(4)
+
+
+
             background = pygame.image.load('asset/chamber.jpg')
 
         if game.count_policiers == 0:
@@ -113,6 +120,19 @@ while running:
 
         # HUD
         hud.refresh(screen)
+
+        # Senators
+        for senablue in game.all_senblue:
+            senablue.refresh(screen)
+            if not (senablue.dead):
+                senablue.move()
+                senablue.gravity()
+
+        for senared in game.all_senred:
+            senared.refresh(screen)
+            if not (senared.dead):
+                senared.move()
+                senablue.gravity()
 
         # Policiers pan pan
         for police in game.all_policiers:
@@ -133,19 +153,6 @@ while running:
             if not (police.dead):
                 police.move()
                 police.randomAttack()
-
-        # Senators
-        for senablue in game.all_senblue:
-            senablue.refresh(screen)
-            if not (senablue.dead):
-                senablue.move()
-                senablue.gravity()
-
-        for senared in game.all_senred:
-            senared.refresh(screen)
-            if not (senared.dead):
-                senared.move()
-                senablue.gravity()
 
         # Jack
         game.player.refresh(screen)
@@ -175,9 +182,12 @@ while running:
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
         background = pygame.image.load('asset/background.png')
-        game.spawn_matraque(2)
+
         game.spawn_senator_blue(1)
-        #game.spawn_senator_red(1)
+        game.spawn_senator_red(1)
+        game.spawn_senator_blue(1)
+        game.spawn_matraque(2)
+
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -199,6 +209,9 @@ while running:
             if rectangle.collidepoint(event.pos) :
                 game.playing = True
                 background = pygame.image.load('asset/background.png')
-                game.spawn_matraque(2)
+
                 game.spawn_senator_blue(1)
                 game.spawn_senator_red(1)
+                game.spawn_senator_blue(1)
+                game.spawn_senator_red(1)
+                game.spawn_matraque(2)

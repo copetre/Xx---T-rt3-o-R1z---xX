@@ -101,11 +101,6 @@ class Player(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            # set sprite to dead
-            if(self.facingRight):
-                self.currentSprite = self.spriteDeathRight
-            else:
-                self.currentSprite = self.spriteDeathLeft
 
     def launchAttack(self):
         self.attacking = True
@@ -197,8 +192,16 @@ class Player(pygame.sprite.Sprite):
         elif (self.attacking and self.facingRight):
             self.currentSprite = self.spritesAttackRight[self.attackFrame // 6]  # //6 because update every 6 ticks
 
-        # if we've been damaged, increase damaged frame (same if we are dead)
-        if (self.damaged or self.dead):
+        # set sprite to dead + blinking
+        if(self.dead):
+            self.damagedFrame += 1
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
+
+        # if we've been damaged, increase damaged frame for blinking
+        if (self.damaged):
             self.damagedFrame += 1
             if (self.damaged and self.damagedFrame == 36):  # stop animation
                 self.damaged = False
