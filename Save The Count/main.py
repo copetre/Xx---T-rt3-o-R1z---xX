@@ -91,9 +91,8 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(1)
             game.spawn_senator_blue(2)
-            game.spawn_senator_red(1)
+            game.spawn_senator_red(2)
             game.spawn_policier(2)
             game.spawn_matraque(2)
             background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
@@ -109,10 +108,8 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(2)
-            game.spawn_senator_blue(2)
-            game.spawn_senator_red(3)
-            game.spawn_senator_blue(2)
+            game.spawn_senator_red(7)
+            game.spawn_senator_blue(4)
             game.spawn_policier(4)
             game.spawn_matraque(3)
             background = pygame.image.load('asset/chamber.jpg')
@@ -192,9 +189,8 @@ while running:
         game.playing = True
         background = pygame.image.load('asset/voting.png')
 
-        game.spawn_senator_blue(1)
+        game.spawn_senator_blue(2)
         game.spawn_senator_red(1)
-        game.spawn_senator_blue(1)
         game.spawn_matraque(2)
 
 
@@ -212,7 +208,7 @@ while running:
             rand = random.random()  # nombre entre 0 et 1
             if rand < 0.5:  # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
-            elif rand < 0.7:  # 20% d'augmenter les rouges
+            elif rand < 0.2:  # 20% d'augmenter les rouges
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
