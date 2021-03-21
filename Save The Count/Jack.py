@@ -105,6 +105,12 @@ class Player(pygame.sprite.Sprite):
                 self.walkAnimationRight = False
                 self.walkAnimationLeft = False
 
+    def heal_Jack(self):
+        if(self.health < self.max_health):
+            self.sound.play(pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg'), 0)
+            self.health+=1
+            self.hud.healHeart()
+
     def launchAttack(self):
         if (not(self.attacking) and self.attackCooldown==0):
             self.attacking = True
@@ -170,10 +176,6 @@ class Player(pygame.sprite.Sprite):
         for senator in self.game.all_senred:
             senator.scared = True
             senator.velocity = 3
-
-    def heal_Jack(self):
-        self.hud.healHeart()
-        self.health+=1
 
     # visual refresh of Jack with animations
     def refresh(self, screen):

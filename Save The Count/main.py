@@ -27,7 +27,7 @@ hud = HUD()
 # Création des personnages
 game = Game(hud)
 arrow = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
-# toutes les 1 seconde, on augmente aléatoirement la barre
+# toutes les 0.5 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 500)
 
@@ -140,7 +140,7 @@ while running:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
-            if game.playing and hud.votebar.redPercent >= 50 and game.player.rect.x > 900 and game.count_policiers == 0:
+            if (game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
                 game.win = True
                 game.level[3] = False
                 game.level[4] = True
@@ -159,11 +159,16 @@ while running:
                 game.spawn_senator_blue(20)
 
         if (game.count_policiers == 0 and game.level[3] == False & game.win == False & game.lose == True):
+        # Flèche si tout le monde est mort
+        if (game.count_policiers == 0 and game.level[3] == False
+            and game.win == False and game.lose == False):
+            screen.blit(arrow, (800, 200))
+        # ou si on est dans la dernière salle et qu'on a gagné
+        elif (game.level[3] and hud.votebar.redPercent > 50):
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
             game.player.heal_Jack()
-            channelDoor.play(pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg'), 0)
             game.count_senator_blue = -1
 
         # HUD
