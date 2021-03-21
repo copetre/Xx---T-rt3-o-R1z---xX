@@ -135,7 +135,7 @@ while running:
                 game.spawn_senator_red(30)
                 game.spawn_senator_blue(7)
 
-        if game.count_policiers == 0 and game.level[4] == False:
+        if game.count_policiers == 0 and game.level[3] == False:
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
@@ -221,12 +221,14 @@ while running:
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False  # On lache la touche
 
-        elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:  # on augmente la barre aléatoirement
+        # on augmente la barre aléatoirement
+        elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:
             rand = random.random()  # nombre entre 0 et 1
             if rand < 0.7:  # 70% d'augmenter les bleus
                 hud.votebar.blueInc()
             else:  # 30% d'augmenter les rouges
                 hud.votebar.redInc()
+
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos):
                 game.playing = True
