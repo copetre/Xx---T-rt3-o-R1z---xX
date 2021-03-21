@@ -174,7 +174,7 @@ class Player(pygame.sprite.Sprite):
         # if we've been damaged, increase damaged frame (same if we are dead)
         if (self.damaged or self.dead):
             self.damagedFrame += 1
-            if (self.damaged and self.damagedFrame == 37):  # stop animation
+            if (self.damaged and self.damagedFrame == 36):  # stop animation
                 self.damaged = False
                 self.damagedFrame = 0
 

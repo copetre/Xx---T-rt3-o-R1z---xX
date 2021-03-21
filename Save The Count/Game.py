@@ -7,6 +7,8 @@ from Senator import SenatorRed
 
 class Game:
     def __init__(self, hud):
+        self.playing = False
+
         # Jack
         self.player = Player(hud, self)
         self.hud = hud
