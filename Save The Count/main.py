@@ -9,7 +9,7 @@ pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 # Fenêtre de base
 
-pygame.display.set_caption("Save the count")  # TODO A changer
+pygame.display.set_caption("CAPITOL CONQUEST")  # TODO A changer
 screen = pygame.display.set_mode((1024, 576))
 clock = pygame.time.Clock()
 
@@ -62,6 +62,7 @@ while running:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[0] = False
             game.level[1] = True
+            game.count_senator_blue = 0
             for i in game.all_senblue:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
@@ -69,16 +70,20 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"),0)
 
             game.player.rect.x = 0
+
+            game.spawn_senator_red(1)
+            game.spawn_senator_blue(2)
             game.spawn_policier(1)
             #game.spawn_matraque(2)
             #game.spawn_senator_red(1)
-            #game.spawn_senator_blue(2)
+            game.spawn_senator_blue(2)
 
             background = pygame.transform.scale(pygame.image.load('asset/exterior.jpg'), (1024, 576))
 
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
+            game.count_senator_blue = 0
             for i in game.all_senblue:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
@@ -86,15 +91,17 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
+            game.spawn_senator_red(1)
+            game.spawn_senator_blue(2)
+            game.spawn_senator_red(1)
             game.spawn_policier(2)
             game.spawn_matraque(2)
-            game.spawn_senator_red(3)
-            game.spawn_senator_blue(2)
             background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[2] = False
             game.level[3] = True
+            game.count_senator_blue = 0
             for i in game.all_senblue:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
@@ -102,14 +109,23 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
+            game.spawn_senator_red(2)
+            game.spawn_senator_blue(2)
+            game.spawn_senator_red(3)
+            game.spawn_senator_blue(2)
             game.spawn_policier(4)
             game.spawn_matraque(3)
-            game.spawn_senator_red(5)
-            game.spawn_senator_blue(4)
             background = pygame.image.load('asset/chamber.jpg')
+        elif game.level[3] :
+            if random.random()<0.005:
+                game.spawn_senator_blue(1)
 
-        if game.count_policiers == 0:
+        if (game.count_policiers == 0 & game.level[-1] == False):
             screen.blit(arrow, (800, 200))
+
+        if game.count_senator_blue == 0:
+            game.player.heal_Jack()
+            game.count_senator_blue = -1
 
         # HUD
         hud.refresh(screen)
@@ -174,10 +190,13 @@ while running:
 
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
-        background = pygame.image.load('asset/background.png')
-        game.spawn_matraque(2)
+        background = pygame.image.load('asset/voting.png')
+
         game.spawn_senator_blue(1)
-        #game.spawn_senator_red(1)
+        game.spawn_senator_red(1)
+        game.spawn_senator_blue(1)
+        game.spawn_matraque(2)
+
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -199,6 +218,9 @@ while running:
             if rectangle.collidepoint(event.pos) :
                 game.playing = True
                 background = pygame.image.load('asset/background.png')
-                game.spawn_matraque(2)
+
                 game.spawn_senator_blue(1)
                 game.spawn_senator_red(1)
+                game.spawn_senator_blue(1)
+                game.spawn_senator_red(1)
+                game.spawn_matraque(2)

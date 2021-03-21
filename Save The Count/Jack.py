@@ -166,6 +166,10 @@ class Player(pygame.sprite.Sprite):
             senator.scared = True
             senator.velocity = 3
 
+    def heal_Jack(self):
+        self.hud.healHeart()
+        self.health+=1
+
     # visual refresh of Jack with animations
     def refresh(self, screen):
         # if walking in any direction, increase frame

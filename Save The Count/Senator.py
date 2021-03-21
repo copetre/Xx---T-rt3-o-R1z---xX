@@ -15,10 +15,11 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.dead = False
 
         # senator box
-        self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, 160))
+        self.size = 160 + random.randint(-20, 20)
+        self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, self.size))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 80 * random.randint(3, 10)
-        self.rect.y = 380
+        self.rect.y = 380 + random.randint(-10, 10)
         self.sound = pygame.mixer.Channel(3)
         self.facingRight = False
 
@@ -33,16 +34,16 @@ class SenatorBlue(pygame.sprite.Sprite):
         # animation déplacement
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
-        self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, 160)),
-                                pygame.transform.scale(pygame.image.load('asset/senator_walk_blue.png'), (160, 160))]
+        self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/senator_def_blue.png'), (160, self.size)),
+                                pygame.transform.scale(pygame.image.load('asset/senator_walk_blue.png'), (160, self.size))]
         self.spritesWalkRight = [pygame.transform.flip(self.spritesWalkLeft[0], True, False),
                                  pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
         # animation déplacement + scared
         self.scared = False
-        self.spritesWalkLeftScared = [pygame.transform.scale(pygame.image.load('asset/senator_scared_blue.png'), (160, 160)),
-                                      pygame.transform.scale(pygame.image.load('asset/senator_scared_walk_blue.png'), (160, 160))]
+        self.spritesWalkLeftScared = [pygame.transform.scale(pygame.image.load('asset/senator_scared_blue.png'), (160, self.size)),
+                                      pygame.transform.scale(pygame.image.load('asset/senator_scared_walk_blue.png'), (160, self.size))]
         self.spritesWalkRightScared = [pygame.transform.flip(self.spritesWalkLeftScared[0], True, False),
                                        pygame.transform.flip(self.spritesWalkLeftScared[1], True, False)]
         self.walkFrame = 0
@@ -50,7 +51,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_blue.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_blue.png'), (160, self.size))
         self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
@@ -148,6 +149,7 @@ class SenatorBlue(pygame.sprite.Sprite):
 
     def delete_senator(self):
         self.game.all_senblue.remove(self)
+        self.game.count_senator_blue -= 1
 
 class SenatorRed(pygame.sprite.Sprite):
 
@@ -161,12 +163,13 @@ class SenatorRed(pygame.sprite.Sprite):
         self.max_health = 1
         self.velocity = 2
         self.dead = False
+        self.size = 160 + random.randint(-20,20)
 
         # senator box
-        self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, 160))
+        self.currentSprite = pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, self.size))
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 80 * random.randint(3, 10)
-        self.rect.y = 380
+        self.rect.y = 380 + random.randint(-10, 10)
         self.sound = pygame.mixer.Channel(4)
         self.facingRight = False
 
@@ -181,16 +184,16 @@ class SenatorRed(pygame.sprite.Sprite):
         # animation déplacement
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
-        self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, 160)),
-                                pygame.transform.scale(pygame.image.load('asset/senator_walk_red.png'), (160, 160))]
+        self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/senator_def_red.png'), (160, self.size)),
+                                pygame.transform.scale(pygame.image.load('asset/senator_walk_red.png'), (160, self.size))]
         self.spritesWalkRight = [pygame.transform.flip(self.spritesWalkLeft[0], True, False),
                                  pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
         # animation déplacement + scared
         self.scared = False
-        self.spritesWalkLeftScared = [pygame.transform.scale(pygame.image.load('asset/senator_scared_red.png'), (160, 160)),
-                                      pygame.transform.scale(pygame.image.load('asset/senator_scared_walk_red.png'), (160, 160))]
+        self.spritesWalkLeftScared = [pygame.transform.scale(pygame.image.load('asset/senator_scared_red.png'), (160, self.size)),
+                                      pygame.transform.scale(pygame.image.load('asset/senator_scared_walk_red.png'), (160, self.size))]
         self.spritesWalkRightScared = [pygame.transform.flip(self.spritesWalkLeftScared[0], True, False),
                                        pygame.transform.flip(self.spritesWalkLeftScared[1], True, False)]
         self.walkFrame = 0
@@ -198,7 +201,7 @@ class SenatorRed(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_red.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_red.png'), (160, self.size))
         self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
