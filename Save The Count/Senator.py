@@ -20,6 +20,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.rect.x = 800
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(3)
+        self.facingRight = False
 
         # IA
         self.newpos = random.randint(5, 924)
@@ -37,7 +38,8 @@ class SenatorBlue(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/senator_death_blue.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_blue.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
         if self.newpos > self.rect.x:
@@ -52,10 +54,12 @@ class SenatorBlue(pygame.sprite.Sprite):
 
     def right(self):
         self.walkAnimationRight = True
+        self.facingRight = True
         self.rect.x += self.velocity
 
     def left(self):
         self.walkAnimationLeft = True
+        self.facingRight = False
         self.rect.x -= self.velocity
 
     def damage(self):
@@ -66,7 +70,12 @@ class SenatorBlue(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
+            # update hud
             self.game.hud.votebar.blueDes()
 
     # visual refresh of blue senator with animations
@@ -116,6 +125,7 @@ class SenatorRed(pygame.sprite.Sprite):
         self.rect.x = 800
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(3)
+        self.facingRight = False
 
         # IA
         self.newpos = random.randint(5, 924)
@@ -133,7 +143,8 @@ class SenatorRed(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/senator_death_red.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/senator_death_red.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
         if self.newpos > self.rect.x:
@@ -148,10 +159,12 @@ class SenatorRed(pygame.sprite.Sprite):
 
     def right(self):
         self.walkAnimationRight = True
+        self.facingRight = True
         self.rect.x += self.velocity
 
     def left(self):
         self.walkAnimationLeft = True
+        self.facingRight = False
         self.rect.x -= self.velocity
 
     def damage(self):
@@ -162,7 +175,12 @@ class SenatorRed(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
+            # update hud
             self.game.hud.votebar.redDes()
 
     # visual refresh of blue senator with animations

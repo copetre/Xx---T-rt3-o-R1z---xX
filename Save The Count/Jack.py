@@ -43,7 +43,8 @@ class Player(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.flip(self.spriteDeathRight, True, False)
 
         # animation attaque
         self.attacking = False
@@ -104,7 +105,11 @@ class Player(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
 
     def launchAttack(self):
         self.attacking = True
