@@ -9,7 +9,7 @@ pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 # Fenêtre de base
 
-pygame.display.set_caption("CAPITOL CONQUEST")  # TODO A changer
+pygame.display.set_caption("CAPITOL CONQUEST")
 screen = pygame.display.set_mode((1024, 576))
 clock = pygame.time.Clock()
 
@@ -239,17 +239,17 @@ while running:
         # HUD
         hud.refresh(screen)
 
+        # Manifestants
+        for man in game.all_manifestants:
+            man.refresh(screen)
+            man.move()
+
         # Senators
         for senablue in game.all_senblue:
             senablue.refresh(screen)
             if not (senablue.dead):
                 senablue.move()
                 senablue.gravity()
-
-        # Manifestants
-        for man in game.all_manifestants:
-            man.refresh(screen)
-            man.move()
 
         for senared in game.all_senred:
             senared.refresh(screen)
