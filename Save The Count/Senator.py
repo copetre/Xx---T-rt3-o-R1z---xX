@@ -26,6 +26,10 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.newpos = random.randint(5, 924)
         self.newpos -= self.newpos % self.velocity
 
+        # jump
+        self.jumping = False
+        self.jumpingVelocity = 0
+
         # animation déplacement
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
@@ -35,6 +39,14 @@ class SenatorBlue(pygame.sprite.Sprite):
                                  pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
+        # animation déplacement + scared
+        self.scared = False
+        self.spritesWalkLeftScared = [pygame.transform.scale(pygame.image.load('asset/senator_scared_blue.png'), (160, 160)),
+                                      pygame.transform.scale(pygame.image.load('asset/senator_scared_walk_blue.png'), (160, 160))]
+        self.spritesWalkRightScared = [pygame.transform.flip(self.spritesWalkLeftScared[0], True, False),
+                                       pygame.transform.flip(self.spritesWalkLeftScared[1], True, False)]
+        self.walkFrame = 0
+
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
@@ -42,6 +54,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
+        # randomly move left/right
         if self.newpos > self.rect.x:
             self.right()
         elif self.newpos < self.rect.x:
@@ -51,6 +64,9 @@ class SenatorBlue(pygame.sprite.Sprite):
             self.newpos -= self.newpos % self.velocity
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
+        # if scared, jump randomly
+        if(self.scared and random.random() < 0.025):
+            self.jump()
 
     def right(self):
         self.walkAnimationRight = True
@@ -61,6 +77,26 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.facingRight = False
         self.rect.x -= self.velocity
+
+    def jump(self):
+        # only jumps if on ground
+        if (self.rect.y == 380):
+            self.jumping = True
+            self.jumpingVelocity = 12
+
+    def gravity(self):
+        # if we are jumping, continue going upwards
+        if (self.jumping):
+            # move upwards
+            self.rect.y = min(self.rect.y - self.jumpingVelocity,380)
+
+            # decrease y-velocity
+            self.jumpingVelocity = self.jumpingVelocity - 0.5 
+            
+            if (self.rect.y == 380):
+                #if on the ground, stop
+                self.jumping = False
+                self.jumpingVelocity = 0
 
     def damage(self):
         if (self.health > 0):
@@ -85,10 +121,16 @@ class SenatorBlue(pygame.sprite.Sprite):
             self.walkFrame = (self.walkFrame + 1) % 12  # %12 because we have 2 frames * 6 ticks each
 
         # set current sprite
-        if (self.walkAnimationLeft):
-            self.currentSprite = self.spritesWalkLeft[self.walkFrame // 6]  # //6 because update every 6 ticks
-        elif (self.walkAnimationRight):
-            self.currentSprite = self.spritesWalkRight[self.walkFrame // 6]  # //6 because update every 6 ticks
+        if not(self.scared):
+            if (self.walkAnimationLeft):
+                self.currentSprite = self.spritesWalkLeft[self.walkFrame // 6]  # //6 because update every 6 ticks
+            elif (self.walkAnimationRight):
+                self.currentSprite = self.spritesWalkRight[self.walkFrame // 6]  # //6 because update every 6 ticks
+        else:
+            if (self.walkAnimationLeft):
+                self.currentSprite = self.spritesWalkLeftScared[self.walkFrame // 6]  # //6 because update every 6 ticks
+            elif (self.walkAnimationRight):
+                self.currentSprite = self.spritesWalkRightScared[self.walkFrame // 6]  # //6 because update every 6 ticks
 
         # if we've been damaged, increase damaged frame (same if we are dead)
         if (self.damaged):

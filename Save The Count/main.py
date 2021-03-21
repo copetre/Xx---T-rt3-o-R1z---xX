@@ -115,6 +115,7 @@ while running:
             senablue.refresh(screen)
             if not (senablue.dead):
                 senablue.move()
+                senablue.gravity()
 
         for senared in game.all_senred:
             senared.refresh(screen)
