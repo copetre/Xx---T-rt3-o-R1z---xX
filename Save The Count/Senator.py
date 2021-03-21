@@ -149,6 +149,7 @@ class SenatorBlue(pygame.sprite.Sprite):
 
     def delete_senator(self):
         self.game.all_senblue.remove(self)
+        self.game.count_senator_blue -= 1
 
 class SenatorRed(pygame.sprite.Sprite):
 
