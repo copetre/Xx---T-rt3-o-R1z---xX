@@ -68,22 +68,23 @@ while running:
             game = Game(hud)
 
     elif (game.playing and hud.votebar.bluePercent > 50) :
-        if game.gameOverFrame == 0:
-            game.lose = True
-            game.level[3] = False
-            background = pygame.image.load('asset/GAME OVER.jpg')
-            channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            for k in game.all_matraque :
-                game.delete_matraque(k)
-            for l in game.all_matraque :
-                game.delete_policier(l)
-            game.player.dead = True
+        if game.gameOverFrame == 0 :
+            if game.gameOverFrame == 0:
+                game.lose = True
+                game.level[3] = False
+                background = pygame.image.load('asset/GAME OVER.jpg')
+                channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_matraque :
+                    game.delete_matraque(k)
+                for l in game.all_matraque :
+                    game.delete_policier(l)
+                game.player.dead = True
         game.gameOverFrame += 1
-        if (game.gameOverFrame == 360):  # après 2 secondes de mort, retour au menu
+        if (game.gameOverFrame == 960):  # après 16 secondes de mort, retour au menu
             game.playing = False
             hud = HUD()
             game = Game(hud)
