@@ -154,12 +154,6 @@ while running:
                 game.level[2] = True
                 game.count_senator_blue = 0
                 background = niveau(levels[2], 1, 1, 0, 2)
-                for i in game.all_senblue:
-                    game.delete_senator_blue(i)
-                for j in game.all_senred:
-                    game.delete_senator_red(j)
-                for k in game.all_manifestants:
-                    game.delete_manifestant(k)
 
         elif game.level[2] and game.count_policiers == 0: # Devant congrès
             if game.count_manifestants == 0:
@@ -168,12 +162,6 @@ while running:
                 channelFond.play(soundNiveauCapitol, -1)
                 game.level[2] = False
                 game.level[3] = True
-                for i in game.all_senblue:
-                    game.delete_senator_blue(i)
-                for j in game.all_senred:
-                    game.delete_senator_red(j)
-                for k in game.all_manifestants:
-                    game.delete_manifestant(k)
                 channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
@@ -186,12 +174,6 @@ while running:
                 channelFond.play(soundNiveauCapitol, -1)
                 game.level[3] = False
                 game.level[4] = True
-                for i in game.all_senblue:
-                    game.delete_senator_blue(i)
-                for j in game.all_senred:
-                    game.delete_senator_red(j)
-                for k in game.all_manifestants:
-                    game.delete_manifestant(k)
                 channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
@@ -200,6 +182,7 @@ while running:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
+            #Trump screen
             if game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0:
                 game.win = True
                 game.level[4] = False
@@ -209,13 +192,28 @@ while running:
                 game.spawn_senator_red(15)
                 game.spawn_manifestants(15)
                 game.spawn_senator_blue(7)
+            # Ecran de fin Sanders
             elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
                 game.win = True
                 game.level[4] = False
                 game.level[6] = True
                 background = pygame.image.load('asset/hall.jpg')
                 channelFond.play(soundJeuFini, 0)
-                game.spawn_senator_blue(20)
+                game.spawn_senator_blue(15)
+                game.player.rect.x = 900
+        elif game.level[6] == True and game.player.rect.x < 20 : #Sanders to Trump
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            game.win = True
+            game.level[6] = False
+            game.level[5] = True
+            background = pygame.image.load('asset/WIN.jpg')
+            channelFond.play(soundJeuFini, 0)
+            game.spawn_senator_red(15)
+            game.spawn_manifestants(15)
+
+
+
 
         # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
         if(game.level[3] and game.count_policiers == 0 and not(game.increaseRedOdds)):
@@ -231,6 +229,9 @@ while running:
         elif (game.level[4] and hud.votebar.redPercent > 50):
             screen.blit(arrowLeft, (800, 200))
             screen.blit(arrowRight, (25, 200))
+        elif (game.level[6]) :
+            screen.blit(arrowRight, (25, 200))
+
 
         if game.count_senator_blue == 0:
             game.player.heal_Jack()
