@@ -14,6 +14,7 @@ class Game:
         self.gameOverFrame = 0
         self.win = False
         self.lose = False
+        self.increaseRedOdds = False
 
         # Jack
         self.player = Player(hud, self)
