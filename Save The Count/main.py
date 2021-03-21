@@ -16,6 +16,8 @@ running = True  # Jeu en cours
 
 background = pygame.image.load('asset/hall.jpg')
 
+arrow = pygame.transform.scale(pygame.image.load('asset/arrow.png'),(200,100))
+
 hud = HUD()
 
 # Création des personnages
@@ -80,7 +82,10 @@ while running:
     elif game.level[4]:
         background = pygame.image.load('asset/exterior.png')
         game.player.rect.x = 0
-
+        
+    if game.count_policiers == 0:
+        screen.blit(arrow, (800, 200))
+    
     # HUD
     hud.refresh(screen)
 
