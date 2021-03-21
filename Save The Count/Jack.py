@@ -101,11 +101,6 @@ class Player(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            # set sprite to dead
-            if(self.facingRight):
-                self.currentSprite = self.spriteDeathRight
-            else:
-                self.currentSprite = self.spriteDeathLeft
 
     def launchAttack(self):
         self.attacking = True
@@ -117,11 +112,16 @@ class Player(pygame.sprite.Sprite):
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
                     self.scareSenators()
+                for bullet in police.all_bullets :
+                    if (self.rect.x - 140 < bullet.rect.x < self.rect.x + 250):
+                        bullet.policier.all_bullets.remove(bullet)
+
             for police in self.game.all_matraque:
                 if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
                     self.scareSenators()
+
             for senator in self.game.all_senblue:
                 if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
                         and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
@@ -134,10 +134,14 @@ class Player(pygame.sprite.Sprite):
                     self.scareSenators()
         else:
             for police in self.game.all_policiers:
-                if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
+                if (self.rect.x > police.rect.x > self.rect.x - 250  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
                     police.damage()
                     self.scareSenators()
+                for bullet in police.all_bullets :
+                    if (self.rect.x - 250 < bullet.rect.x < self.rect.x + 140):
+                        bullet.policier.all_bullets.remove(bullet)
+
             for police in self.game.all_matraque:
                 if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
                         and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
@@ -188,8 +192,16 @@ class Player(pygame.sprite.Sprite):
         elif (self.attacking and self.facingRight):
             self.currentSprite = self.spritesAttackRight[self.attackFrame // 6]  # //6 because update every 6 ticks
 
-        # if we've been damaged, increase damaged frame (same if we are dead)
-        if (self.damaged or self.dead):
+        # set sprite to dead + blinking
+        if(self.dead):
+            self.damagedFrame += 1
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
+
+        # if we've been damaged, increase damaged frame for blinking
+        if (self.damaged):
             self.damagedFrame += 1
             if (self.damaged and self.damagedFrame == 36):  # stop animation
                 self.damaged = False

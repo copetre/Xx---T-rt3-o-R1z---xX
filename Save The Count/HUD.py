@@ -34,12 +34,15 @@ class HUD:
 
     def loseHeart(self):
         if(self.health>0):
-            self.hearts[self.health-1].active=False
+             # set inactive only after animation
+            self.hearts[self.health-1].blinkingAnimationLose=True
             self.health = self.health-1
 
     def healHeart(self):
         if(self.health<self.maxHealth):
+            # set active immediately
             self.hearts[self.health].active=True
+            self.hearts[self.health].blinkingAnimationHeal=True
             self.health = self.health+1
 
 class Heart:
@@ -50,13 +53,32 @@ class Heart:
         self.index = index
         self.active = True
 
+        # animation
+        self.blinkingAnimationLose = False
+        self.blinkingAnimationHeal = False
+        self.blinkingFrame = 0
+
         # heart surface
         self.image = pygame.image.load('asset/HEART.png')
         self.background = self.image.get_rect(center = (48 * (self.index+1) - 16, 32))
 
     # function to call to refresh the heart constantly
     def refresh(self, screen):
-        if(self.active): # only refresh if active (=not lost)
+        # if supposed to be blinking
+        if(self.blinkingAnimationLose):
+            self.blinkingFrame += 1
+            if (self.blinkingFrame == 36):  # stop animation
+                self.blinkingAnimationLose = False
+                self.active = False
+                self.blinkingFrame = 0
+        elif(self.blinkingAnimationHeal):
+            self.blinkingFrame += 1
+            if (self.blinkingFrame == 36):  # stop animation
+                self.blinkingAnimationHeal = False
+                self.blinkingFrame = 0
+
+        # only refresh if active (=not lost), with blinking animation if necessary
+        if(self.active and self.blinkingFrame % 8 < 4):
             screen.blit(self.image, self.background)
 
 class VoteBar:
