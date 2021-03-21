@@ -44,7 +44,8 @@ surface.fill((128, 128, 128))
 rectangle = surface.get_rect(left=100, top=420)  # alternative = (center = (608, 32))
 frame = 0
 
-def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red) :
+
+def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red):  # background, nbre policier, nbre matraque, nbre bleus, nbre rouges
     game.count_senator_blue = 0
     for i in game.all_senblue:
         game.delete_senator_blue(i)
@@ -59,10 +60,14 @@ def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red) :
     background = pygame.transform.scale(fond, (1024, 576))
     return background
 
+
 while running:
     clock.tick(60)
 
     screen.blit(background, (0, 0))
+
+    if game.level[5] == True :
+        screen.blit(senders, (335))
 
     # Regarde si vivant
     if game.playing and game.player.health == 0:
@@ -75,14 +80,14 @@ while running:
     elif game.win:
 
         game.gameOverFrame += 1
-        if game.gameOverFrame == 1200:  # après 10 secondes de mort, retour au menu
+        if game.gameOverFrame == 1200:  # après 10 secondes du tableau de Win, retour au menu
             game.playing = False
             game.win = False
             hud = HUD()
             game = Game(hud)
 
-    elif (game.playing and hud.votebar.bluePercent > 50) :
-        if game.gameOverFrame == 0 :
+    elif (game.playing and hud.votebar.bluePercent > 50):
+        if game.gameOverFrame == 0:
             if game.gameOverFrame == 0:
                 game.lose = True
                 game.level[3] = False
@@ -92,9 +97,9 @@ while running:
                     game.delete_senator_blue(i)
                 for j in game.all_senred:
                     game.delete_senator_red(j)
-                for k in game.all_matraque :
+                for k in game.all_matraque:
                     game.delete_matraque(k)
-                for l in game.all_matraque :
+                for l in game.all_matraque:
                     game.delete_policier(l)
                 game.player.dead = True
         game.gameOverFrame += 1
@@ -111,13 +116,13 @@ while running:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[0] = False
             game.level[1] = True
-            niveau(levels[1], 1, 1, 0, 2)
+            background = niveau(levels[1], 2, 0, 0, 0)
 
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
             game.count_senator_blue = 0
-            niveau(levels[2], 1, 1, 0, 2)
+            background = niveau(levels[2], 1, 1, 0, 2)
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
             channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
@@ -130,11 +135,7 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(4)
-            game.spawn_senator_blue(4)
-            game.spawn_policier(2)
-            game.spawn_matraque(3)
-            background = pygame.transform.scale(levels[3], (1024, 576))
+            background = niveau(levels[3], 2, 3, 3, 3)
         elif game.level[3]:
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
@@ -147,6 +148,14 @@ while running:
                 channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
                 game.spawn_senator_red(30)
                 game.spawn_senator_blue(7)
+            elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
+                game.win = True
+                game.level[3] = False
+                game.level[5] = True
+                background = pygame.image.load('asset/hall.jpg')
+                senders = pygame.transform.scale(pygame.image.load('asset/bernie_sitting_mitten.png'), (350, 350))
+                channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
+                game.spawn_senator_blue(20)
 
         # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
         if(game.level[3] and game.count_policiers == 0 and not(game.increaseRedOdds)):
@@ -230,11 +239,8 @@ while running:
 
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
-        background = pygame.transform.scale(levels[0], (1024, 576))
         channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
-        game.spawn_senator_blue(2)
-        game.spawn_senator_red(1)
-        game.spawn_matraque(2)
+        background = niveau(levels[0],0,1,1,0)
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -267,8 +273,4 @@ while running:
                 game.playing = True
                 channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
-                game.spawn_senator_blue(1)
-                game.spawn_senator_red(1)
-                game.spawn_senator_blue(1)
-                game.spawn_senator_red(1)
-                game.spawn_matraque(2)
+                background = niveau(levels[0],0,1,1,0)
