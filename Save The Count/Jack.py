@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         # jump
         self.jumping = False
         self.floating = False
-        self.jumpingVelocity = 0.5
+        self.jumpingVelocity = 0
         self.jumpFrame = 0
 
         # animation déplacement
@@ -75,38 +75,27 @@ class Player(pygame.sprite.Sprite):
         # only jumps if on ground
         if (self.rect.y == 380):
             self.jumping = True
+            self.jumpingVelocity = 10
             self.sound.play(pygame.mixer.Sound('SoundMusic/JackSaut.ogg'), 0)
 
     def gravity(self):
         # if we are jumping, continue going upwards
         if (self.jumping):
             # move upwards
-            self.rect.y = self.rect.y - self.jumpingVelocity
+            self.rect.y = min(self.rect.y - self.jumpingVelocity,380)
 
-            # increase y-velocity
-            self.jumpingVelocity = self.jumpingVelocity + 0.5
-
-            # if velocity too high, disable jump
-            if (self.jumpingVelocity > 12):
+            # decrease y-velocity
+            self.jumpingVelocity = self.jumpingVelocity - 0.4 
+            
+            if (self.rect.y == 380):
+                #if on the ground, stop
                 self.jumping = False
-                self.floating = True
-                self.jumpingVelocity = 1
-        # else if we are right after a jump, float for a couple frames
-        elif (self.floating):
-            self.jumpingVelocity += 1
-            if (self.jumpingVelocity > 4):
-                self.floating = False
-                self.jumpingVelocity = 0.5
-        # else and if necessary, apply gravity
-        elif (self.rect.y < 380):
-            # move downwards (but cap at ground y-level=380)
-            self.rect.y = min(self.rect.y + self.jumpingVelocity, 380)
+                self.jumpingVelocity = 0
+            
 
-            # increase y-velocity
-            self.jumpingVelocity = self.jumpingVelocity + 0.5
-        # reset jumping velocity if done
-        else:
-            self.jumpingVelocity = 1
+        print(self.jumpingVelocity)
+        print(self.jumping)
+    
 
     def damage(self):
         if (self.health > 0):
