@@ -106,57 +106,58 @@ class Player(pygame.sprite.Sprite):
         self.attacking = True
 
     def attack(self):
-        if (self.facingRight):
-            for police in self.game.all_policiers:
-                if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-                for bullet in police.all_bullets :
-                    if (self.rect.x - 140 < bullet.rect.x < self.rect.x + 250):
-                        bullet.policier.all_bullets.remove(bullet)
+        if not self.game.win :
+            if (self.facingRight):
+                for police in self.game.all_policiers:
+                    if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                    for bullet in police.all_bullets :
+                        if (self.rect.x - 140 < bullet.rect.x < self.rect.x + 250):
+                            bullet.policier.all_bullets.remove(bullet)
 
-            for police in self.game.all_matraque:
-                if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
+                for police in self.game.all_matraque:
+                    if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
 
-            for senator in self.game.all_senblue:
-                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senred:
-                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-        else:
-            for police in self.game.all_policiers:
-                if (self.rect.x > police.rect.x > self.rect.x - 250  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-                for bullet in police.all_bullets :
-                    if (self.rect.x - 250 < bullet.rect.x < self.rect.x + 140):
-                        bullet.policier.all_bullets.remove(bullet)
+                for senator in self.game.all_senblue:
+                    if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senred:
+                    if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+            else:
+                for police in self.game.all_policiers:
+                    if (self.rect.x > police.rect.x > self.rect.x - 250  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                    for bullet in police.all_bullets :
+                        if (self.rect.x - 250 < bullet.rect.x < self.rect.x + 140):
+                            bullet.policier.all_bullets.remove(bullet)
 
-            for police in self.game.all_matraque:
-                if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senblue:
-                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senred:
-                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
+                for police in self.game.all_matraque:
+                    if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senblue:
+                    if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senred:
+                    if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
     
     def scareSenators(self):
         for senator in self.game.all_senblue:
