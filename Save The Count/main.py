@@ -70,9 +70,9 @@ while running:
 
             game.player.rect.x = 0
             game.spawn_policier(1)
-            game.spawn_matraque(2)
-            game.spawn_senator_red(1)
-            game.spawn_senator_blue(2)
+            #game.spawn_matraque(2)
+            #game.spawn_senator_red(1)
+            #game.spawn_senator_blue(2)
 
             background = pygame.transform.scale(pygame.image.load('asset/exterior.jpg'), (1024, 576))
 
