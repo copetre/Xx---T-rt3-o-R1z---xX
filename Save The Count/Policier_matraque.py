@@ -49,7 +49,7 @@ class Matraque(pygame.sprite.Sprite):
         self.spritesAttackLeft = [pygame.transform.scale(pygame.image.load('asset/police_attack1_stick.png'), (160, 160)),
                                   pygame.transform.scale(pygame.image.load('asset/police_attack2_stick.png'), (160, 160)),
                                   pygame.transform.scale(pygame.image.load('asset/police_attack1_stick.png'), (160, 160)),
-                                  pygame.transform.scale(pygame.image.load('asset/police_death_stick.png'), (160, 160))]
+                                  pygame.transform.scale(pygame.image.load('asset/police_def_stick.png'), (160, 160))]
         self.spritesAttackRight = [pygame.transform.flip(self.spritesAttackLeft[0], True, False),
                                    pygame.transform.flip(self.spritesAttackLeft[1], True, False),
                                    pygame.transform.flip(self.spritesAttackLeft[2], True, False),

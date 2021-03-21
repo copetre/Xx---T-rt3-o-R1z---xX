@@ -67,6 +67,7 @@ class SenatorBlue(pygame.sprite.Sprite):
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
             self.currentSprite = self.spriteDeath
+            self.game.hud.votebar.blueDes()
 
     # visual refresh of blue senator with animations
     def refresh(self, screen):
@@ -94,7 +95,7 @@ class SenatorBlue(pygame.sprite.Sprite):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_senator(self):
-        self.game.all_policiers.remove(self)
+        self.game.all_senblue.remove(self)
 
 class SenatorRed(pygame.sprite.Sprite):
 
@@ -162,6 +163,7 @@ class SenatorRed(pygame.sprite.Sprite):
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
             self.currentSprite = self.spriteDeath
+            self.game.hud.votebar.redDes()
 
     # visual refresh of blue senator with animations
     def refresh(self, screen):
@@ -189,4 +191,4 @@ class SenatorRed(pygame.sprite.Sprite):
             screen.blit(self.currentSprite, self.rect)
 
     def delete_senator(self):
-        self.game.all_policiers.remove(self)
+        self.game.all_senred.remove(self)
