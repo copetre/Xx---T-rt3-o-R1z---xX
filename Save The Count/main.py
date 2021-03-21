@@ -78,7 +78,7 @@ while running:
 
     
     if game.level[6] == True :
-        screen.blit(sanders, (350, 75))
+        screen.blit(sanders, (350, 100))
 
     # If Alive
     if game.playing and game.player.health == 0:
