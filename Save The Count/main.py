@@ -35,7 +35,6 @@ pygame.time.set_timer(randomVotebarIncrease, 500)
 
 channelFond = pygame.mixer.Channel(1)
 channelDoor = pygame.mixer.Channel(7)
-channelHeart = pygame.mixer.Channel(8)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
@@ -166,7 +165,7 @@ while running:
 
         if game.count_senator_blue == 0:
             game.player.heal_Jack()
-            channelHeart.play(pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg'), 0)
+            channelDoor.play(pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg'), 0)
             game.count_senator_blue = -1
 
         # HUD
