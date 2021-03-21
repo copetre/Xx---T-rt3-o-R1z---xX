@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
         # only jumps if on ground
         if (self.rect.y == 380):
             self.jumping = True
-            self.jumpingVelocity = 10
+            self.jumpingVelocity = 12
             self.sound.play(pygame.mixer.Sound('SoundMusic/JackSaut.ogg'), 0)
 
     def gravity(self):
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = min(self.rect.y - self.jumpingVelocity,380)
 
             # decrease y-velocity
-            self.jumpingVelocity = self.jumpingVelocity - 0.4 
+            self.jumpingVelocity = self.jumpingVelocity - 0.5 
             
             if (self.rect.y == 380):
                 #if on the ground, stop
