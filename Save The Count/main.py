@@ -77,7 +77,7 @@ while running:
     screen.blit(background, (0, 0))
 
     
-    if game.level[5] == True :
+    if game.level[6] == True :
         screen.blit(sanders, (350, 75))
 
     # Regarde si vivant
@@ -99,6 +99,8 @@ while running:
         if game.gameOverFrame == 0:
 
             game.lose = True
+            game.level[5] = False
+            game.level[4] = False
             game.level[3] = False
             game.level[2] = False
             game.level[1] = False
@@ -128,7 +130,7 @@ while running:
         frame = (frame + 1) % 24  # %12 because we have 2 frames * 6 ticks each
         background = firstsreen[frame // 6]
     else:
-        if game.level[0] and game.count_policiers == 0:
+        if game.level[0] and game.count_policiers == 0: # Bureau de vote
 
             if game.count_manifestants == 0:
                 game.spawn_manifestants(7)
@@ -146,7 +148,7 @@ while running:
                 game.spawn_manifestants(3)
 
 
-        elif game.level[1] and game.count_policiers == 0:
+        elif game.level[1] and game.count_policiers == 0: # Rue
             if game.player.rect.x > 900:
                 game.level[1] = False
                 game.level[2] = True
@@ -159,7 +161,7 @@ while running:
                 for k in game.all_manifestants:
                     game.delete_manifestant(k)
 
-        elif game.level[2] and game.count_policiers == 0:
+        elif game.level[2] and game.count_policiers == 0: # Devant congrès
             if game.count_manifestants == 0:
                 game.spawn_manifestants(7)
             if game.player.rect.x > 900:
@@ -176,12 +178,29 @@ while running:
 
                 game.player.rect.x = 20
                 background = niveau(levels[3], 2, 3, 3, 3)
-        elif game.level[3]:
+
+        elif game.level[3] and game.count_policiers == 0: # Hall
+            if game.count_manifestants == 0:
+                game.spawn_manifestants(7)
+            if game.player.rect.x > 900:
+                channelFond.play(soundNiveauCapitol, -1)
+                game.level[3] = False
+                game.level[4] = True
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_manifestants:
+                    game.delete_manifestant(k)
+                channelDoor.play(soundPorte, 0)
+
+                game.player.rect.x = 20
+                background = niveau(levels[4], 2, 3, 3, 3)
+        elif game.level[4]: # Chamber
             if random.random() < 0.005:
                 game.spawn_senator_blue(1)
 
-            if (
-                    game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0):
+            if game.playing and hud.votebar.redPercent > 50 and game.player.rect.x > 900 and game.count_policiers == 0:
                 game.win = True
                 game.level[4] = False
                 game.level[5] = True
@@ -209,7 +228,7 @@ while running:
             and game.win == False and game.lose == False):
             screen.blit(arrowLeft, (800, 200))
         # ou si on est dans la dernière salle et qu'on a gagné
-        elif (game.level[3] and hud.votebar.redPercent > 50):
+        elif (game.level[4] and hud.votebar.redPercent > 50):
             screen.blit(arrowLeft, (800, 200))
             screen.blit(arrowRight, (25, 200))
 
