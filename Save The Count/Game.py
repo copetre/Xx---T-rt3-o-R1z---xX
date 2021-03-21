@@ -25,18 +25,18 @@ class Game:
         self.pressed = {}
         self.level = [True, False, False, False, False, False, False]
 
-        # Policiers
+        # Police
         self.all_policiers = pygame.sprite.Group()
         self.all_matraque = pygame.sprite.Group()
         self.count_policiers = 0
 
-        # Sénateurs
+        # Sénators
         self.all_senblue = pygame.sprite.Group()
         self.all_senred = pygame.sprite.Group()
         self.count_senator_blue = 0
         self.count_senator_red = 0
 
-        # Manifestants
+        # Manifest
         self.all_manifestants = pygame.sprite.Group()
         self.count_manifestants = 0
 

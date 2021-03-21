@@ -42,13 +42,13 @@ class Player(pygame.sprite.Sprite):
                                 pygame.transform.flip(self.spritesWalkRight[1], True, False)]
         self.walkFrame = 0
 
-        # animation dommage/mort
+        # animation dommage/dead
         self.damaged = False
         self.damagedFrame = 0
         self.spriteDeathRight = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
         self.spriteDeathLeft = pygame.transform.flip(self.spriteDeathRight, True, False)
 
-        # animation attaque
+        # animation atk
         self.attacking = False
         self.attackFrame = 0
         self.spritesAttackRight = [pygame.transform.scale(pygame.image.load('asset/jake_attack1.png'), (160, 160)),
