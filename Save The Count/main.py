@@ -124,9 +124,8 @@ while running:
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
-            hud.healHeart()
+            game.player.heal_Jack()
             game.count_senator_blue = -1
-        print(game.count_senator_blue)
 
         # HUD
         hud.refresh(screen)
