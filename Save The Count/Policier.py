@@ -19,7 +19,7 @@ class Policier(pygame.sprite.Sprite):
         # policier box
         self.currentSprite = pygame.transform.scale(pygame.image.load('asset/police_def.png'), (160, 160))
         self.rect = self.currentSprite.get_rect()
-        self.rect.x = 800
+        self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(2)
 
