@@ -95,7 +95,7 @@ class SenatorBlue(pygame.sprite.Sprite):
             # decrease y-velocity
             self.jumpingVelocity = self.jumpingVelocity - 0.5 
             
-            if (self.rect.y == 380):
+            if (self.rect.y == self.groundY):
                 #if on the ground, stop
                 self.jumping = False
                 self.jumpingVelocity = 0
@@ -246,7 +246,7 @@ class SenatorRed(pygame.sprite.Sprite):
             # decrease y-velocity
             self.jumpingVelocity = self.jumpingVelocity - 0.5 
             
-            if (self.rect.y == 380):
+            if (self.rect.y == self.groundY):
                 #if on the ground, stop
                 self.jumping = False
                 self.jumpingVelocity = 0

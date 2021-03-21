@@ -141,7 +141,7 @@ while running:
             senared.refresh(screen)
             if not (senared.dead):
                 senared.move()
-                senablue.gravity()
+                senared.gravity()
 
         # Policiers pan pan
         for police in game.all_policiers:
