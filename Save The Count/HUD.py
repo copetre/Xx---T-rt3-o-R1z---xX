@@ -105,15 +105,15 @@ class VoteBar:
         self.surfaceSeparation.fill((0, 0, 0))
         self.backgroundSeparation = self.surfaceSeparation.get_rect(center = (608, 32)) # alternative = (center = (608, 32))
     
-    # increases red percentage by 3, without exceeding max
+    # increases red percentage by 2, without exceeding max
     def redInc(self):
         if(self.redPercent<100-self.bluePercent):
-            self.redPercent = self.redPercent+3
+            self.redPercent = self.redPercent+2
     
-    # increases blue percentage by 3, without exceeding max
+    # increases blue percentage by 2, without exceeding max
     def blueInc(self):
         if(self.bluePercent<100-self.redPercent):
-            self.bluePercent = self.bluePercent+3
+            self.bluePercent = self.bluePercent+2
 
     # decrease red percentage by  (senators)
     def redDes(self):
