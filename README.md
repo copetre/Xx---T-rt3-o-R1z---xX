@@ -1,4 +1,6 @@
 # CAPITOL CONQUEST - A game by Xx - T@rt3 o R1z - xX
+[Gameplay video](https://www.youtube.com/watch?v=71KMsTbhX4k)
+
 
 ### Installation
 
