@@ -49,8 +49,8 @@ while running:
             game.player.rect.x = 0
             game.spawn_policier()
             game.count_policiers = 1
-            game.spawn_senator_blue()
-            game.count_senator_blue = 1
+            game.spawn_senator_red()
+            game.count_senator_red = 1
 
 
     elif game.level[1]:
