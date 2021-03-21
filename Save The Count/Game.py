@@ -38,6 +38,13 @@ class Game:
         senblue = SenatorBlue(self)
         self.all_senblue.add(senblue)
 
+    def delete_senator_blue(self,senblue):
+        senblue.delete_senator()
+
     def spawn_senator_red(self):
         senred = SenatorRed(self)
         self.all_senred.add(senred)
+
+    def delete_senator_red(self, senred):
+        senred.delete_senator()
+

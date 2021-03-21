@@ -1,9 +1,6 @@
 import pygame
 import random
 
-
-
-
 class Matraque(pygame.sprite.Sprite):
 
     def __init__(self, game):
