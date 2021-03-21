@@ -17,7 +17,7 @@ class Game:
         self.win = False
         self.lose = False
         self.increaseRedOdds = False
-        self.gotRoomHealAlready = False
+        self.gotRoomHealAlready = True # true par défaut, false si on fait spawn des bleus
 
         # Jack
         self.player = Player(hud, self)

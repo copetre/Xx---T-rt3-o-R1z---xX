@@ -85,9 +85,10 @@ while running:
         game.gameOverFrame += 1
         if (game.gameOverFrame == 120):  # après 2 secondes de mort, retour au menu
             game.playing = False
+            hud = HUD()
+            game = Game(hud)
 
     elif game.win:
-
         game.gameOverFrame += 1
         if game.gameOverFrame == 1200:  # après 10 secondes du tableau de Win, retour au menu
             game.playing = False
@@ -119,6 +120,7 @@ while running:
             for k in game.all_manifestants:
                 game.delete_manifestant(k)
             game.player.dead = True
+
         game.gameOverFrame += 1
         if (game.gameOverFrame == 540):  # après 9 secondes de mort, retour au menu
             game.playing = False
@@ -139,7 +141,6 @@ while running:
                 game.level[0] = False
                 game.level[1] = True
 
-                game.gotRoomHealAlready = False
                 background = niveau(levels[1], 2, 0, 0, 0)
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
@@ -155,7 +156,6 @@ while running:
                 game.level[1] = False
                 game.level[2] = True
                 game.gotRoomHealAlready = False
-                game.count_senator_blue = 0
                 background = niveau(levels[2], 1, 1, 1, 1)
 
         elif game.level[2] and game.count_policiers == 0: # Devant congrès
@@ -164,8 +164,8 @@ while running:
             if game.player.rect.x > 900:
                 game.level[2] = False
                 game.level[3] = True
-                channelDoor.play(soundPorte, 0)
                 game.gotRoomHealAlready = False
+                channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
                 background = niveau(levels[3], 2, 1, 2, 2)
@@ -177,8 +177,8 @@ while running:
                 channelFond.play(soundNiveauCapitol, -1)
                 game.level[3] = False
                 game.level[4] = True
-                channelDoor.play(soundPorte, 0)
                 game.gotRoomHealAlready = False
+                channelDoor.play(soundPorte, 0)
 
                 game.player.rect.x = 20
                 background = niveau(levels[4], 1, 1, 5, 3)
@@ -317,6 +317,7 @@ while running:
         hud.votebar.bluePercent = 5
         channelFond.play(soundNiveauBureauVotes2, -1)
         background = niveau(levels[0],0,1,1,0)
+        game.gotRoomHealAlready = False
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
@@ -352,3 +353,4 @@ while running:
                 channelDoor.play(soundPorte, 0)
 
                 background = niveau(levels[0], 0, 1, 1, 0)
+                game.gotRoomHealAlready = False
