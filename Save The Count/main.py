@@ -143,9 +143,9 @@ while running:
             channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
             game.player.rect.x = 20
-            game.spawn_senator_red(7)
+            game.spawn_senator_red(4)
             game.spawn_senator_blue(4)
-            game.spawn_policier(4)
+            game.spawn_policier(2)
             game.spawn_matraque(3)
             background = pygame.transform.scale(levels[3], (1024, 576))
         elif game.level[3]:
@@ -233,7 +233,7 @@ while running:
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
         background = pygame.transform.scale(levels[0], (1024, 576))
-
+        channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
         game.spawn_senator_blue(2)
         game.spawn_senator_red(1)
         game.spawn_matraque(2)
@@ -257,6 +257,7 @@ while running:
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos):
+                channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
                 game.playing = True
                 channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
