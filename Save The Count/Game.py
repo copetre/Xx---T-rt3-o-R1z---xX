@@ -13,6 +13,7 @@ class Game:
         self.playing = False
         self.gameOverFrame = 0
         self.win = False
+        self.lose = False
 
         # Jack
         self.player = Player(hud, self)
@@ -67,4 +68,8 @@ class Game:
     def delete_senator_red(self, senred):
         senred.delete_senator()
 
+    def delete_matraque(self, matraque):
+        matraque.delete_policier()
 
+    def delete_policier(self, policier):
+        policier.delete_policier()
