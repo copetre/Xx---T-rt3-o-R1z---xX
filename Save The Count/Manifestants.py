@@ -10,14 +10,10 @@ class Manifestant(pygame.sprite.Sprite):
         self.game = game
 
         # attributes
-        self.health = 1
-        self.max_health = 1
         self.velocity = 2
         self.size = 160 + random.randint(-20, 20)
-        self.dead = False
 
         # Type of manifestant
-
         if (type == 1):
             self.currentSprite = pygame.transform.scale(pygame.image.load('asset/mob_def_1.png'), (160, self.size))
         elif (type == 2):
@@ -26,22 +22,15 @@ class Manifestant(pygame.sprite.Sprite):
             self.currentSprite = pygame.transform.scale(pygame.image.load('asset/mob_def_3.png'), (160, self.size))
 
         # manifestants box
-
         self.rect = self.currentSprite.get_rect()
         self.rect.x = 50
         self.rect.y = 380 + random.randint(-10, 10)
         self.groundY = self.rect.y
-        self.sound = pygame.mixer.Channel(3)
         self.facingRight = False
-
 
         # IA
         self.newpos = random.randint(5, 924)
         self.newpos -= self.newpos % self.velocity
-
-        # jump
-        self.jumping = True
-        self.jumpingVelocity = 0
 
         # animation déplacement
         self.walkAnimationRight = False
@@ -63,8 +52,6 @@ class Manifestant(pygame.sprite.Sprite):
                                  pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
-
-
     def move(self):
         # randomly move left/right (tolerance of 1 pixel)
         if self.newpos > self.rect.x + 1:
@@ -76,9 +63,6 @@ class Manifestant(pygame.sprite.Sprite):
             self.newpos -= self.newpos % self.velocity
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-        #jump randomly
-        if random.random() < 0.2:
-            self.jump()
 
     def right(self):
         self.walkAnimationRight = True
@@ -89,26 +73,6 @@ class Manifestant(pygame.sprite.Sprite):
         self.walkAnimationLeft = True
         self.facingRight = False
         self.rect.x -= self.velocity
-
-    def jump(self):
-        # only jumps if on ground
-        if (self.rect.y == self.groundY):
-            self.jumping = True
-            self.jumpingVelocity = 12
-
-    def gravity(self):
-        # if we are jumping, continue going upwards
-        if (self.jumping):
-            # move upwards
-            self.rect.y = min(self.rect.y - self.jumpingVelocity, self.groundY)
-
-            # decrease y-velocity
-            self.jumpingVelocity = self.jumpingVelocity - 0.5
-
-            if (self.rect.y == self.groundY):
-                # if on the ground, stop
-                self.jumping = False
-                self.jumpingVelocity = 0
 
     # visual refresh of blue senator with animations
     def refresh(self, screen):
@@ -123,7 +87,6 @@ class Manifestant(pygame.sprite.Sprite):
             self.currentSprite = self.spritesWalkRight[self.walkFrame // 6]  # //6 because update every 6 ticks
 
         screen.blit(self.currentSprite, self.rect)
-
 
     def delete_manifestant(self):
         self.game.all_manifestants.remove(self)
