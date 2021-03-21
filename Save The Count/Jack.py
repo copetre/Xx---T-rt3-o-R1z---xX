@@ -55,6 +55,7 @@ class Player(pygame.sprite.Sprite):
                                   pygame.transform.flip(self.spritesAttackRight[1], True, False),
                                   pygame.transform.flip(self.spritesAttackRight[2], True, False),
                                   pygame.transform.flip(self.spritesAttackRight[3], True, False)]
+        self.attackCooldown = 0
 
     def right(self):
         if self.sound.get_busy() == False:
@@ -92,71 +93,75 @@ class Player(pygame.sprite.Sprite):
                 self.jumpingVelocity = 0
 
     def damage(self):
-        if (self.health > 0):
-            self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 0)
-            self.health -= 1
-            self.hud.loseHeart()
-            self.damaged = True
-        if (self.health == 0):
-            self.dead = True
-            self.walkAnimationRight = False
-            self.walkAnimationLeft = False
+        # only take damage if not blinking
+        if not(self.damaged):
+            if (self.health > 0):
+                self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 0)
+                self.health -= 1
+                self.hud.loseHeart()
+                self.damaged = True
+            if (self.health == 0):
+                self.dead = True
+                self.walkAnimationRight = False
+                self.walkAnimationLeft = False
 
     def launchAttack(self):
-        self.attacking = True
+        if (not(self.attacking) and self.attackCooldown==0):
+            self.attacking = True
 
     def attack(self):
-        if (self.facingRight):
-            for police in self.game.all_policiers:
-                if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-                for bullet in police.all_bullets :
-                    if (self.rect.x - 140 < bullet.rect.x < self.rect.x + 250):
-                        bullet.policier.all_bullets.remove(bullet)
+        if not self.game.win :
+            if (self.facingRight):
+                for police in self.game.all_policiers:
+                    if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                    for bullet in police.all_bullets :
+                        if (self.rect.x - 140 < bullet.rect.x < self.rect.x + 250):
+                            bullet.policier.all_bullets.remove(bullet)
 
-            for police in self.game.all_matraque:
-                if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
+                for police in self.game.all_matraque:
+                    if (self.rect.x < police.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
 
-            for senator in self.game.all_senblue:
-                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senred:
-                if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-        else:
-            for police in self.game.all_policiers:
-                if (self.rect.x > police.rect.x > self.rect.x - 250  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-                for bullet in police.all_bullets :
-                    if (self.rect.x - 250 < bullet.rect.x < self.rect.x + 140):
-                        bullet.policier.all_bullets.remove(bullet)
+                for senator in self.game.all_senblue:
+                    if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senred:
+                    if (self.rect.x < senator.rect.x < self.rect.x + 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+            else:
+                for police in self.game.all_policiers:
+                    if (self.rect.x > police.rect.x > self.rect.x - 250  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                    for bullet in police.all_bullets :
+                        if (self.rect.x - 250 < bullet.rect.x < self.rect.x + 140):
+                            bullet.policier.all_bullets.remove(bullet)
 
-            for police in self.game.all_matraque:
-                if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
-                    police.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senblue:
-                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
-            for senator in self.game.all_senred:
-                if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
-                    senator.damage()
-                    self.scareSenators()
+                for police in self.game.all_matraque:
+                    if (self.rect.x > police.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        police.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senblue:
+                    if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
+                for senator in self.game.all_senred:
+                    if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
+                            and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
+                        senator.damage()
+                        self.scareSenators()
     
     def scareSenators(self):
         for senator in self.game.all_senblue:
@@ -183,6 +188,12 @@ class Player(pygame.sprite.Sprite):
             if (self.attackFrame >= 24):  # %24 because we have 4 frames * 6 ticks each
                 self.attacking = False
                 self.attackFrame = 0
+                self.attackCooldown += 1 # start attack cooldown
+        # decrease cooldown at every frame
+        if (self.attackCooldown>0):
+            self.attackCooldown += 1
+            if (self.attackCooldown >= 12):  # 12 frames of attack cooldown
+                self.attackCooldown = 0
 
         # set current sprite
         if (self.walkAnimationLeft):
