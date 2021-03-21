@@ -21,8 +21,11 @@ class SenatorBlue(pygame.sprite.Sprite):
         self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380 + random.randint(-10, 10)
         self.groundY = self.rect.y
-        self.sound = pygame.mixer.Channel(3)
         self.facingRight = False
+
+        # Sound
+        self.sound = pygame.mixer.Channel(3)
+        self.soundAdversaireAttaque = pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg")
 
         # IA
         self.newpos = random.randint(5, 924)
@@ -102,7 +105,7 @@ class SenatorBlue(pygame.sprite.Sprite):
 
     def damage(self):
         if (self.health > 0):
-            self.sound.play(pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg"), 0)
+            self.sound.play(self.soundAdversaireAttaque, 0)
             self.health -= 1
             self.damaged = True
         if (self.health == 0):
@@ -172,8 +175,11 @@ class SenatorRed(pygame.sprite.Sprite):
         self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380 + random.randint(-10, 10)
         self.groundY = self.rect.y
-        self.sound = pygame.mixer.Channel(4)
         self.facingRight = False
+
+        # Sound
+        self.sound = pygame.mixer.Channel(4)
+        self.soundAdversaireAttaque = pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg")
 
         # IA
         self.newpos = random.randint(5, 924)
@@ -253,7 +259,7 @@ class SenatorRed(pygame.sprite.Sprite):
 
     def damage(self):
         if (self.health > 0):
-            self.sound.play(pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg"),0)
+            self.sound.play(self.soundAdversaireAttaque,0)
             self.health -= 1
             self.damaged = True
         if (self.health == 0):

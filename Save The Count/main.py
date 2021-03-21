@@ -28,6 +28,8 @@ hud = HUD()
 game = Game(hud)
 arrowLeft = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
 arrowRight = pygame.transform.flip(arrowLeft, True, False)
+sanders = pygame.transform.scale(pygame.image.load('asset/bernie_sitting_mitten.png'), (350, 350))
+
 # toutes les 0.5 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 500)
@@ -35,9 +37,14 @@ pygame.time.set_timer(randomVotebarIncrease, 500)
 # Sound Bank
 channelFond = pygame.mixer.Channel(1)
 channelDoor = pygame.mixer.Channel(7)
+soundNiveauBureauVotes2 = pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg')
+soundPorte = pygame.mixer.Sound("SoundMusic/Porte.ogg")
+soundPartiePerdue = pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg")
+soundNiveauCapitol = pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg')
+soundJeuFini = pygame.mixer.Sound("SoundMusic/JeuFini.ogg")
 
 # Sound at first
-channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
+channelFond.play(soundNiveauBureauVotes2, -1)
 
 surface = pygame.Surface((800, 90))
 surface.fill((128, 128, 128))
@@ -51,7 +58,7 @@ def niveau(fond, nb_pol, nb_mat, nb_blue, nb_red):  # background, nbre policier,
         game.delete_senator_blue(i)
     for j in game.all_senred:
         game.delete_senator_red(j)
-    channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+    channelDoor.play(soundPorte, 0)
     game.player.rect.x = 0
     game.spawn_senator_red(nb_red)
     game.spawn_senator_blue(nb_blue)
@@ -66,16 +73,15 @@ while running:
 
     screen.blit(background, (0, 0))
 
+    
     if game.level[5] == True :
-        screen.blit(senders, (335))
+        screen.blit(sanders, (350, 75))
 
     # Regarde si vivant
     if game.playing and game.player.health == 0:
         game.gameOverFrame += 1
         if (game.gameOverFrame == 120):  # après 2 secondes de mort, retour au menu
             game.playing = False
-            hud = HUD()
-            game = Game(hud)
 
     elif game.win:
 
@@ -92,7 +98,7 @@ while running:
                 game.lose = True
                 game.level[3] = False
                 background = pygame.image.load('asset/GAME OVER.jpg')
-                channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
+                channelFond.play(soundPartiePerdue.ogg, 0)
                 for i in game.all_senblue:
                     game.delete_senator_blue(i)
                 for j in game.all_senred:
@@ -125,14 +131,14 @@ while running:
             background = niveau(levels[2], 1, 1, 0, 2)
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
-            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
+            channelFond.play(soundNiveauCapitol, -1)
             game.level[2] = False
             game.level[3] = True
             for i in game.all_senblue:
                 game.delete_senator_blue(i)
             for j in game.all_senred:
                 game.delete_senator_red(j)
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+            channelDoor.play(soundPorte, 0)
 
             game.player.rect.x = 20
             background = niveau(levels[3], 2, 3, 3, 3)
@@ -145,7 +151,7 @@ while running:
                 game.level[3] = False
                 game.level[4] = True
                 background = pygame.image.load('asset/WIN.jpg')
-                channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
+                channelFond.play(soundJeuFini, 0)
                 game.spawn_senator_red(30)
                 game.spawn_senator_blue(7)
             elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
@@ -153,8 +159,7 @@ while running:
                 game.level[3] = False
                 game.level[5] = True
                 background = pygame.image.load('asset/hall.jpg')
-                senders = pygame.transform.scale(pygame.image.load('asset/bernie_sitting_mitten.png'), (350, 350))
-                channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
+                channelFond.play(soundJeuFini, 0)
                 game.spawn_senator_blue(20)
 
         # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
@@ -239,7 +244,9 @@ while running:
 
     if game.pressed.get(pygame.K_SPACE) and game.playing == False:
         game.playing = True
-        channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
+        hud.votebar.redPercent = 5
+        hud.votebar.bluePercent = 5
+        channelFond.play(soundNiveauBureauVotes2, -1)
         background = niveau(levels[0],0,1,1,0)
 
     for event in pygame.event.get():  # event est une liste
@@ -262,15 +269,17 @@ while running:
                 else:  # 30% d'augmenter les rouges
                     hud.votebar.redInc()
             else:
-                if rand < 0.5:  # 50% d'augmenter les bleus
+                if rand < 0.5 and hud.votebar.bluePercent<50:  # 50% d'augmenter les bleus (mais on les empêche de gagner)
                     hud.votebar.blueInc()
                 else:  # 50% d'augmenter les rouges
                     hud.votebar.redInc()
 
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos):
-                channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
+                channelFond.play(soundNiveauBureauVotes2, -1)
                 game.playing = True
-                channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+                hud.votebar.redPercent = 5
+                hud.votebar.bluePercent = 5
+                channelDoor.play(soundPorte, 0)
 
                 background = niveau(levels[0],0,1,1,0)

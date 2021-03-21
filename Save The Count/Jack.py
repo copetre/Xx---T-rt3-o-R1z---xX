@@ -10,8 +10,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
 
         # attributes
-        self.health = 3
-        self.max_health = 3
+        self.health = 10
+        self.max_health = 10
         self.velocity = 4
         self.dead = False
 
@@ -24,6 +24,10 @@ class Player(pygame.sprite.Sprite):
 
         # Sound
         self.sound = pygame.mixer.Channel(0)
+        self.soundHeartRecovery = pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg')
+        self.soundMarcheJack = pygame.mixer.Sound('SoundMusic/MarcheJack.ogg')
+        self.soundJackSaut = pygame.mixer.Sound('SoundMusic/JackSaut.ogg')
+        self.soundJackAttaque = pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg')
 
         # jump
         self.jumping = False
@@ -59,14 +63,14 @@ class Player(pygame.sprite.Sprite):
 
     def right(self):
         if self.sound.get_busy() == False:
-            self.sound.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
+            self.sound.play(self.soundMarcheJack, 1)
         self.walkAnimationRight = True
         self.facingRight = True
         self.rect.x += self.velocity
 
     def left(self):
         if self.sound.get_busy() == False:
-            self.sound.play(pygame.mixer.Sound('SoundMusic/MarcheJack.ogg'), 1)
+            self.sound.play(self.soundMarcheJack, 1)
         self.walkAnimationLeft = True
         self.facingRight = False
         self.rect.x -= self.velocity
@@ -76,7 +80,7 @@ class Player(pygame.sprite.Sprite):
         if (self.rect.y == 380):
             self.jumping = True
             self.jumpingVelocity = 12
-            self.sound.play(pygame.mixer.Sound('SoundMusic/JackSaut.ogg'), 0)
+            self.sound.play(self.soundJackSaut, 0)
 
     def gravity(self):
         # if we are jumping, continue going upwards
@@ -96,7 +100,7 @@ class Player(pygame.sprite.Sprite):
         # only take damage if not blinking
         if not(self.damaged):
             if (self.health > 0):
-                self.sound.play(pygame.mixer.Sound('SoundMusic/JackAttaqué.ogg'), 0)
+                self.sound.play(self.soundJackAttaque, 0)
                 self.health -= 1
                 self.hud.loseHeart()
                 self.damaged = True
@@ -107,7 +111,7 @@ class Player(pygame.sprite.Sprite):
 
     def heal_Jack(self):
         if(self.health < self.max_health):
-            self.sound.play(pygame.mixer.Sound('SoundMusic/HeartRecovery.ogg'), 0)
+            self.sound.play(self.soundHeartRecovery, 0)
             self.health+=1
             self.hud.healHeart()
 
