@@ -63,8 +63,12 @@ class VoteBar:
     # screen = the pygame screen to draw on
     def __init__(self):
         # attributes
-        self.redPercent = 25
-        self.bluePercent = 25
+        self.redPercent = 5
+        self.bluePercent = 5
+        self.redDecreaseAnimation = False
+        self.blueDecreaseAnimation = False
+        self.redDecreaseFrame = 0
+        self.blueDecreaseFrame = 0
 
         # background surface
         self.surface = pygame.Surface((800, 32))
@@ -89,29 +93,45 @@ class VoteBar:
     # decrease red percentage by 4 (senators)
     def redDes(self):
         if (self.redPercent>0):
-            self.redPercent = max(self.redPercent-4, 0)
+            self.redPercent = max(self.redPercent-4, 2)
+            self.redDecreaseAnimation = True
 
     # decrease blue percentage by 4 (senators)
     def blueDes(self):
         if (self.bluePercent>0):
-            self.bluePercent = max(self.bluePercent-4, 0)
+            self.bluePercent = max(self.bluePercent-4, 2)
+            self.blueDecreaseAnimation = True
 
     # function to call to refresh the votebar constantly
     def refresh(self, screen):
         # background surface
         screen.blit(self.surface, self.background)
 
+        # if flashing bar(s)
+        if (self.redDecreaseAnimation):
+            self.redDecreaseFrame += 1
+            if (self.redDecreaseFrame == 36):  # stop animation
+                self.redDecreaseAnimation = False
+                self.redDecreaseFrame = 0
+        if (self.blueDecreaseAnimation):
+            self.blueDecreaseFrame += 1
+            if (self.blueDecreaseFrame == 36):  # stop animation
+                self.blueDecreaseAnimation = False
+                self.blueDecreaseFrame = 0
+
         # red surface
-        self.surfaceRed = pygame.Surface((self.redPercent * 8, 32))
-        self.surfaceRed.fill((255, 0, 0))
-        self.backgroundRed = self.surfaceRed.get_rect(left = 208, top = 16)
-        screen.blit(self.surfaceRed, self.backgroundRed)
+        if (self.redDecreaseFrame % 8 < 4):
+            self.surfaceRed = pygame.Surface((self.redPercent * 8, 32))
+            self.surfaceRed.fill((255, 0, 0))
+            self.backgroundRed = self.surfaceRed.get_rect(left = 208, top = 16)
+            screen.blit(self.surfaceRed, self.backgroundRed)
 
         # blue surface
-        self.surfaceBlue = pygame.Surface((self.bluePercent * 8, 32))
-        self.surfaceBlue.fill((0, 0, 255))
-        self.backgroundBlue = self.surfaceBlue.get_rect(right = 1008, top = 16)
-        screen.blit(self.surfaceBlue, self.backgroundBlue)
+        if (self.blueDecreaseFrame % 8 < 4):
+            self.surfaceBlue = pygame.Surface((self.bluePercent * 8, 32))
+            self.surfaceBlue.fill((0, 0, 255))
+            self.backgroundBlue = self.surfaceBlue.get_rect(right = 1008, top = 16)
+            screen.blit(self.surfaceBlue, self.backgroundBlue)
 
         # separation surface
         screen.blit(self.surfaceSeparation, self.backgroundSeparation)
