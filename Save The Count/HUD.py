@@ -147,10 +147,10 @@ class VoteBar:
             self.backgroundBlue = self.surfaceBlue.get_rect(right = 1008, top = 16)
             screen.blit(self.surfaceBlue, self.backgroundBlue)
 
-        # separation surface
+        # separe surface
         screen.blit(self.surfaceSeparation, self.backgroundSeparation)
 
-        # texte grands electeurs
+        # txt elector
         textSurfaceRed, textRectRed = self.font.render(str(round(self.redPercent*5.38)), (0, 0, 0))
         textRectRed.left=216
         textRectRed.top=24

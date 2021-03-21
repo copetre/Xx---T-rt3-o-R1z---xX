@@ -30,7 +30,7 @@ class Matraque(pygame.sprite.Sprite):
         self.newpos = random.randint(5, 924)
         self.newpos -= self.newpos % self.velocity
 
-        # animation déplacement
+        # animation movement
         self.walkAnimationRight = False
         self.walkAnimationLeft = False
         self.spritesWalkLeft = [pygame.transform.scale(pygame.image.load('asset/police_def_stick.png'), (160, 160)),
@@ -39,13 +39,13 @@ class Matraque(pygame.sprite.Sprite):
                                  pygame.transform.flip(self.spritesWalkLeft[1], True, False)]
         self.walkFrame = 0
 
-        # animation dommage/mort
+        # animation dommage/dead
         self.damaged = False
         self.damagedFrame = 0
         self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/police_death_stick.png'), (160, 160))
         self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
-        # animation attaque
+        # animation atk
         self.attacking = False
         self.attackFrame = 0
         self.spritesAttackLeft = [pygame.transform.scale(pygame.image.load('asset/police_attack1_stick.png'), (160, 160)),

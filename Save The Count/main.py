@@ -7,13 +7,13 @@ from Jack import Player
 
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
-# Fenêtre de base
+# First Windows
 
 pygame.display.set_caption("CAPITOL CONQUEST")
 screen = pygame.display.set_mode((1024, 576))
 clock = pygame.time.Clock()
 
-running = True  # Jeu en cours
+running = True  # Game Running
 
 background = pygame.image.load('asset/FIRST_SCREEN_1.png')
 firstsreen = [pygame.image.load('asset/FIRST_SCREEN_1.png'), pygame.image.load('asset/FIRST_SCREEN_2.png'),
@@ -24,13 +24,13 @@ frame = 0
 
 hud = HUD()
 
-# Création des personnages
+# Create characters
 game = Game(hud)
 arrowLeft = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
 arrowRight = pygame.transform.flip(arrowLeft, True, False)
 sanders = pygame.transform.scale(pygame.image.load('asset/bernie_sitting_mitten.png'), (350, 350))
 
-# toutes les 0.5 seconde, on augmente aléatoirement la barre
+# Every O.5 secs, change VoteBar
 randomVotebarIncrease = pygame.USEREVENT + 1
 pygame.time.set_timer(randomVotebarIncrease, 500)
 
@@ -80,16 +80,16 @@ while running:
     if game.level[6] == True :
         screen.blit(sanders, (350, 75))
 
-    # Regarde si vivant
+    # If Alive
     if game.playing and game.player.health == 0:
         game.gameOverFrame += 1
-        if (game.gameOverFrame == 120):  # après 2 secondes de mort, retour au menu
+        if (game.gameOverFrame == 120):  # After 2 seconds, back to menu
             game.playing = False
 
     elif game.win:
 
         game.gameOverFrame += 1
-        if game.gameOverFrame == 1200:  # après 10 secondes du tableau de Win, retour au menu
+        if game.gameOverFrame == 1200:  # After 10 seconds, back to menu
             game.playing = False
             game.win = False
             hud = HUD()
@@ -120,17 +120,17 @@ while running:
                 game.delete_manifestant(k)
             game.player.dead = True
         game.gameOverFrame += 1
-        if (game.gameOverFrame == 540):  # après 9 secondes de mort, retour au menu
+        if (game.gameOverFrame == 540):  # After 9 sec, back to menu
             game.playing = False
             hud = HUD()
             game = Game(hud)
 
-    # On regarde dans quel niveau on se situe
+    # Actual level
     if not game.playing and not game.win:
         frame = (frame + 1) % 24  # %12 because we have 2 frames * 6 ticks each
         background = firstsreen[frame // 6]
     else:
-        if game.level[0] and game.count_policiers == 0: # Bureau de vote
+        if game.level[0] and game.count_policiers == 0:
 
             if game.count_manifestants == 0:
                 game.spawn_manifestants(7)
@@ -150,7 +150,7 @@ while running:
                 game.spawn_manifestants(3)
 
 
-        elif game.level[1] and game.count_policiers == 0: # Rue
+        elif game.level[1] and game.count_policiers == 0: # Street
             if game.player.rect.x > 900:
                 game.level[1] = False
                 game.level[2] = True
@@ -158,7 +158,7 @@ while running:
                 game.count_senator_blue = 0
                 background = niveau(levels[2], 1, 1, 1, 1)
 
-        elif game.level[2] and game.count_policiers == 0: # Devant congrès
+        elif game.level[2] and game.count_policiers == 0: # Front congress
             if game.count_manifestants == 0:
                 game.spawn_manifestants(7)
             if game.player.rect.x > 900:
@@ -197,7 +197,7 @@ while running:
                 game.spawn_senator_red(15)
                 game.spawn_manifestants(15)
                 game.spawn_senator_blue(7)
-            # Ecran de fin Sanders
+            # Sanders screen
             elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
                 game.win = True
                 game.level[4] = False
@@ -221,17 +221,17 @@ while running:
 
 
 
-        # Si on a tué tout le monde et qu'on attend juste la barre, on augmente les votes rouges et la fréquence
+        # If all ennemies killed, the votBar is faster
         if(game.level[4] and game.count_policiers == 0 and not(game.increaseRedOdds)):
             game.increaseRedOdds = True
             pygame.time.set_timer(randomVotebarIncrease, 0)
             pygame.time.set_timer(randomVotebarIncrease, 250)
 
-        # Flèche si tout le monde est mort
+        # Arrow if all cops are deads
         if (game.count_policiers == 0 and game.level[4] == False
             and game.win == False and game.lose == False):
             screen.blit(arrowLeft, (800, 200))
-        # ou si on est dans la dernière salle et qu'on a gagné
+        # Last room = win
         elif (game.level[4] and hud.votebar.redPercent > 50):
             screen.blit(arrowLeft, (800, 200))
             screen.blit(arrowRight, (25, 200))
@@ -264,7 +264,7 @@ while running:
                 senared.move()
                 senared.gravity()
 
-        # Policiers pan pan
+        # Cops pan pan
         for police in game.all_policiers:
             # draw policier
             police.refresh(screen)
@@ -276,7 +276,7 @@ while running:
             for bullet in police.all_bullets:
                 bullet.move(game.player)
 
-        # Policiers bim bam boum
+        # Cops bim bam boum
         for police in game.all_matraque:
             police.refresh(screen)
             # do actions
@@ -289,7 +289,7 @@ while running:
         # Jack
         game.player.refresh(screen)
 
-        # Mouvements de Jack
+        # Mouvements of Jack
         if not (game.player.dead):
             # JUMP
             if game.pressed.get(pygame.K_UP):
@@ -318,29 +318,29 @@ while running:
         channelFond.play(soundNiveauBureauVotes2, -1)
         background = niveau(levels[0],0,1,1,0)
 
-    for event in pygame.event.get():  # event est une liste
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
 
-        elif event.type == pygame.KEYDOWN:  # On appuie sur une touche
-            game.pressed[event.key] = True  # On reste appuyé sur une touche
+        elif event.type == pygame.KEYDOWN:  # Press key
+            game.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
-            game.pressed[event.key] = False  # On lache la touche
+            game.pressed[event.key] = False  # key up
 
-        # on augmente la barre aléatoirement
+        # Randomly grow the vote bar
         elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:
-            rand = random.random()  # nombre entre 0 et 1
+            rand = random.random()  # 0 < x < 1
 
             if not(game.increaseRedOdds):
-                if rand < 0.7:  # 70% d'augmenter les bleus
+                if rand < 0.7:  # 70% for blue
                     hud.votebar.blueInc()
-                else:  # 30% d'augmenter les rouges
+                else:  # 30% red
                     hud.votebar.redInc()
             else:
-                if rand < 0.5 and hud.votebar.bluePercent<50:  # 50% d'augmenter les bleus (mais on les empêche de gagner)
+                if rand < 0.5 and hud.votebar.bluePercent<50:
                     hud.votebar.blueInc()
-                else:  # 50% d'augmenter les rouges
+                else:
                     hud.votebar.redInc()
 
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
