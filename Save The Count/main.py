@@ -67,8 +67,7 @@ while running:
             hud = HUD()
             game = Game(hud)
 
-    elif (game.playing and hud.votebar.bluePercent + hud.votebar.redPercent >= 100
-        and hud.votebar.bluePercent > 50) :
+    elif (game.playing and hud.votebar.bluePercent > 50) :
         if game.gameOverFrame == 0:
             game.lose = True
             game.level[3] = False
