@@ -183,7 +183,7 @@ while running:
                 game.player.rect.x = 20
                 background = niveau(levels[4], 1, 1, 5, 3)
         elif game.level[4]: # Chamber
-            if random.random() < 0.005:
+            if random.random() < 0.01:
                 game.spawn_senator_blue(1)
 
             #Trump screen
