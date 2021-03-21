@@ -31,6 +31,7 @@ pygame.time.set_timer(randomVotebarIncrease, 1000)
 # Sound Bank
 
 channelFond = pygame.mixer.Channel(1)
+channelDoor = pygame.mixer.Channel(7)
 
 # Sound at first
 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)
@@ -62,6 +63,12 @@ while running:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[0] = False
             game.level[1] = True
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            for j in game.all_senred:
+                game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"),0)
+
             game.player.rect.x = 0
             game.spawn_policier(1)
             game.spawn_matraque(2)
@@ -73,6 +80,12 @@ while running:
         elif game.level[1] and game.player.rect.x > 900:
             game.level[1] = False
             game.level[2] = True
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            for j in game.all_senred:
+                game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+
             game.player.rect.x = 20
             game.spawn_policier(2)
             game.spawn_matraque(2)
@@ -83,6 +96,12 @@ while running:
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
             game.level[2] = False
             game.level[3] = True
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            for j in game.all_senred:
+                game.delete_senator_red(j)
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
+
             game.player.rect.x = 20
             game.spawn_policier(4)
             game.spawn_matraque(3)

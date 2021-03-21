@@ -22,10 +22,14 @@ class Policier(pygame.sprite.Sprite):
         self.rect.x = 80 * random.randint(3, 10)
         self.rect.y = 380
         self.sound = pygame.mixer.Channel(2)
+        self.facingRight = False
 
         # bullets
         self.bulletCooldown = 0
         self.all_bullets = pygame.sprite.Group()
+
+        # Sound
+        self.sound = pygame.mixer.Channel(6)
 
         # IA
         self.newpos = random.randint(5, 924)
@@ -43,7 +47,8 @@ class Policier(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/police_death.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.scale(pygame.image.load('asset/police_death.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.flip(self.spriteDeathLeft, True, False)
 
     def move(self):
         if self.newpos > self.rect.x:
@@ -66,25 +71,32 @@ class Policier(pygame.sprite.Sprite):
             self.bulletCooldown -= 1
 
     def fire(self):
-        self.all_bullets.add(Bullet(self, self.walkAnimationLeft))
+        self.all_bullets.add(Bullet(self, not(self.facingRight)))
 
     def right(self):
         self.walkAnimationRight = True
+        self.facingRight = True
         self.rect.x += self.velocity
 
     def left(self):
         self.walkAnimationLeft = True
+        self.facingRight = False
         self.rect.x -= self.velocity
         
     def damage(self):
         if(self.health>0):
+            self.sound.play(pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg"), 0)
             self.health -= 1
             self.damaged = True
         if(self.health==0):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
 
     # visual refresh of policier with animations
     def refresh(self, screen):

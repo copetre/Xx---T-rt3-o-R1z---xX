@@ -43,7 +43,8 @@ class Player(pygame.sprite.Sprite):
         # animation dommage/mort
         self.damaged = False
         self.damagedFrame = 0
-        self.spriteDeath = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
+        self.spriteDeathRight = pygame.transform.scale(pygame.image.load('asset/jake_death.png'), (160, 160))
+        self.spriteDeathLeft = pygame.transform.flip(self.spriteDeathRight, True, False)
 
         # animation attaque
         self.attacking = False
@@ -75,7 +76,7 @@ class Player(pygame.sprite.Sprite):
         # only jumps if on ground
         if (self.rect.y == 380):
             self.jumping = True
-            self.jumpingVelocity = 10
+            self.jumpingVelocity = 12
             self.sound.play(pygame.mixer.Sound('SoundMusic/JackSaut.ogg'), 0)
 
     def gravity(self):
@@ -85,7 +86,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = min(self.rect.y - self.jumpingVelocity,380)
 
             # decrease y-velocity
-            self.jumpingVelocity = self.jumpingVelocity - 0.4 
+            self.jumpingVelocity = self.jumpingVelocity - 0.5 
             
             if (self.rect.y == 380):
                 #if on the ground, stop
@@ -104,7 +105,11 @@ class Player(pygame.sprite.Sprite):
             self.dead = True
             self.walkAnimationRight = False
             self.walkAnimationLeft = False
-            self.currentSprite = self.spriteDeath
+            # set sprite to dead
+            if(self.facingRight):
+                self.currentSprite = self.spriteDeathRight
+            else:
+                self.currentSprite = self.spriteDeathLeft
 
     def launchAttack(self):
         self.attacking = True
@@ -138,11 +143,11 @@ class Player(pygame.sprite.Sprite):
                     police.damage()
             for senator in self.game.all_senblue:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
             for senator in self.game.all_senred:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
 
     # visual refresh of Jack with animations
