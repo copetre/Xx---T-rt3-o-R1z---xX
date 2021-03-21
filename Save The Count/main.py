@@ -98,6 +98,7 @@ while running:
             background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         elif game.level[2] and game.player.rect.x > 900 and game.count_policiers == 0:
+            channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauCapitol.ogg'), -1)
             game.level[2] = False
             game.level[3] = True
             game.count_senator_blue = 0
