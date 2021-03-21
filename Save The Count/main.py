@@ -200,7 +200,7 @@ while running:
                 game.player.rect.x = 20
             # Sanders screen
             elif game.playing and hud.votebar.redPercent > 50 and game.player.rect.x < 20 and game.count_policiers == 0:
-                game.win = True
+                
                 game.level[4] = False
                 game.level[6] = True
                 game.gotRoomHealAlready = False
@@ -229,7 +229,10 @@ while running:
             pygame.time.set_timer(randomVotebarIncrease, 250)
 
         # Arrow if all cops are deads
-        if (game.count_policiers == 0 and game.level[4] == False
+        if (game.level[6]) :
+            screen.blit(arrowRight, (25, 200))
+            
+        elif (game.count_policiers == 0 and game.level[4] == False
             and game.win == False and game.lose == False):
             screen.blit(arrowLeft, (800, 200))
         # Last room = win

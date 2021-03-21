@@ -107,7 +107,7 @@ class VoteBar:
     # decrease red percentage by 4 (senators), without going under 2
     def redDes(self):
         if (self.redPercent>0):
-            self.redPercent = max(self.redPercent-4, 2)
+            self.redPercent = max(self.redPercent-2, 2)
             self.redDecreaseAnimation = True
 
     # decrease blue percentage by 4 (senators), without going under 2
