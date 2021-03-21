@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 
 running = True  # Jeu en cours
 
-background = pygame.image.load('asset/background.png')
+background = pygame.image.load('asset/hall.jpg')
 
 hud = HUD()
 
@@ -41,7 +41,7 @@ while running:
 
     if game.level[0]:
 
-        background = pygame.transform.scale(pygame.image.load('asset/background.png'), (1024, 576))
+        background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
 
         if game.player.rect.x > 900 and game.count_policiers == 0 :
             game.level[0] = False
@@ -49,6 +49,8 @@ while running:
             game.player.rect.x = 0
             game.spawn_policier()
             game.count_policiers = 1
+            game.spawn_senator_blue()
+            game.count_senator_blue = 1
 
 
     elif game.level[1]:
@@ -62,14 +64,14 @@ while running:
             game.spawn_matraque()
             game.count_policiers = 2
     elif game.level[2]:
-        background = pygame.transform.scale(pygame.image.load('asset/hall.png'), (1024, 576))
+        background = pygame.transform.scale(pygame.image.load('asset/hall.jpg'), (1024, 576))
         if game.player.rect.x > 900:
             game.level[2] = False
             game.level[3] = True
             game.player.rect.x = 20
 
     elif game.level[3]:
-        background = pygame.image.load('asset/hall.png')
+        background = pygame.image.load('asset/hall.jpg')
         if game.player.rect.x > 900:
             game.level[3] = False
             game.level[4] = True
@@ -101,6 +103,20 @@ while running:
         if not(police.dead):
             police.move()
             police.randomAttack()
+
+    # Senators
+    for senablue in game.all_senblue:
+        senablue.refresh(screen)
+        senablue.move()
+        if senablue.dead :
+            hud.votebar.blueDes()
+
+    for senared in game.all_senred:
+        senared.refresh(screen)
+        senared.move()
+        if senared.dead :
+            hud.votebar.redDes()
+
     # Jack
     game.player.refresh(screen)
 
