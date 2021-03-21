@@ -176,7 +176,7 @@ while running:
         background = pygame.image.load('asset/background.png')
         game.spawn_matraque(2)
         game.spawn_senator_blue(1)
-        game.spawn_senator_red(1)
+        #game.spawn_senator_red(1)
 
     for event in pygame.event.get():  # event est une liste
         if event.type == pygame.QUIT:
