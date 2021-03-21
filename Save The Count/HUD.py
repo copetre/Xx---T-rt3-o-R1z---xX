@@ -159,5 +159,5 @@ class VoteBar:
         textRectBlue.top=24
         screen.blit(textSurfaceRed, textRectRed)
         screen.blit(textSurfaceBlue, textRectBlue)
-        textSurfaceElecteurs, textRectElecteurs = self.font.render("Senator votes", (0, 0, 0))
+        textSurfaceElecteurs, textRectElecteurs = self.font.render("Voters", (0, 0, 0))
         screen.blit(textSurfaceElecteurs, (608-textRectElecteurs.width//2, 64))
