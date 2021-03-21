@@ -10,8 +10,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
 
         # attributes
-        self.health = 10
-        self.max_health = 10
+        self.health = 3
+        self.max_health = 3
         self.velocity = 4
         self.dead = False
 

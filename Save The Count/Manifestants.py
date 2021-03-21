@@ -23,13 +23,13 @@ class Manifestant(pygame.sprite.Sprite):
 
         # manifestants box
         self.rect = self.currentSprite.get_rect()
-        self.rect.x = 50
+        self.rect.x = random.randint(20, 130)
         self.rect.y = 380 + random.randint(-10, 10)
         self.groundY = self.rect.y
         self.facingRight = False
 
         # IA
-        self.newpos = random.randint(5, 924)
+        self.newpos = random.randint(5, 300)
         self.newpos -= self.newpos % self.velocity
 
         # animation déplacement
