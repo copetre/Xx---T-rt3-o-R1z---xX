@@ -59,8 +59,30 @@ while running:
             game.win = True
             game.level[3] = False
             background = pygame.image.load('asset/WIN.png')
-            channelDoor.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
+            channelFond.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
             game.spawn_senator_red(30)
+        game.gameOverFrame += 1
+        if (game.gameOverFrame == 360):  # après 2 secondes de mort, retour au menu
+            game.playing = False
+            hud = HUD()
+            game = Game(hud)
+
+    elif (game.playing and hud.votebar.bluePercent + hud.votebar.redPercent >= 100
+        and hud.votebar.bluePercent > 50) :
+        if game.gameOverFrame == 0:
+            game.lose = True
+            game.level[3] = False
+            background = pygame.image.load('asset/GAME OVER.jpg')
+            channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
+            for i in game.all_senblue:
+                game.delete_senator_blue(i)
+            for j in game.all_senred:
+                game.delete_senator_red(j)
+            for k in game.all_matraque :
+                game.delete_matraque(k)
+            for l in game.all_matraque :
+                game.delete_policier(l)
+            game.player.dead = True
         game.gameOverFrame += 1
         if (game.gameOverFrame == 360):  # après 2 secondes de mort, retour au menu
             game.playing = False
@@ -133,7 +155,7 @@ while running:
             if random.random()<0.005:
                 game.spawn_senator_blue(1)
 
-        if (game.count_policiers == 0 & game.level[3] == False):
+        if (game.count_policiers == 0 & game.level[3] == False & game.win == False & game.lose == True):
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
@@ -222,14 +244,14 @@ while running:
 
         elif not game.player.dead and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
             rand = random.random()  # nombre entre 0 et 1
-            if rand < 0.7:  # 50% d'augmenter les bleus
+            if rand < 0.5:  # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
             elif rand < 0.2:  # 20% d'augmenter les rouges
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
                 game.playing = True
-                background = pygame.image.load('asset/background.png')
+                channelDoor.play(pygame.mixer.Sound("SoundMusic/Porte.ogg"), 0)
 
                 game.spawn_senator_blue(1)
                 game.spawn_senator_red(1)
