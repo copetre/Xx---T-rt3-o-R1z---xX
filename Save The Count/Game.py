@@ -12,6 +12,7 @@ class Game:
         # Death
         self.playing = False
         self.gameOverFrame = 0
+        self.win = False
 
         # Jack
         self.player = Player(hud, self)

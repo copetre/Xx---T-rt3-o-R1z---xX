@@ -26,7 +26,7 @@ game = Game(hud)
 arrow = pygame.transform.scale(pygame.image.load('asset/arrow.png'), (200, 100))
 # toutes les 1 seconde, on augmente aléatoirement la barre
 randomVotebarIncrease = pygame.USEREVENT + 1
-pygame.time.set_timer(randomVotebarIncrease, 1000)
+pygame.time.set_timer(randomVotebarIncrease, 500)
 
 # Sound Bank
 
@@ -53,9 +53,23 @@ while running:
             game.playing = False
             hud = HUD()
             game = Game(hud)
+    elif game.playing and hud.votebar.redPercent >= 50 :
+        if game.gameOverFrame==0:
+            game.win = True
+            game.level[3] = False
+            background = pygame.image.load('asset/WIN.png')
+            channelDoor.play(pygame.mixer.Sound("SoundMusic/JeuFini.ogg"), 0)
+            game.spawn_senator_red(30)
+        game.gameOverFrame += 1
+        if (game.gameOverFrame == 360):  # après 2 secondes de mort, retour au menu
+            game.playing = False
+            hud = HUD()
+            game = Game(hud)
+
+
 
     # On regarde dans quel niveau on se situe
-    if not game.playing:
+    if not game.playing and not game.win :
         frame = (frame + 1) % 24  # %12 because we have 2 frames * 6 ticks each
         background = firstsreen[frame // 6]
     else:
@@ -210,9 +224,9 @@ while running:
 
         elif not game.player.dead and event.type == randomVotebarIncrease:  # on augmente la barre aléatoirement
             rand = random.random()  # nombre entre 0 et 1
-            if rand < 0.5:  # 50% d'augmenter les bleus
+            if rand < 0.7:  # 50% d'augmenter les bleus
                 hud.votebar.blueInc()
-            elif rand < 0.7:  # 20% d'augmenter les rouges
+            else : #Augmente les rouges
                 hud.votebar.redInc()
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos) :
