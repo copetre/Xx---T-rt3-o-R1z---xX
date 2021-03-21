@@ -8,7 +8,9 @@ from Senator import SenatorRed
 
 class Game:
     def __init__(self, hud):
+        # Death
         self.playing = False
+        self.gameOverFrame = 0
 
         # Jack
         self.player = Player(hud, self)
