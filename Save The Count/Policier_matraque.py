@@ -57,9 +57,10 @@ class Matraque(pygame.sprite.Sprite):
                                    pygame.transform.flip(self.spritesAttackLeft[3], True, False)]
 
     def move(self):
-        if self.newpos > self.rect.x:
+        # randomly move left/right (tolerance of 1 pixel)
+        if self.newpos > self.rect.x+1:
             self.right()
-        elif self.newpos < self.rect.x:
+        elif self.newpos < self.rect.x-1:
             self.left()
         else:
             self.newpos = random.randint(5, 924)

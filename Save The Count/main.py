@@ -15,8 +15,8 @@ clock = pygame.time.Clock()
 
 running = True  # Jeu en cours
 
-background = pygame.image.load('asset/FIRST_SCREEN.png')
-firstsreen = [pygame.image.load('asset/FIRST_SCREEN.png'), pygame.image.load('asset/FIRST_SCREEN_TEXT.png')]
+background = pygame.image.load('asset/FIRST_SCREEN_1.png')
+firstsreen = [pygame.image.load('asset/FIRST_SCREEN_1.png'), pygame.image.load('asset/FIRST_SCREEN_2.png'),pygame.image.load('asset/FIRST_SCREEN_3.png'),pygame.image.load('asset/FIRST_SCREEN_2.png'),]
 frame = 0
 
 hud = HUD()
@@ -47,17 +47,16 @@ while running:
     screen.blit(background, (0, 0))
 
     # Regarde si vivant
-    if game.playing and game.player.health == 0 :
-        game.playing = False
-        time.sleep(1.5)
-        hud = HUD()
-        game = Game(hud)
+    if game.playing and game.player.health == 0:
+        game.gameOverFrame += 1
+        if(game.gameOverFrame==120): # après 2 secondes de mort, retour au menu
+            game.playing = False
+            hud = HUD()
+            game = Game(hud)
+
     # On regarde dans quel niveau on se situe
-
-
-
     if not game.playing:
-        frame = (frame + 1) % 12  # %12 because we have 2 frames * 6 ticks each
+        frame = (frame + 1) % 24  # %12 because we have 2 frames * 6 ticks each
         background = firstsreen[frame // 6]
     else:
         if game.level[0] and game.player.rect.x > 900 and game.count_policiers == 0:
@@ -146,6 +145,7 @@ while running:
             senared.refresh(screen)
             if not (senared.dead):
                 senared.move()
+                senablue.gravity()
 
         # Jack
         game.player.refresh(screen)
