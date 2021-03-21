@@ -6,9 +6,5 @@
 2. Unzip the downloaded file somewhere on your computer
 3. Run `main.exe`
 
-### Contents
-
-* **assets**: Visual assets
-* **build**: Stuff to get the .exe to work properly
-* **scripts**: All our scripts
-* **sounds**: Sound assets
+### Tutorial
+![Tutorial](assets/tutorial.png)
