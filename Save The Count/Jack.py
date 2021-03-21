@@ -143,11 +143,11 @@ class Player(pygame.sprite.Sprite):
                     police.damage()
             for senator in self.game.all_senblue:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
             for senator in self.game.all_senred:
                 if (self.rect.x > senator.rect.x > self.rect.x - 160  # horizontal hitbox
-                        and self.rect.y + 80 > police.rect.y):  # vertical hitbox)
+                        and self.rect.y + 80 > senator.rect.y):  # vertical hitbox)
                     senator.damage()
 
     # visual refresh of Jack with animations
