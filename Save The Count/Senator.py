@@ -88,7 +88,7 @@ class SenatorBlue(pygame.sprite.Sprite):
         # if we are jumping, continue going upwards
         if (self.jumping):
             # move upwards
-            self.rect.y = min(self.rect.y - self.jumpingVelocity,380)
+            self.rect.y = min(self.rect.y - self.jumpingVelocity, 380)
 
             # decrease y-velocity
             self.jumpingVelocity = self.jumpingVelocity - 0.5 
