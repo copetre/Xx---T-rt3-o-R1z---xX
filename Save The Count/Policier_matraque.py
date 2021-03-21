@@ -22,6 +22,9 @@ class Matraque(pygame.sprite.Sprite):
         self.sound = pygame.mixer.Channel(2)
         self.facingRight = False
 
+        #Sound
+        self.sound = pygame.mixer.Channel(5)
+
         # IA
         self.newpos = random.randint(5, 924)
         self.newpos -= self.newpos % self.velocity
@@ -91,6 +94,7 @@ class Matraque(pygame.sprite.Sprite):
 
     def damage(self):
         if (self.health > 0):
+            self.sound.play(pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg"), 0)
             self.health -= 1
             self.damaged = True
         if (self.health == 0):

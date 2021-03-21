@@ -28,6 +28,9 @@ class Policier(pygame.sprite.Sprite):
         self.bulletCooldown = 0
         self.all_bullets = pygame.sprite.Group()
 
+        # Sound
+        self.sound = pygame.mixer.Channel(6)
+
         # IA
         self.newpos = random.randint(5, 924)
         self.newpos -= self.newpos % self.velocity
@@ -82,6 +85,7 @@ class Policier(pygame.sprite.Sprite):
         
     def damage(self):
         if(self.health>0):
+            self.sound.play(pygame.mixer.Sound("SoundMusic/AdversaireAttaqué.ogg"), 0)
             self.health -= 1
             self.damaged = True
         if(self.health==0):
