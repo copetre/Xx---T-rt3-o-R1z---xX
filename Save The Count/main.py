@@ -82,22 +82,23 @@ while running:
             game = Game(hud)
 
     elif (game.playing and hud.votebar.bluePercent > 50) :
-        if game.gameOverFrame == 0:
-            game.lose = True
-            game.level[3] = False
-            background = pygame.image.load('asset/GAME OVER.jpg')
-            channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
-            for i in game.all_senblue:
-                game.delete_senator_blue(i)
-            for j in game.all_senred:
-                game.delete_senator_red(j)
-            for k in game.all_matraque :
-                game.delete_matraque(k)
-            for l in game.all_matraque :
-                game.delete_policier(l)
-            game.player.dead = True
+        if game.gameOverFrame == 0 :
+            if game.gameOverFrame == 0:
+                game.lose = True
+                game.level[3] = False
+                background = pygame.image.load('asset/GAME OVER.jpg')
+                channelFond.play(pygame.mixer.Sound("SoundMusic/PartiePerdue.ogg"), 0)
+                for i in game.all_senblue:
+                    game.delete_senator_blue(i)
+                for j in game.all_senred:
+                    game.delete_senator_red(j)
+                for k in game.all_matraque :
+                    game.delete_matraque(k)
+                for l in game.all_matraque :
+                    game.delete_policier(l)
+                game.player.dead = True
         game.gameOverFrame += 1
-        if (game.gameOverFrame == 360):  # après 2 secondes de mort, retour au menu
+        if (game.gameOverFrame == 540):  # après 9 secondes de mort, retour au menu
             game.playing = False
             hud = HUD()
             game = Game(hud)
@@ -147,7 +148,7 @@ while running:
                 game.spawn_senator_red(30)
                 game.spawn_senator_blue(7)
 
-        if (game.count_policiers == 0 and game.level[4] == False & game.win == False & game.lose == True):
+        if (game.count_policiers == 0 and game.level[3] == False & game.win == False & game.lose == True):
             screen.blit(arrow, (800, 200))
 
         if game.count_senator_blue == 0:
@@ -234,13 +235,15 @@ while running:
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False  # On lache la touche
 
-        elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:  # on augmente la barre aléatoirement
+        # on augmente la barre aléatoirement
+        elif not game.player.dead and event.type == randomVotebarIncrease and not game.win:
             rand = random.random()  # nombre entre 0 et 1
 
             if rand < 0.7:  # 70% d'augmenter les bleus
                 hud.votebar.blueInc()
             else:  # 30% d'augmenter les rouges
                 hud.votebar.redInc()
+
         elif event.type == pygame.MOUSEBUTTONDOWN and game.playing == False:
             if rectangle.collidepoint(event.pos):
                 channelFond.play(pygame.mixer.Sound('SoundMusic/NiveauBureauVotes2.mp3.ogg'), -1)

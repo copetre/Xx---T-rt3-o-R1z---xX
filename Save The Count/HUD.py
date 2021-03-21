@@ -1,16 +1,10 @@
 import pygame
 
 class HUD:
-    # screen = the pygame screen to draw on
     def __init__(self):
         # attributes
         self.maxHealth = 3
         self.health = self.maxHealth
-
-        # HUD surface
-        # self.surface = pygame.Surface((1024, 64))
-        # self.surface.fill((128, 128, 128))
-        # self.background = self.surface.get_rect()
 
         # Hearts
         self.hearts = []
@@ -22,9 +16,6 @@ class HUD:
     
     # function to call to refresh the hud constantly
     def refresh(self, screen):
-        # update HUD background
-        # screen.blit(self.surface, self.background)
-
         # update hearts
         for i in range(len(self.hearts)):
             self.hearts[i].refresh(screen)
@@ -34,7 +25,7 @@ class HUD:
 
     def loseHeart(self):
         if(self.health>0):
-             # set inactive only after animation
+            # set inactive only after animation
             self.hearts[self.health-1].blinkingAnimationLose=True
             self.health = self.health-1
 
@@ -46,7 +37,6 @@ class HUD:
             self.health = self.health+1
 
 class Heart:
-    # screen = the pygame screen to draw on
     # index = indicates which heart it is (0, 1, 2)
     def __init__(self, index):
         # attributes
@@ -82,7 +72,6 @@ class Heart:
             screen.blit(self.image, self.background)
 
 class VoteBar:
-    # screen = the pygame screen to draw on
     def __init__(self):
         # attributes
         self.font = pygame.freetype.Font("asset/unispace bd.ttf", 24)
@@ -105,23 +94,23 @@ class VoteBar:
         self.surfaceSeparation.fill((0, 0, 0))
         self.backgroundSeparation = self.surfaceSeparation.get_rect(center = (608, 32)) # alternative = (center = (608, 32))
     
-    # increases red percentage by 2, without exceeding max
+    # increases red percentage by 1, without exceeding max
     def redInc(self):
         if(self.redPercent<100-self.bluePercent):
             self.redPercent = self.redPercent+1
     
-    # increases blue percentage by 2, without exceeding max
+    # increases blue percentage by 1, without exceeding max
     def blueInc(self):
         if(self.bluePercent<100-self.redPercent):
             self.bluePercent = self.bluePercent+1
 
-    # decrease red percentage by 4 (senators)
+    # decrease red percentage by 4 (senators), without going under 2
     def redDes(self):
         if (self.redPercent>0):
             self.redPercent = max(self.redPercent-4, 2)
             self.redDecreaseAnimation = True
 
-    # decrease blue percentage by 4 (senators)
+    # decrease blue percentage by 4 (senators), without going under 2
     def blueDes(self):
         if (self.bluePercent>0):
             self.bluePercent = max(self.bluePercent-4, 2)
@@ -161,7 +150,7 @@ class VoteBar:
         # separation surface
         screen.blit(self.surfaceSeparation, self.backgroundSeparation)
 
-        # grands electeurs
+        # texte grands electeurs
         textSurfaceRed, textRectRed = self.font.render(str(round(self.redPercent*5.38)), (0, 0, 0))
         textRectRed.left=216
         textRectRed.top=24
@@ -170,3 +159,5 @@ class VoteBar:
         textRectBlue.top=24
         screen.blit(textSurfaceRed, textRectRed)
         screen.blit(textSurfaceBlue, textRectBlue)
+        textSurfaceElecteurs, textRectElecteurs = self.font.render("Voters", (0, 0, 0))
+        screen.blit(textSurfaceElecteurs, (608-textRectElecteurs.width//2, 64))
