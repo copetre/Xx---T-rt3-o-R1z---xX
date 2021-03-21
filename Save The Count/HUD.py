@@ -108,14 +108,14 @@ class VoteBar:
     # increases red percentage by 2, without exceeding max
     def redInc(self):
         if(self.redPercent<100-self.bluePercent):
-            self.redPercent = self.redPercent+2
+            self.redPercent = self.redPercent+1
     
     # increases blue percentage by 2, without exceeding max
     def blueInc(self):
         if(self.bluePercent<100-self.redPercent):
-            self.bluePercent = self.bluePercent+2
+            self.bluePercent = self.bluePercent+1
 
-    # decrease red percentage by  (senators)
+    # decrease red percentage by 4 (senators)
     def redDes(self):
         if (self.redPercent>0):
             self.redPercent = max(self.redPercent-4, 2)
@@ -162,10 +162,10 @@ class VoteBar:
         screen.blit(self.surfaceSeparation, self.backgroundSeparation)
 
         # grands electeurs
-        textSurfaceRed, textRectRed = self.font.render(str(int(self.redPercent*5.38)), (0, 0, 0))
+        textSurfaceRed, textRectRed = self.font.render(str(round(self.redPercent*5.38)), (0, 0, 0))
         textRectRed.left=216
         textRectRed.top=24
-        textSurfaceBlue, textRectBlue = self.font.render(str(int(self.bluePercent*5.38)), (0, 0, 0))
+        textSurfaceBlue, textRectBlue = self.font.render(str(round(self.bluePercent*5.38)), (0, 0, 0))
         textRectBlue.right = 1000
         textRectBlue.top=24
         screen.blit(textSurfaceRed, textRectRed)
